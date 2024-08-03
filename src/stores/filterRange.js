@@ -11,6 +11,7 @@ export const filterRange = defineStore({
 		address: "",
 		sold_status: [],
 		priority_status: [],
+		// classrank : null,
 	}),
 
 	getters: {
@@ -44,6 +45,9 @@ export const filterRange = defineStore({
 		getPriorityStatus: (state) => {
 			return state.priority_status;
 		},
+		getClassRank: (state) => {
+			return state.classrank;
+		},
 		getAll: (state) => {
 			return {
 				min_price: state.min_price * 1000000,
@@ -54,6 +58,7 @@ export const filterRange = defineStore({
 				address: state.address,
 				sold_status: state.sold_status,
 				priority_status: state.priority_status,
+				classrank: state.classrank,
 			};
 		},
 	},
@@ -79,6 +84,9 @@ export const filterRange = defineStore({
 		setPriorityStatus(status) {
 			this.priority_status = status;
 		},
+		setClassRank(status) {
+			this.classrank = status;
+		},
 		resetFilters() {
 			this.min_price = 0;
 			this.max_price = 60000;
@@ -88,6 +96,7 @@ export const filterRange = defineStore({
 			this.address = "";
 			this.sold_status = [];
 			this.priority_status = [];
+			this.classrank = null;
 		},
 	},
 	persist: true,

@@ -14,6 +14,7 @@ const user = [
 					rangePrice: route.query.rangePrice,
 					dirs: route.query.dirs,
 					address: route.query.address,
+					classrank: route.query.classrank
 				}),
 			},
 			{

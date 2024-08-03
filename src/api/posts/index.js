@@ -26,6 +26,7 @@ const listPostsAPI = {
 		}
 	},
 	getPostByFilter: async (arr) => {
+		
 		try {
 			const response = await axios.get(`${apiURL.baseURL}/posts/filter`, {
 				params: {
@@ -41,8 +42,10 @@ const listPostsAPI = {
 					searchConditions: arr.searchConditions,
 					sold_status: arr.sold_status,
 					priority_status: arr.priority_status,
+					classrank: arr.classrank,
 				},
 			});
+			console.log(response.data.data);
 			return response.data;
 		} catch (error) {
 			console.log(error);

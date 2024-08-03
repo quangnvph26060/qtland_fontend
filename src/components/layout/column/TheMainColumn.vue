@@ -1,6 +1,6 @@
 <template>
 	<!-- begin::Statistic -->
-	<Card title="Thống kê lượt xem">
+	<Card title="Thống kê lượt xem" style="display: none;">
 		<template #content>
 			<!-- begin:Statistic views -->
 			<a-col class="col-12">

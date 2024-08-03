@@ -10,25 +10,40 @@
                     <TheContent class="" />
                 </a-layout-content>
 
-                <a-layout-footer class="text-center bg-[#]" :style="footerStyle">
-                    <div class="text-white text-lg">
-                        Chiến binh QTLAND
-                    </div>
-                </a-layout-footer>
+                
             </a-layout>
+        </a-layout>
+        <a-layout>
+            <a-layout-footer class="text-center bg-[#]" :style="footerStyle" style="z-index: 100">
+                    <!-- <div class="text-white text-lg"> -->
+                        <!-- Chiến binh QTLAND -->
+                        {{  keyword }}
+                    <!-- </div> -->
+                </a-layout-footer>
         </a-layout>
     </div>
 </template>
 
 <script setup>
-import { ref, h } from "vue";
-
+import { ref, h , onMounted} from "vue";
+import Config from "../api/config/config.js";
 const footerStyle = {
     textAlign: "center",
     minHeight: 64,
     color: "#fff",
     backgroundColor: "#8b3035",
 };
+ const { getconfig, responseConfig, updateConfig } = Config();
+  const keyword = ref("");
+ onMounted(async () => {
+    await getconfig();
+    const configData = responseConfig.data;
+    console.log(configData);
+    if (configData) {
+      keyword.value = configData.keyword;
+    //   alert(keyword.value );
+    }
+  });
 </script>
 
 <script>

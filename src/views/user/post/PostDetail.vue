@@ -33,11 +33,11 @@
 					<div class="flex flex-wrap justify-between">
 						<div class="info flex justify-between w-100">
 							<div class="price">
-								<div class="main_infor mr-10">
+								<div class="main_infor mr-1">
 									<span class="title">Mức giá</span>
 									<br/>
 									<span class="content">
-														{{ formatMoney(data.price) }}
+														{{ formatMoney(data.price) }}  {{ getUnitLabel(data.unit)}}/tháng
 													</span>
 								</div>
 							</div>
@@ -45,7 +45,7 @@
 								<span class="title">Diện tích</span>
 								<br/>
 								<span class="content">
-														{{ data.area }} m&sup2
+														{{ data.area }} m2
 													</span>
 							</div>
 							<div class="direction main_infor ml-10" v-if="data.direction !== 0">
@@ -102,13 +102,9 @@
 				</div>
 				<!-- end::Short Info -->
 				 <!-- begin::Price Detail -->
-				<div class="cta_detail" :class="priceChange">
-						<span class="cta_number flex"><img v-if="priceChange=='up'" src="../../../assets/logo/icon_up.svg" alt="" class="cta_icon"> <img v-else src="../../../assets/logo/icon_down.svg" alt="" class="cta_icon">  4,2%</span>
-						<span class="cta_text">Giá tại dự án tăng trong vòng 1 năm qua</span>
-					<a href="#" class="cta_link">Xem lịch sử giá</a>
-				</div>
+				
 				<!-- end::Price Detail -->
-				<a-divider />
+				
 				<!-- begin::Description -->
 				<div class="description">
 					<a-descriptions title="Thông tin mô tả" :titleStyle="{ fontSize: '18px' }">
@@ -135,7 +131,7 @@
 					<template #label>
 						Mức giá
 					</template>
-							{{ formatMoney(data.price) }}
+							{{ formatMoney(data.price) }} {{ getUnitLabel(data.unit)}}/tháng
 						</a-descriptions-item>
 						
 						<a-descriptions-item :span="1" class="description-item-infor">
@@ -148,64 +144,43 @@
 						<template #label>
 							Số phòng ngủ
 						</template>
-							1 phòng
+							{{ data.rooms }}
 						</a-descriptions-item>
 						<a-descriptions-item :span="1" class="description-item-infor">
 					<template #label>
 						Số toilet
 					</template>
-							2 phòng
+							{{ data.bathrooms }}
 						</a-descriptions-item>
-						<a-descriptions-item :span="1" class="description-item-infor">
+						<!-- <a-descriptions-item :span="1" class="description-item-infor">
 					<template #label>
 						Pháp lý
 					</template>
 							Sổ đỏ/ sổ hồng
-						</a-descriptions-item>
-						<a-descriptions-item :span="1" class="description-item-infor">
+						</a-descriptions-item> -->
+						<!-- <a-descriptions-item :span="1" class="description-item-infor">
 					<template #label>
 						<ios-icon>
 						</ios-icon>
 						Nội thất
 					</template>
 							Đầy đủ
-						</a-descriptions-item>
+						</a-descriptions-item> -->
 					</a-descriptions>
 				</div>
 				<!-- end::Feature -->
-				<a-divider />
+				<!-- <a-divider /> -->
 				<!-- begin::Project Infor -->
-				<a-descriptions>
-<template #title>
-	<div class='project_infor-title'>
-		Thông tin dự án
-	
-		<a href='#' class="project_infor-more">Xem 864 tin đăng bán ></a>
-	
-	</div>
-</template>
-				</a-descriptions>
+		
 
-				<div class="project_infor">
-					<img src="https://file4.batdongsan.com.vn/crop/320x320/2024/07/12/20240712141326-1386_wm.jpg" alt="" class="project_infor-img">
-					<div class="project_infor-content">
-						<h3 class="project_infor-title">Vinhomes Ocean Park Gia Lâm</h3>
-						<span class="project_infor-status"><strong> Tình trạng:</strong> Đang mở bán</span>
-						<span class="project_infor-quantity"><strong> Số lượng:</strong>  66</span> 
-						<span class="project_infor-group"><strong> Tập đoàn</strong> Vingroup</span>
-					</div>
-				</div>
+				
 				<!-- end::Project Infor  -->
-				<a-divider />
+				<!-- <a-divider /> -->
 				<!-- begin::Date -->
 				<!-- begin::Tag -->
-				<a-descriptions title="Tìm kiếm theo từ khóa">
-				</a-descriptions>
-				<div class="post_tags flex flex-wrap mt-0">
-					<span class="post_tag" v-for="tag in postTags">{{tag}}</span>
-				</div>
+				
 				<!-- end::Tag -->
-				<a-divider/>
+				<!-- <a-divider/> -->
 				<!-- begin::Date -->
 				<div class="date">
 					<div class='post_infor-list'>
@@ -216,13 +191,7 @@
 									{{formatDateOnly(data.created_at) }}
 									</span>
 						</div>
-						<div class=" post_infor">
-							<span class="title">Ngày hết hạn</span>
-							<br/>
-							<span class="content">
-									{{formatExpiredDate(data.created_at,15) }}
-									</span>
-						</div>
+						
 						<div class=" post_infor">
 							<span class="title">Mã tin</span>
 							<br/>
@@ -233,8 +202,7 @@
 					</div>
 				</div>
 				<!-- end::Date -->
-				 <a-divider/>
-				 <p class='post-notice'>Quý vị đang xem nội dung tin rao "<strong>{{data.title }} </strong>" - Mã tin <strong> {{data.id}}</strong>. Mọi thông tin, nội dung liên quan tới tin rao này là do người đăng tin đăng tải và chịu trách nhiệm. Qtland.site luôn cố gắng để các thông tin được hữu ích nhất cho quý vị tuy nhiên Qtland.site không đảm bảo và không chịu trách nhiệm về bất kỳ thông tin, nội dung nào liên quan tới tin rao này. Trường hợp phát hiện nội dung tin đăng không chính xác, Quý vị hãy thông báo và cung cấp thông tin cho Ban quản trị Qtland.site theo Hotline 19001881 để được hỗ trợ nhanh và kịp thời nhất.</p>
+				 <!-- <a-divider/> -->
 				
 				<div :class="props.type === 'admin' ? '' : 'block xl:hidden'">
 					<a-divider />
@@ -262,7 +230,7 @@
 						</div>
 					</router-link>
 				</div>
-				<a-divider />
+				<!-- <a-divider /> -->
 				<!-- begin::PostSlider -->
 					<!-- <PostCarousel
 					title="Bất động sản dành cho bạn"
@@ -270,7 +238,7 @@
 				
 				/> -->
 				<!-- end::PostSlider -->
-				<a-divider />
+				<!-- <a-divider /> -->
 				<!-- begin::Comments -->
 				<Comment
 					:comments="comments"
@@ -389,9 +357,28 @@ const postTags = [
 "Nhà riêng Hồ Chí Minh 4 PN",
 "Bán nhà phố Hồ Chí Minh" ];
 
-const getDirectionLabel = (value) => {
+const getDirectionLabel  = (value) => {
 	const directionObj = direction.find((item) => item.value === value);
 	return directionObj ? directionObj.label : "";
+};
+
+const unit = [{
+		value: 1,
+		label: "m2",
+	},
+	{
+		value: 2,
+		label: "VND",
+	},
+	{
+		value: 3,
+		label: "Thảo thuận",
+	},
+
+];
+const getUnitLabel = (value) => {
+	const unitObj = unit.find((item) => item.value === value);
+	return unitObj ? unitObj.label : "";
 };
 
 const data = reactive({
@@ -405,10 +392,15 @@ const data = reactive({
 	created_at: "",
 	view: 1000,
 	sold_status: "",
+	classrank: "",
 	status_id: "",
 	user: "",
 	comment: [],
 	post_image: [],
+	unit: "",
+	rooms : "",
+	bathrooms : ""
+	
 });
 
 const comments = ref([]);

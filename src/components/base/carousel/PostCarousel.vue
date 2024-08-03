@@ -63,7 +63,8 @@ const filter = ref({
     ],
     "address": "",
     "sold_status": [],
-    "priority_status": []
+    "priority_status": [],
+    "classrank": [],
 })
 
 const fetchPostsList = async (filter, page = 1, pageSize = 10) => {

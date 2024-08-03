@@ -14,9 +14,9 @@
             <!-- begin::Detail Column -->
             <div
                 class="flex flex-col col-12 col-xl-8 gap-7 gap-lg-10 px-4"
-                style="background-color: white;margin: 0px auto ;    margin-top: 30px;"
+                style="background-color: white;margin: 0px auto ;   margin-top: 30px;"
             >
-                <TheDetailColumn />
+                <TheDetailCLient />
             </div>
             <!-- end::Detail Column -->
         </div>
@@ -34,7 +34,7 @@ import InputBasic from "../../../components/base/input/InputBasic.vue";
 import InputSelect from "../../../components/base/input/InputSelect.vue";
 import Card from "../../../components/base/card/Card.vue";
 import TheMainColumn from "../../../components/layout/column/TheMainColumn.vue";
-import TheDetailColumn from "../../../components/layout/column/TheDetailColumn.vue";
+import TheDetailCLient from "../../../components/layout/client/TheDetailClient.vue";
 
 export default {
     components: {
@@ -44,7 +44,7 @@ export default {
         InputSelect,
         Card,
         TheMainColumn,
-        TheDetailColumn,
+        TheDetailCLient,
     },
 };
 </script>

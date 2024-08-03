@@ -1,6 +1,6 @@
 const apiURL = {
-	URL: "http://api.qtland.site",
-	baseURL: "http://api.qtland.site/api",
+	URL: "http://127.0.0.1:8000",
+	baseURL: "http://127.0.0.1:8000/api",
 	users: "/users",
 	posts: "/posts",
 	images: "/images",

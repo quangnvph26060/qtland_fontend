@@ -178,6 +178,7 @@ const fetchPostByUser = async (userId) => {
 		created_at: "",
 		view: 1000,
 		sold_status: "",
+		classrank: "",
 		status_id: "",
 		priority_status: "",
 		user: "",

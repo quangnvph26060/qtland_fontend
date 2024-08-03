@@ -14,7 +14,7 @@
     
             <a-skeleton-input v-if="isLoading" />
             <div v-else class="flex w-full justify-between">
-                <span>Hiện có {{ total }} bất động sản </span>
+                <span>Hiện có {{ total  }} bất động sản </span>
                 <div>
                     <a-select ref="select" v-model:value="value1" style="width: 120px" :options="options1" @focus="focus" @change="handleChange">
                     </a-select>
@@ -25,66 +25,66 @@
         <!-- end::Content Navbar -->
     
         <!-- begin::Main Content -->
-        <div class="space-y-10 mb-5">
+        <div class="space-y-10 mb-5 main-flex">
             <!-- begin::Content Item -->
             <a-skeleton v-if="isLoading" :active="true" />
-            <a-list item-layout="vertical" size="large" :data-source="data" :pagination="pagination" v-else>
+            <a-list item-layout="vertical" size="large" class="demo" :data-source="data" :pagination="pagination" v-else>
                 <template #header>
-                                				<div class="text-xl font-semibold">Danh sách bài viết</div>
-</template>
+                    <div class="text-xl font-semibold">Danh sách bài viết</div>
+                </template>
 
-<template #renderItem="{ item, index }">
-    <div :key="item.id" class="w-full md:w-1/4 p-2 post-container">
-        <div class="border rounded-lg overflow-hidden flex flex-row h-full post-item">
-            <router-link :to="{ name: 'post-detail', params: { id: item.id } }" class="block">
-                <div class="relative h-48">
-                    <img :src="item.post_image?.[0]?.image_path" class="w-full h-full object-cover" alt="Post Image" />
-                    <div v-if="item.priority_status !== 'không yêu cầu'" class="absolute top-2 left-2 px-2 py-1 text-white bg-red-500 rounded">
-                        {{ item.priority_status }}
-                    </div>
-                </div>
-                <div class="p-4">
-                    <h2 class="text-lg font-semibold line-clamp-2">
-                        {{ item.title }}
-                    </h2>
-                    <div class="flex align-items-center">
-                        <div class="text-red-500 text-base mr-1">
-                            {{ formatMoney(item.price) }} -
+                <template #renderItem="{ item, index }">
+                    <div :key="item.id" class="w-full md:w-1/4 p-2 post-container">
+                        <div class="border rounded-lg overflow-hidden flex flex-row h-full post-item">
+                            <router-link :to="{ name: 'post-detail', params: { id: item.id } }" class="block">
+                                <div class="relative h-48">
+                                    <img :src="item.post_image?.[0]?.image_path" class="w-full h-full object-cover" alt="Post Image" />
+                                    <div v-if="item.priority_status !== 'không yêu cầu'" class="absolute top-2 left-2 px-2 py-1 text-white bg-red-500 rounded">
+                                        {{ item.priority_status }}
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <h2 class="text-lg font-semibold line-clamp-2">
+                                        {{ item.title }}
+                                    </h2>
+                                    <div class="flex align-items-center">
+                                        <div class="text-red-500 text-base mr-1">
+                                            {{ formatMoney(item.price) }} -
+                                        </div>
+                                        
+                                        <div class="text-red-500 text-base">
+                                            {{ item.area }} m<sup>2</sup>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 line-clamp-2 main_text_address">{{ item.address }}</div>
+                                    <a-divider class="my-3" />
+                                    <div class="flex items-center">
+                                        <a-avatar class="me-2" :style="{
+                                                                            backgroundColor: '#ADC178',
+                                                                            verticalAlign: 'middle',
+                                                                            }">
+                                            {{ item.user.name[0] }}
+                                        </a-avatar>
+                                        <div class="flex flex-col">
+                                            <div>{{ item.user.name }}</div>
+                                            <div>{{ item.created_at }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </router-link>
                         </div>
-                        
-                        <div class="text-red-500 text-base">
-                            {{ item.area }} m<sup>2</sup>
-                        </div>
                     </div>
-                    <div class="mt-2 line-clamp-2">{{ item.address }}</div>
-                    <a-divider class="my-3" />
-                    <div class="flex items-center">
-                        <a-avatar class="me-2" :style="{
-                                							  backgroundColor: '#ADC178',
-                                							  verticalAlign: 'middle',
-                                							}">
-                            {{ item.user.name[0] }}
-                        </a-avatar>
-                        <div class="flex flex-col">
-                            <div>{{ item.user.name }}</div>
-                            <div>{{ item.created_at }}</div>
-                        </div>
-                    </div>
-                </div>
-            </router-link>
-        </div>
-    </div>
-</template>
+                </template>
 			</a-list>
 			<!-- end::Content Item -->
-		  </div>
+		</div>
 		  
 		<!-- end::Main Content -->
 	</div>
 	<!-- end::Primary Content -->
 
 	<!-- begin::Sidebar -->
-	<SidebarFilter class="fixed right-[14.5vw] sidebar-filter" />
+	<SidebarFilter class=" right-[14.5vw] sidebar-filter" />
 	<!-- end::Sidebar -->
 </template>
 
@@ -148,6 +148,7 @@ const props = defineProps({
     rangePrice: String,
     dirs: String,
     address: String,
+    classrank: String,
 });
 
 const store = auth();
@@ -231,6 +232,7 @@ const fetchPostsFilter = async (
         sold_status: "",
         status_id: "",
         priority_status: "",
+        classrank : "",
         user: "",
         comment: [],
         post_image: [],
@@ -344,9 +346,18 @@ export default {
 };
 </script>
 
-<style>
+<style >
+.ant-list-items {
+    display: flex !important;
+    flex-wrap: wrap !important;
+}
+.main_text_address{
+    line-height: 1.5em;
+    height: 3em;
+}
 .sidebar-filter{
-    max-width: 150px;
+    width: 262px;
+    max-width: 254px;
 }
 .ant-list-pagination {
     width: 75vw;
@@ -378,8 +389,8 @@ export default {
 }
 
 :where(.css-dev-only-do-not-override-1w58yth).ant-list .ant-list-items {
-    display: flex !important;
-    flex-wrap: wrap !important;
+    display: flex ;
+    flex-wrap: wrap ;
 }
 
 .post-container:hover .post-item {

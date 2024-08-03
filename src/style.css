@@ -12,11 +12,28 @@
 
 html,
 body {
-    font-family: "Kanit", sans-serif !important;
+    /* font-family: "Kanit", sans-serif !important; */
+    font-family: 'Lexend', sans-serif !important;;
 }
 
 #app {
+    /* font-family: "Kanit", sans-serif !important; */
     font-family: "Kanit", sans-serif !important;
+    font-weight: 400;
+}
+
+.hover-text:hover {
+    font-weight: 600 !important;
+}
+
+.text-lg {
+    font-weight: 500;
+}
+
+.form-label {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: black !important;
 }
 
 .ant-typography,
@@ -25,7 +42,7 @@ body {
 .ant-input-number,
 div,
 span {
-    font-family: "Kanit", sans-serif !important;
+    /* font-family: "Kanit", sans-serif !important; */
 }
 
 /* a tag  */
@@ -33,13 +50,18 @@ a,
 a:hover,
 a:focus {
     color: black;
+    font-weight: 600 !important;
 }
+
 .ant-btn-primary {
     background-color: #8b3035 !important;
     color: white !important;
-}.ant-btn-primary:hover {
-background-color: #b3484d !important;
 }
+
+.ant-btn-primary:hover {
+    background-color: #b3484d !important;
+}
+
 /* ant list flex col css */
 .ant-list-item-extra {
     margin-inline-start: 0px !important;
@@ -73,8 +95,8 @@ background-color: #b3484d !important;
     justify-content: center;
     height: 100%;
     border: 1px solid #f2f2f2;
-    border-top:none;
-    border-bottom:none;
+    border-top: none;
+    border-bottom: none;
     padding: 0 12px;
     cursor: pointer;
 }
@@ -105,8 +127,13 @@ background-color: #b3484d !important;
 
 /* card css */
 .card {
-    border: 1px solid #f2f2f2;
-    padding: 2rem 0;
+    /* border: 1px solid #f2f2f2; */
+    /* padding: 0px 60px; */
+}
+
+#checkbox label {
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /* card image css */
@@ -136,6 +163,8 @@ background-color: #b3484d !important;
 .app-container {
     padding-left: 28px !important;
     padding-right: 28px !important;
+
+
 }
 
 
@@ -200,4 +229,55 @@ background-color: #b3484d !important;
 
 .low-priority:hover {
     background-position: right center;
+}
+
+/* #header_rank a {
+    padding: 0px 20px;
+} */
+#header_rank{
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 600;
+}
+#header_rank a{
+    font-weight: 600;
+}
+#radio-buttons label {
+    font-weight: 600;
+}
+#filterrank{
+    display: none;
+}
+
+
+@media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none !important;
+    }
+
+    .ant-table-row-expand-icon {
+        display: none !important;
+    }
+    .title-width.ant-table-cell {
+        max-width: 200px;
+        width: 200px; 
+      }
+      .views_count-width.ant-table-cell {
+        max-width: 70px;
+        width: 70px; 
+      }
+    .sold_status-width.ant-table-cell {
+        max-width: 100px;
+    }
+
+    .detail-width.ant-table-cell {
+        max-width: 80px;
+    }
+    #filterrank{
+        display: block;
+        
+    }
+    
+
+
 }

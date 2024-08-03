@@ -108,12 +108,12 @@
         </div>
         <!-- end::Body -->
         <div
-            class="flex bg-[#8b3035] justify-center align-items-center grow n:h-[100px] lg:h-screen"
+            class="flex bg-[#8b3035] justify-center align-items-center grow n:h-[100px] lg:h-screen" 
         >
             <img
                 src="../assets/background/login_background.jpg"
                 alt="Logo"
-                class="app-header-logo-image lg:w-100 lg:h-[100vh] xs:w-[100px] xs:h-100"
+                class="app-header-logo-image lg:w-100 lg:h-[100vh] xs:w-[100px] xs:h-100" width="100%"
             />
         </div>
     </div>

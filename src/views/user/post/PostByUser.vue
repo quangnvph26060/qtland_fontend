@@ -89,7 +89,7 @@
                                                     <div class="gap-1 md:w-[220px] md:h-[220px]">
                                                         <div class="image-container">
                                                             <img :src="apiURL.URL+
-                                                                item.post_image?.[0]
+                                                                item.postImage?.[0]
                                                                     ?.image_path
                                                             " class="n:w-[120px] h-[160px] md:w-[220px] md:h-[220px] object-cover" />
                                             </div>
@@ -154,6 +154,7 @@ const fetchPostByUser = async (userId) => {
         created_at: "",
         view: 1000,
         sold_status: "",
+        classrank: "",
         status_id: "",
         user: "",
         comment: [],

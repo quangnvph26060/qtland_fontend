@@ -119,15 +119,40 @@ const priorityList = reactive([
 		isChecked: false,
 	},
 ]);
+const priorityrank = reactive([
+	{
+		value: 1,
+		name: "văn phòng hạng A",
+		
+	},
+	{
+		value:2,
+		name: "văn phòng hạng B",
+		
+	},
+	{
+		value: 3,
+		name: "văn phòng hạng C",
+		
+	},
+	{
+		value: 4,
+		name: "văn phòng hạng Coworking",
+		
+	},
+]);
 
 const collectFilterValues = (list) => {
 	return list.filter((item) => item.isChecked).map((item) => item.value);
 };
-
+const collectFilterValuesRank = (list) => {
+	return list.map(item => item.value);
+};
 const handleSearchStatus = () => {
 	const soldStatus = collectFilterValues(filterList);
 	const priorityStatus = collectFilterValues(priorityList);
-
+	const classrank = collectFilterValuesRank(priorityrank);
+	filterRangeStore.setClassRank(classrank);
 	filterRangeStore.setSoldStatus(soldStatus);
 	filterRangeStore.setPriorityStatus(priorityStatus);
 
@@ -135,6 +160,7 @@ const handleSearchStatus = () => {
 		...router.currentRoute.value.query,
 		sold_status: soldStatus,
 		priority_status: priorityStatus,
+		classrank: classrank,
 	};
 
 	const routeName = props.type === "admin" ? "admin-post-list" : "post-list";
@@ -149,14 +175,15 @@ const handleSearchStatus = () => {
 const resetFilters = () => {
 	filterList.forEach((item) => (item.isChecked = false));
 	priorityList.forEach((item) => (item.isChecked = false));
-
+	priorityrank.forEach((item) => (item.value = ''));
 	filterRangeStore.setSoldStatus(null);
 	filterRangeStore.setPriorityStatus(null);
-
+	filterRangeStore.setClassRank(null);
 	const query = {
 		...router.currentRoute.value.query,
 		sold_status: null,
 		priority_status: null,
+		classrank : null
 	};
 
 	const routeName = props.type === "admin" ? "admin-post-list" : "post-list";

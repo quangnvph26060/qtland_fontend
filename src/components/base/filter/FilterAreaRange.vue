@@ -1,7 +1,7 @@
 <template>
     <a-popover placement="bottomLeft" trigger="click" class="flex">
         <template #title>
-                <div>Chọn khu vực</div>
+                <div>Chọn Diện tích</div>
 </template>
 
 <template #content>

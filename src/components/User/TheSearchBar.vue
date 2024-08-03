@@ -35,6 +35,9 @@
 					<div class="filter-item col-sm-1 col-xl-2">
 						<FilterOptions />
 					</div>
+					<div class="filter-item col-sm-1 col-xl-2" id="filterrank" v-if="store.user.role_id == 3 || store.user.role_id == 4" >
+						<FilterRank />
+					</div>
 					<!-- end::Filter Item -->
 	
 					<!-- begin::Filter Item -->
@@ -94,13 +97,16 @@ import FilterAddress from "../base/filter/FilterAddress.vue";
 import FilterPriceRange from "../base/filter/FilterPriceRange.vue";
 import FilterAreaRange from "../base/filter/FilterAreaRange.vue";
 import FilterOptions from "../base/filter/FilterOptions.vue";
-
+import FilterRank from "../base/filter/FilterRank.vue";
+import auth from "../../stores/auth";
+const store = auth();
 export default {
 	components: {
 		FilterAddress,
 		FilterPriceRange,
 		FilterAreaRange,
 		FilterOptions,
+		FilterRank
 	},
 
 	created() {},
