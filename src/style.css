@@ -248,6 +248,9 @@ a:focus {
 #filterrank{
     /* display: none; */
 }
+#filterrank>div{
+    padding-bottom: 6px;
+}
 
 
 @media (max-width: 768px) {

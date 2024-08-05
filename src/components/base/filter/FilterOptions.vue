@@ -4,7 +4,7 @@
 			<span>Lọc thêm</span>
 		</template>
 		<div
-			class="filter-item-content align-items-center"
+			class="filter-item-content align-items-center" style="padding-bottom: 10px"
 			@click.prevent
 			@click="setModalOptions(true)"
 		>
@@ -22,9 +22,9 @@
 		@ok="handleSearchDir(true)"
 		@cancel="resetFilters()"
 	>
-		<div class="mt-3 w-50">
+		<div class="mt-3 w-50 "  >
 			<div class="flex flex-col">
-				<div class="text-md font-semibold mb-3">Hướng nhà</div>
+				<div class="text-md font-semibold mb-3 " >Hướng nhà</div>
 				<div class="flex flex-wrap">
 					<label
 						class="custom-checkbox me-2 mt-2"
