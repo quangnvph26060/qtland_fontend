@@ -304,6 +304,8 @@ import { filterRange } from "../../stores/filterRange";
 import logout from "../../api/auth/logout";
 import Config from "../../api/config/config.js";
 import { useRouter } from "vue-router";
+
+
 const { getconfig, responseConfig, updateConfig } = Config();
 const logo = ref(null);
 onMounted(async () => {
@@ -357,10 +359,16 @@ const selectClassRank = async (classrank) => {
   });
 };  
 
-
+const filterStore = filterRange();
 const handleLogoClick = () => {
-  filterStore.resetFilters();
-  router.push({ name: "home" });
+ filterStore.resetFilters();
+  const userRole = store.user.role_id ;
+  
+  if (userRole == 1) {
+    router.push({ name: "admin-post-list" });
+  } else {
+    router.push({ name: "post-list" });
+  }
 };
 const open = ref(false);
 const showDrawer = () => {

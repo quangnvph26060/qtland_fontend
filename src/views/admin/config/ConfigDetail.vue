@@ -48,6 +48,17 @@
                 />
                 <img :src="logo" alt="Logo" class="app-header-logo-image w-[100px] h-[64px] mt-4" />
               </div>
+
+               <div class="form-group mb-4">
+                <label for="icon" class="font-bold text-gray-700">Icon</label>
+                <input
+                  type="file"
+                  class="form-control mt-2 p-2 border border-gray-300 rounded-md w-full"
+                  id="icon"
+                  @change="onFileChangeicon"
+                />
+                <img :src="icon" alt="icon" class="app-header-icon-image w-[100px] h-[64px] mt-4" />
+              </div>
   
               <div class="form-group mb-4">
                 <label for="notes" class="font-bold text-gray-700">Footer</label>
@@ -85,10 +96,15 @@
   const description = ref("");
   const keyword = ref("");
   const logo = ref(null);
+  const icon = ref(null);
   const { getconfig, responseConfig, updateConfig } = Config();
   
   const onFileChange = (e) => {
     logo.value = e.target.files[0];
+  };
+
+   const onFileChangeicon = (e) => {
+    icon.value = e.target.files[0];
   };
   
   const handleSubmit = async () => {
@@ -98,6 +114,9 @@
     formData.append("keyword", keyword.value);
     if (logo.value) {
       formData.append("logo", logo.value);
+    }
+    if (icon.value) {
+      formData.append("icon", icon.value);
     }
   
     try {
@@ -120,7 +139,7 @@
       description.value = configData.description;
       keyword.value = configData.keyword;
       logo.value = configData.logo;
-      // alert(logo.value);
+      icon.value = configData.icon;
     }
   });
   </script>

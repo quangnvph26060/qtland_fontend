@@ -421,6 +421,12 @@ const fetchUsersList = async () => {
       role_id: user.role_id,
       is_active: user.is_active,
       post_count: user.post_count,
+      cccd: user.cccd,
+      password: user.password,
+      phone: user.phone,
+      address: user.address,
+      workunit: user.workunit,
+      birthday: user.birthday
     });
   }
   data.value = users;
@@ -433,9 +439,14 @@ const isShowDetail = ref(false);
 const userSelected = ref({
   name: "",
   email: "",
-  // password: "",
+  password: "",
   role_id: "",
   is_active: "",
+  cccd: "",
+  phone: "",
+  address: "",
+  workunit: "",
+  birthday : "",
 });
 
 const showDetail = (value) => {
@@ -448,6 +459,7 @@ const showModalAdd = () => {
     // password: "",
     role_id: "",
     is_active: "",
+    cccd: ""
   };
   isShowDetail.value = true;
   title.value = "Thêm mới";

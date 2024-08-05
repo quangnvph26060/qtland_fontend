@@ -15,7 +15,7 @@
             <a-skeleton-input v-if="isLoading" />
             <div v-else class="flex w-full justify-between">
                 <span>Hiện có {{ total  }} bất động sản </span>
-                <div>
+                <div >
                     <a-select ref="select" v-model:value="value1" style="width: 120px" :options="options1" @focus="focus" @change="handleChange">
                     </a-select>
                 </div>
@@ -184,6 +184,10 @@ const options1 = ref([{
     {
         value: "giảm chào",
         label: "Giảm chào",
+    },
+    {
+        value: "không yêu cầu",
+        label: "Không yêu cầu",
     },
 ]);
 
