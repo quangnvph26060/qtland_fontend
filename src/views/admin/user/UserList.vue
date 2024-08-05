@@ -25,12 +25,13 @@
         <a-table
           :data-source="data"
           :columns="columns"
-          :scroll="{ x: 1000 }"
+          :scroll="{ x: 600 }"
           :expand-column-width="50"
           :pagination="pagination"
+          :expand-icon-column-props="{ class: 'hide-on-mobile' }"
         >
           <template #expandColumnTitle>
-            <span style="color: red">More</span>
+            <span class="hide-on-mobile" style="color: red">More</span>
           </template>
           <template #expandedRowRender="{ record }">
             <p style="margin: 0">
@@ -292,6 +293,7 @@ const columns = [
     dataIndex: "name",
     key: "name",
     width: 120,
+    class:"user_name",
     customFilterDropdown: true,
     onFilter: (value, record) =>
       record.name.toString().toLowerCase().includes(value.toLowerCase()),
@@ -388,6 +390,7 @@ const columns = [
     title: "Chi tiết",
     key: "operation",
     width: 100,
+    class:"user_detail"
   },
 ];
 

@@ -533,7 +533,7 @@ const columns = [
         }, 100);
       }
     },
-    class: 'title-width',
+    class: 'title_width',
   },
 
   {
@@ -542,7 +542,7 @@ const columns = [
     key: "views_count",
     width: 100,
     sorter: (a, b) => a.views_count - b.views_count,
-    class: 'views_count-width',
+    class: 'views_count_width',
   },
   {
     title: "Trạng thái",

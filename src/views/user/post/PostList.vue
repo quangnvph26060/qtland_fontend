@@ -13,7 +13,7 @@
             <!-- begin::Total land -->
     
             <a-skeleton-input v-if="isLoading" />
-            <div v-else class="flex w-full justify-between">
+            <div v-else class="flex w-full justify-between align-items-center" style="padding: 0px 20px">
                 <span>Hiện có {{ total  }} bất động sản </span>
                 <div >
                     <a-select ref="select" v-model:value="value1" style="width: 120px" :options="options1" @focus="focus" @change="handleChange">
@@ -165,7 +165,8 @@ if (!store.token) {
 
 // Lọc bài viết theo ưu tiên
 const value1 = ref("all");
-const options1 = ref([{
+const options1 = ref([
+    {
         value: "all",
         label: "Tất cả",
     },
@@ -207,7 +208,7 @@ const fetchPostsFilter = async (
     filter,
     page = 1,
     pageSize = 10,
-    priority = "all"
+    priority_status = "all"
 ) => {
     isLoading.value = true;
     data.value = [];
@@ -219,7 +220,7 @@ const fetchPostsFilter = async (
         ...filter,
         page: pageFilter.value,
         pageSize: pageSizeFilter.value,
-        priority: value1.value,
+        priority_status: value1.value,
     });
     listPosts = res.data;
 

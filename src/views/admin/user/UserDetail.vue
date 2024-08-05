@@ -17,11 +17,11 @@
       </a-form-item>
       <a-form-item
         label="Căn cước công dân"
-        :rules="[{ required:false, message: 'Hãy nhập căn cước công dân!' }]"
+        :rules="[{ required:true, message: 'Hãy nhập căn cước công dân!' }]"
       >
         <a-input v-model:value="user.cccd" />
       </a-form-item>
-      <a-form-item  label="Ngày sinh" :rules="[{ required: true, message: 'Hãy chọn ngày sinh!' }]">
+      <a-form-item  label="Ngày sinh" :rules="[{ required: false, message: 'Hãy chọn ngày sinh!' }]">
         <!-- <a-date-picker style="width: 100%;" v-model:value="user.birthday" format="YYYY-MM-DD" /> -->
          <a-input v-model:value="user.birthday" type="date" format="YYYY-MM-DD"  />
       </a-form-item>
@@ -34,7 +34,7 @@
       </a-form-item>
       <a-form-item
         label="Đơn vị công tác"
-        :rules="[{ required: true, message: 'Hãy nhập đơn vị công tác!' }]"
+        :rules="[{ required: false, message: 'Hãy nhập đơn vị công tác!' }]"
       >
         <a-input v-model:value="user.workunit" />
       </a-form-item>
@@ -57,8 +57,8 @@
           </a-button>
         </div>
       </a-form-item>
-      <a-form-item label="Vai trò">
-        <a-select v-model:value="user.role_id">
+      <a-form-item label="Vai trò" :rules="[{ required: true, message: 'Hãy nhập vai trò !' }]">
+        <a-select v-model:value="user.role_id" >
           <a-select-option :value="1">Admin</a-select-option>
           <a-select-option :value="2">Đầu chủ</a-select-option>
           <a-select-option :value="3">Sale</a-select-option>

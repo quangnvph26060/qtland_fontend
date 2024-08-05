@@ -38,10 +38,10 @@ const listPostsAPI = {
 					address: arr.address === "" ? null : arr.address,
 					page: arr.page,
 					pageSize: arr.pageSize,
-					priority: arr.priority,
+					// priority: arr.priority,
 					searchConditions: arr.searchConditions,
 					sold_status: arr.sold_status,
-					priority: arr.priority_status,
+					priority_status: arr.priority_status,
 					classrank: arr.classrank,
 				},
 			});
