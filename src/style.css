@@ -246,7 +246,7 @@ a:focus {
     font-weight: 600;
 }
 #filterrank{
-    display: none;
+    /* display: none; */
 }
 
 
@@ -258,13 +258,13 @@ a:focus {
     .ant-table-row-expand-icon {
         display: none !important;
     }
-    .title-width.ant-table-cell {
-        max-width: 200px;
-        width: 200px; 
+    .title_width.ant-table-cell {
+        max-width: 400px;
+        width: 400px; 
       }
-      .views_count-width.ant-table-cell {
-        max-width: 70px;
-        width: 70px; 
+      .views_count_width >div {
+        max-width: 100px;
+        width: 100px; 
       }
     .sold_status-width.ant-table-cell {
         max-width: 100px;
@@ -277,7 +277,24 @@ a:focus {
         display: block;
         
     }
-    
+    .ant-table-row-expand-icon-cell{
+        display: none !important;
+    }
+    .ant-table-tbody tr.ant-table-row td.ant-table-cell:first-child {
+        display: none !important;
+    }
+    .user_name{
+        width: 250px;
+    }
+
+    .user_detail{
+        width: 130px;
+      
+    }
+    .search-address-post{
+        margin-top: 10px ;
+        margin-bottom: 10px;
+    }
 
 
 }

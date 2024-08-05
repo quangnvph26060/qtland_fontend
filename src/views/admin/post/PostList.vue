@@ -6,6 +6,9 @@
     >
       <!-- begin::Card Toolbar -->
       <div class="card-toolbar flex justify-start md:justify-end">
+        <div class="mr-3">
+          <a-button @click="handaddpost"> Đăng tin </a-button>
+        </div>
         <!-- begin::Filter -->
         <a-dropdown trigger="click" class="w-[100px]">
           <template #overlay>
@@ -411,6 +414,11 @@ const handResetFilter = () => {
   });
 };
 
+const handaddpost = () => {
+  router.push({ name: "admin-post-create" });
+ 
+};
+
 const props = defineProps({
   rangeArea: String,
   rangePrice: String,
@@ -525,7 +533,7 @@ const columns = [
         }, 100);
       }
     },
-    class: 'title-width',
+    class: 'title_width',
   },
 
   {
@@ -534,7 +542,7 @@ const columns = [
     key: "views_count",
     width: 100,
     sorter: (a, b) => a.views_count - b.views_count,
-    class: 'views_count-width',
+    class: 'views_count_width',
   },
   {
     title: "Trạng thái",
@@ -620,6 +628,8 @@ const getColorPriorityStatus = (priority_status) => {
       return "volcano";
     case "quy hoạch":
       return "cyan";
+    case "khong yêu cầu":
+      return "kyc";
     default:
       return "";
   }

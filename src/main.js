@@ -44,11 +44,24 @@ async function updateTitle() {
 	  } else {
 		document.title = 'Bật động sản'; 
 	  }
+
+	  if (configData && configData.icon) {
+		const favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
+		favicon.type = 'image/svg+xml';
+		favicon.rel = 'icon';
+		favicon.href = configData.icon;
+		document.head.appendChild(favicon);
+	  } else {
+		const defaultFavicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
+		defaultFavicon.type = 'image/svg+xml';
+		defaultFavicon.rel = 'icon';
+		defaultFavicon.href = './src/assets/logo/logo-favicon.svg';
+		document.head.appendChild(defaultFavicon);
+	  }
 	} catch (error) {
 	  console.error('Error fetching config:', error);
 	  document.title = 'Thuê văn phòng'; 
 	}
   }
   
-  // Gọi hàm để cập nhật title
   updateTitle();

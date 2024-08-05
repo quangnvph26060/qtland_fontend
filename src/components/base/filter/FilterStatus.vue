@@ -118,6 +118,11 @@ const priorityList = reactive([
 		name: "Hot",
 		isChecked: false,
 	},
+	{
+		value: "không yêu cầu",
+		name: "Không yêu cầu",
+		isChecked: false,
+	},
 ]);
 const priorityrank = reactive([
 	{
@@ -159,7 +164,7 @@ const handleSearchStatus = () => {
 	const query = {
 		...router.currentRoute.value.query,
 		sold_status: soldStatus,
-		priority_status: priorityStatus,
+		priority: priorityStatus,
 		classrank: classrank,
 	};
 
@@ -182,7 +187,7 @@ const resetFilters = () => {
 	const query = {
 		...router.currentRoute.value.query,
 		sold_status: null,
-		priority_status: null,
+		priority: null,
 		classrank : null
 	};
 

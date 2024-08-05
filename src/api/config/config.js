@@ -1,7 +1,6 @@
 import { ref, reactive, inject } from 'vue'
 import { useRouter } from "vue-router";
 import axios from 'axios';
-import { useStore } from "vuex";
 import { forEach } from 'lodash-es';
 import apiURL  from "../constants.js";
 export default function Config() {

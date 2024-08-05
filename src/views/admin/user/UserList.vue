@@ -25,12 +25,13 @@
         <a-table
           :data-source="data"
           :columns="columns"
-          :scroll="{ x: 1000 }"
+          :scroll="{ x: 600 }"
           :expand-column-width="50"
           :pagination="pagination"
+          :expand-icon-column-props="{ class: 'hide-on-mobile' }"
         >
           <template #expandColumnTitle>
-            <span style="color: red">More</span>
+            <span class="hide-on-mobile" style="color: red">More</span>
           </template>
           <template #expandedRowRender="{ record }">
             <p style="margin: 0">
@@ -292,6 +293,7 @@ const columns = [
     dataIndex: "name",
     key: "name",
     width: 120,
+    class:"user_name",
     customFilterDropdown: true,
     onFilter: (value, record) =>
       record.name.toString().toLowerCase().includes(value.toLowerCase()),
@@ -388,6 +390,7 @@ const columns = [
     title: "Chi tiết",
     key: "operation",
     width: 100,
+    class:"user_detail"
   },
 ];
 
@@ -421,6 +424,12 @@ const fetchUsersList = async () => {
       role_id: user.role_id,
       is_active: user.is_active,
       post_count: user.post_count,
+      cccd: user.cccd,
+      password: user.password,
+      phone: user.phone,
+      address: user.address,
+      workunit: user.workunit,
+      birthday: user.birthday
     });
   }
   data.value = users;
@@ -433,9 +442,14 @@ const isShowDetail = ref(false);
 const userSelected = ref({
   name: "",
   email: "",
-  // password: "",
+  password: "",
   role_id: "",
   is_active: "",
+  cccd: "",
+  phone: "",
+  address: "",
+  workunit: "",
+  birthday : "",
 });
 
 const showDetail = (value) => {
@@ -448,6 +462,7 @@ const showModalAdd = () => {
     // password: "",
     role_id: "",
     is_active: "",
+    cccd: ""
   };
   isShowDetail.value = true;
   title.value = "Thêm mới";
