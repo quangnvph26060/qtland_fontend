@@ -123,7 +123,7 @@
                 src="../assets/background/login_background.jpg"
                 alt="Logo"
                 class="app-header-logo-image lg:w-100 lg:h-[100vh] xs:w-[100px] xs:h-120" width="100% "
-                style="height:  120px; padding: 2px;"
+                style="height:  120px; padding: 20px;"
             />
         </div>
     </div>

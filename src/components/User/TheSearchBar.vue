@@ -61,7 +61,6 @@
             <a-tooltip placement="bottom">
               <template #title>
                 <span>Đặt lại</span>
-                //
               </template>
               <div
                 class="filter-item-content align-items-center"
