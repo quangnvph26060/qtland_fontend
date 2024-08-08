@@ -1,6 +1,6 @@
 <template>
     <!-- begin::Content -->
-    <div class="bg-slate-50">
+    <div class="bg-slate-50" style="margin-top: 30px">
         <!-- begin::Content Container -->
         <div class="app-container pt-[40px]">
             <!-- begin::Content Wrapper -->

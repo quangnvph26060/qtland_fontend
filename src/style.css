@@ -163,7 +163,7 @@ a:focus {
 .app-container {
     padding-left: 28px !important;
     padding-right: 28px !important;
-
+    /* margin-top: 28px !important ; */
 
 }
 
@@ -251,7 +251,41 @@ a:focus {
 #filterrank>div{
     padding-bottom: 6px;
 }
+#banner-2{
+    display: none;
+}
+.feature i{
+    padding-right: 10px;
+}
 
+#lienhe_phone {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#lienhe_phone div:first-child{
+    margin-right: 5px;
+}
+#lienhe_phone>div:nth-child(2)>div{
+    background-color: #f0e7e7;
+    padding: 6px ;
+    align-items: center;
+    border-radius: 7px;
+    margin-right: 15px;
+}
+#lienhe_phone>div:nth-child(2)>div span{
+    margin-left: 5px;
+}
+#lienhe_phone span{
+    background: #009BA1;
+    color: #ffff;
+    padding: 3px 7px;
+    border-radius: 5px;
+}
+.post_user{
+   margin-left: 20px;
+}
 
 @media (max-width: 768px) {
     .hide-on-mobile {
@@ -298,6 +332,97 @@ a:focus {
         margin-top: 10px ;
         margin-bottom: 10px;
     }
+    #banner-1{
+        display: none;
+
+    }
+    #banner-2{
+        display: inline-block;
+    }
+    .short-info{
+        margin: 0px  !important;
+        
+    }
+    .short-info .price, .short-info .area, .short-info .direction{
+        display: none;
+    }
+    .short-info div.feature {
+        
+        margin: 0px;
+    }
+    .short-info .feature  div{
+        padding: 2px 30px;
+        border: 1px solid gray;
+        border-radius: 10px;
+    }
+    .short-info .feature div:first-child{
+        margin-left: 15px;
+    } 
+    .short-info .feature div:nth-child(2){
+        margin-left: 20px;
+    } 
+    .short-info .feature div:last-child{
+        margin-left: 20px;
+        padding: 2px 3px;
+    } 
+    .feature {
+        padding: 5px;
+    }
+    .feature td.ant-descriptions-item{
+        margin: 0px !important;
+    }
+      
+    .feature .ant-descriptions-item {
+        display: block;
+        width: 100%;
+        padding: 5px 0px  !important;
+    }
+  
+    .feature .ant-descriptions-item-container {
+        display: block;
+    }
+      
+    .feature .ant-descriptions-item-label {
+        display: block;
+        font-weight: 500;
+    }
+    
+      
+    .feature .ant-descriptions-item-content {
+        display: block;
+        text-align: left;
+        margin-top: 5px;
+    }
+   
+    #addordetailpost{
+        margin-top: 60px !important;
+        padding: 0px !important;
+    }
+    #addordetailpost .ant-tabs-nav-wrap{
+        padding: 0px 20px !important;
+    }
+    #title-detail h1{
+        font-size: 20px !important;
+    }
+    .detail-info{
+        margin-top: 20px;
+    }
+   .product_user {
+    display: flex;
+    
+   }
+   .product_user img{
+    height: 189px !important;
+   }
+   .product_user div.price_area {
+       font-size: 13px !important;
+   }
+
+   .post_user{
+    margin-top: 20px;
+     margin-bottom: 20px;
+     margin-left: 0px;
+   }
 
 
 }

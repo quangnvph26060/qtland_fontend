@@ -18,9 +18,9 @@
             />
             <!-- end::Logo Image -->
           </div>
-          <div style="flex:1"
+          <div style="flex:1" 
             class="n:px-2 md:px-0 hidden sm:block"
-            v-if="store.user.role_id == 3 || store.user.role_id == 4"
+            v-if="store.user.role_id == 3 || store.user.role_id == 4 "
           >
             <div id="header_rank" >
               <a v-for="(item, index) in rankroom" :key="index" @click="selectClassRank(item.value)">
@@ -285,7 +285,7 @@
   
   
   <script setup>
-import { ref, h, onMounted } from "vue";
+import { ref, h , onMounted, watch} from "vue";
 import {
   NotificationOutlined,
   DownOutlined,
@@ -303,8 +303,26 @@ import auth from "../../stores/auth";
 import { filterRange } from "../../stores/filterRange";
 import logout from "../../api/auth/logout";
 import Config from "../../api/config/config.js";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
+const route = useRoute();
+const postId = ref(null);
+
+const updatePostId = () => {
+  if (route.path.startsWith('/post-detail')) {
+    postId.value = route.params.id || null;
+  } else {
+    postId.value = null;
+  }
+};
+
+onMounted(() => {
+  updatePostId();
+});
+
+watch(() => route.path, () => {
+  updatePostId();
+}, { immediate: true });
 
 const { getconfig, responseConfig, updateConfig } = Config();
 const logo = ref(null);

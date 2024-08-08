@@ -582,42 +582,30 @@
   const unit = [
 	{
 	  value: "1",
-	  label: "VND",
+	  label: "VND/m2",
 	},
 	{
 	  value: "2",
-	  label: "m2",
-	},
-	{
-	  value: "3",
 	  label: "Thỏa thuận",
 	},
   ];
   const unit1 = [
 	{
 	  value: "1",
-	  label: "VND",
+	  label: "VND/m2",
 	},
 	{
 	  value: "2",
-	  label: "m2",
-	},
-	{
-	  value: "3",
 	  label: "Thỏa thuận",
 	},
   ];
   const unit2 = [
 	{
 	  value: "1",
-	  label: "VND",
+	  label: "VND/Số",
 	},
 	{
 	  value: "2",
-	  label: "Số",
-	},
-	{
-	  value: "3",
 	  label: "Thỏa thuận",
 	},
   ];
@@ -625,14 +613,10 @@
   const unit3 = [
 	{
 	  value: "1",
-	  label: "VND",
+	  label: "VND/Số",
 	},
 	{
 	  value: "2",
-	  label: "Số",
-	},
-	{
-	  value: "3",
 	  label: "Thỏa thuận",
 	},
   ];
@@ -640,11 +624,11 @@
   const soldStatus = [
 	{
 	  value: "1",
-	  label: "Đã bán",
+	  label: "Đã thuê",
 	},
 	{
 	  value: "0",
-	  label: "Chưa bán",
+	  label: "Chưa thuê",
 	},
   ];
   
