@@ -320,6 +320,12 @@ a:focus {
     .ant-table-tbody tr.ant-table-row td.ant-table-cell:first-child {
         display: none !important;
     }
+    .reportlisst .ant-table-row-expand-icon-cell{
+        display: block !important;
+    }
+    .reportlisst .ant-table-tbody tr.ant-table-row td.ant-table-cell:first-child {
+        display: block !important;
+    }
     .user_name{
         width: 250px;
     }
@@ -422,6 +428,9 @@ a:focus {
     margin-top: 20px;
      margin-bottom: 20px;
      margin-left: 0px;
+   }
+   #report-client{
+    margin-top: 30px;
    }
 
 

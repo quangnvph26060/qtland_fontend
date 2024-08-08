@@ -43,6 +43,21 @@ const user = [
 				name: "post-manage",
 				component: () => import("../views/user/post/PostManage.vue"),
 			},
+			{
+				path: "client-report",
+				name: "client-report",
+				component: () => import("../views/user/report/ClientReport.vue"),
+			},
+			{
+				path: "client-report-create",
+				name: "client-report-post-create",
+				component: () => import("../views/user/report/ReportDetail.vue"),
+			},
+			{
+				path: "edit/report_id=:id(\\d+)?",
+				name: "client-report-detail",
+				component: () => import("../views/user/report/ReportDetail.vue"),
+			},
 		],
 		beforeEnter(to, from, next) {
 			// ...

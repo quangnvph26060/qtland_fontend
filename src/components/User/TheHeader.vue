@@ -155,6 +155,14 @@
                 </router-link>
               </div>
               <div
+                class="n:px-2 md:px-4 hidden sm:block"
+                v-if="store.user.role_id == 3"
+              >
+                <router-link :to="{ name: 'client-report' }">
+                  <a-button class=""> Báo cáo dẫn khách </a-button>
+                </router-link>
+              </div>
+              <div
                 class="n:px-2 md:px-4"
                 :class="store.user.role_id == 1 ? 'hidden' : 'sm:hidden'"
               >
@@ -197,6 +205,19 @@
                           @click="onClose"
                         >
                           Đăng tin
+                        </a-button>
+                      </router-link>
+                    </div>
+                    <div
+                      v-if="store.user.role_id == 3"
+                    >
+                      <router-link :to="{ name: 'client-report' }">
+                        <a-button
+                          class="w-100 h-[40px]"
+                          type="primary"
+                          @click="onClose"
+                        >
+                          Báo cáo dẫn khách
                         </a-button>
                       </router-link>
                     </div>
