@@ -12,7 +12,7 @@
             <!-- end::Main Column -->
 
             <!-- begin::Detail Column -->
-            <div
+            <div id="addordetailpost"
                 class="flex flex-col col-12 col-xl-8 gap-7 gap-lg-10 px-4"
                 style="background-color: white;margin: 0px auto ;    margin-top: 30px;"
             >

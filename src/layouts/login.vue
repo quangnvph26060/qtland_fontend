@@ -1,7 +1,7 @@
 <template >
     <div class="flex flex-col-reverse lg:flex-row w-screen h-screen">
         <!-- begin::Body -->
-        <div class="flex bg-white lg:w-1/2 h-100 p-10">
+        <div class="flex bg-white lg:w-1/2 h-100 ">
             <!-- begin::Form -->
             <div
                 class="d-flex n:mt-0 lg:mt-auto lg:mb-auto justify-center w-100"
@@ -107,13 +107,23 @@
             <!-- end::Form -->
         </div>
         <!-- end::Body -->
-        <div
-            class="flex bg-[#8b3035] justify-center align-items-center grow n:h-[100px] lg:h-screen" 
+        <div id="banner-1"
+            class="flex  justify-center align-items-center grow n:h-[100px] lg:h-screen" 
         >
             <img
                 src="../assets/background/login_background.jpg"
                 alt="Logo"
                 class="app-header-logo-image lg:w-100 lg:h-[100vh] xs:w-[100px] xs:h-100" width="100%"
+            />
+        </div>
+        <div id="banner-2"
+            class="flex justify-center align-items-center grow n:h-[140px] lg:h-screen " 
+        >
+            <img 
+                src="../assets/background/login_background.jpg"
+                alt="Logo"
+                class="app-header-logo-image lg:w-100 lg:h-[100vh] xs:w-[100px] xs:h-120" width="100% "
+                style="height:  120px; padding: 2px;"
             />
         </div>
     </div>
@@ -123,10 +133,36 @@ import { ref, reactive, computed } from "vue";
 import auth from "../stores/auth";
 import login from "../api/auth/login";
 import createUserAPI from "../api/users/createUser";
-
+import Config from '../api/config/config.js';
 import router from "../router";
 import { message } from "ant-design-vue";
 
+
+async function updateTitle() {
+	  const { getconfig, responseConfig } = Config();
+	  await getconfig(); 
+	  const configData = responseConfig.data; 
+	  
+	  const bannerImage = document.querySelector('#banner-2 img');
+        if (bannerImage) {
+            if (configData && configData.logo) {
+                bannerImage.src = configData.logo;
+            } else {
+                bannerImage.src = '../assets/background/login_background.jpg'; h
+            }
+        }
+
+        const banner = document.querySelector('#banner-1 img');
+        if (banner) {
+            if (banner && configData.banner) {
+                banner.src = configData.banner;
+            } else {
+                banner.src = '../assets/background/login_background.jpg'; h
+            }
+        }
+  }
+  
+  updateTitle();
 const loginState = ref(false);
 const changeForm = () => {
     loginState.value = !loginState.value;

@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col d-none d-xl-flex" :class="columnClass">
+	<div class="flex flex-col d-none d-xl-flex col-lg-3" :class="columnClass" >
 		<!-- begin::Sidebar Box -->
 		<div class="flex-col mb-3 sidebar-box">
 			<!-- begin::Author -->
@@ -9,7 +9,7 @@
 		<!-- end::Sidebar Box -->
 
 		<!-- begin::Sidebar Box -->
-		<div class="p-3 mb-3 border-1 sidebar-box">
+		<div class="p-3 mb-3 border-1 sidebar-box" v-if="!postId">
 			<!-- begin::Sidebar Box Title -->
 			<div class="mb-3">
 				<h2>Lọc theo giá</h2>
@@ -44,7 +44,7 @@
 		<!-- end::Sidebar Box -->
 
 		<!-- begin::Sidebar Box -->
-		<div class="p-3 border-1 sidebar-box">
+		<div class="p-3 border-1 sidebar-box" v-if="!postId">
 			<!-- begin::Sidebar Box Title -->
 			<div class="mb-3">
 				<h2>Lọc theo diện tích</h2>
@@ -69,12 +69,31 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref, computed , h , onMounted, watch} from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { filterRange } from "../../../stores/filterRange";
 
 const router = useRouter();
 const filterRangeStore = filterRange();
+
+const route = useRoute();
+const postId = ref(null);
+
+const updatePostId = () => {
+  if (route.path.startsWith('/post-detail')) {
+    postId.value = route.params.id || null;
+  } else {
+    postId.value = null;
+  }
+};
+
+onMounted(() => {
+  updatePostId();
+});
+
+watch(() => route.path, () => {
+  updatePostId();
+}, { immediate: true });
 
 // Filter Area
 const filterAreaList = [

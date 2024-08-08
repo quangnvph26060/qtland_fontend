@@ -272,7 +272,7 @@
                     : ''
                 "
               >
-                {{ record.sold_status == 1 ? "đã bán" : "chưa bán" }}
+                {{ record.sold_status == 1 ? "Đã thuê" : "Chưa thuê" }}
               </a-tag>
               <a-tag :color="getColorPriorityStatus(record.priority_status)">
                 {{ record.priority_status }}

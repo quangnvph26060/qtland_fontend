@@ -1,6 +1,6 @@
 <template>
   <!-- begin::Search Bar -->
-  <div class="h-[64px]">
+  <div class="h-[64px]" id="user_sliderbar">
     <!-- begin::Search Bar Container-->
     <div
       class="app-container fixed-top min-h-[50px] mt-[100px] bg-primary-white-color w-100"

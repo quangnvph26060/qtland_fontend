@@ -21,6 +21,7 @@ const user = [
 				path: "post-detail/:id(\\d+)?",
 				name: "post-detail",
 				component: () => import("../views/user/post/PostDetail.vue"),
+				props: true,
 			},
 			{
 				path: "post-create",

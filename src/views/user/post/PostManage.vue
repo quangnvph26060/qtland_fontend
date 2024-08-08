@@ -94,7 +94,7 @@
 					<!-- end::Post Items -->
 				</a-tab-pane>
 				<a-tab-pane key="3" class="space-y-5">
-					<template #tab> Chờ duyệt ({{ totalLand }}) </template>
+					<!-- <template #tab> Chờ duyệt ({{ totalLand }}) </template> -->
 				</a-tab-pane>
 			</a-tabs>
 		</div>

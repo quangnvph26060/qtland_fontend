@@ -2,7 +2,7 @@
     <!-- begin::Content -->
     <div class="bg-slate-50">
         <!-- begin::Content Container -->
-        <div class="app-container">
+        <div class="app-container" style="margin-top: 35px !important">
             <!-- begin::Content Wrapper -->
             <div class="">
                 <router-view></router-view>

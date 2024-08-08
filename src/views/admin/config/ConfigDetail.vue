@@ -59,6 +59,17 @@
                 />
                 <img :src="icon" alt="icon" class="app-header-icon-image w-[100px] h-[64px] mt-4" />
               </div>
+
+              <div class="form-group mb-4">
+                <label for="banner" class="font-bold text-gray-700">Banner</label>
+                <input
+                  type="file"
+                  class="form-control mt-2 p-2 border border-gray-300 rounded-md w-full"
+                  id="banner"
+                  @change="onFileChangebanner"
+                />
+                <img :src="banner" alt="banner" class="app-header-banner-image w-[100px] h-[64px] mt-4" />
+              </div>
   
               <div class="form-group mb-4">
                 <label for="notes" class="font-bold text-gray-700">Footer</label>
@@ -97,6 +108,7 @@
   const keyword = ref("");
   const logo = ref(null);
   const icon = ref(null);
+  const banner = ref(null);
   const { getconfig, responseConfig, updateConfig } = Config();
   
   const onFileChange = (e) => {
@@ -105,6 +117,10 @@
 
    const onFileChangeicon = (e) => {
     icon.value = e.target.files[0];
+  };
+
+  const onFileChangebanner = (e) => {
+    banner.value = e.target.files[0];
   };
   
   const handleSubmit = async () => {
@@ -117,6 +133,9 @@
     }
     if (icon.value) {
       formData.append("icon", icon.value);
+    }
+     if (banner.value) {
+      formData.append("banner", banner.value);
     }
   
     try {
@@ -140,6 +159,7 @@
       keyword.value = configData.keyword;
       logo.value = configData.logo;
       icon.value = configData.icon;
+      banner.value = configData.banner;
     }
   });
   </script>

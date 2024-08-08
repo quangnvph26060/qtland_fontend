@@ -3,7 +3,7 @@
         <!-- begin::Form -->
         <div class="flex flex-col xl:flex-row w-100">
             <!-- begin::Main Column -->
-            <div class="flex flex-col col-12 col-xl-4 gap-3 gap-lg-5">
+            <div class="flex flex-col col-12 col-xl-3 gap-3 gap-lg-5">
                 <Card>
                     <template #content>
                             <!-- begin:Statistic views -->
@@ -30,15 +30,15 @@
             <!-- end::Main Column -->
 
             <!-- begin::Detail Column -->
-            <div class="flex flex-col col-12 col-xl-8">
+            <div class="flex flex-col col-12 col-xl-8 post_user" >
                 <Card title="Tin đăng">
 <template #content>
     <a-skeleton v-if="isLoading" :active="true" />
     <a-list item-layout="vertical" size="large" :data-source="data" :pagination="pagination" id="user-post" v-else>
-        <template #renderItem="{ item }">
+        <template #renderItem="{ item }" >
                                     <a-list-item
                                         key="item.title"
-                                        class="flex n:flex-row-reverse md:flex-col-reverse p-0 n:w-100 md:w-[220px] md:mr-3 mb-3"
+                                        class="product_user flex n:flex-row-reverse md:flex-col-reverse p-0 n:w-100 md:w-[220px] md:mr-3 mb-3"
                                     >
                                         <router-link
                                             :to="{
@@ -58,11 +58,11 @@
                                             </template>
 
                                             <template #description>
-                                                <div class="flex space-x-4">
-                                                    <div class="text-[#eb3131] text-base">
+                                                <div class="flex space-x-4 price_area">
+                                                    <div class="text-[#eb3131] ">
                                                         {{ formatMoney( item.price ) }}
                                                     </div>
-                                                    <div class="text-[#eb3131] text-base">
+                                                    <div class="text-[#eb3131] ">
                                                         {{ item.area }} m<sup>2</sup
                                                             >
                                                         </div>
@@ -88,10 +88,8 @@
                                                 }">
                                                     <div class="gap-1 md:w-[220px] md:h-[220px]">
                                                         <div class="image-container">
-                                                            <img :src="apiURL.URL+
-                                                                item.postImage?.[0]
-                                                                    ?.image_path
-                                                            " class="n:w-[120px] h-[160px] md:w-[220px] md:h-[220px] object-cover" />
+                                                            <img  :src="item.post_image?.[0]?.image_path"
+                                                            class="n:w-[120px] h-[160px] md:w-[220px] md:h-[220px] object-cover" />
                                             </div>
                                         </div>
                                     </router-link>

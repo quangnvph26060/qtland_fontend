@@ -3,7 +3,13 @@
 		<a-layout-header style="background: #fff; padding: 0">
 			<TheHeader />
 		</a-layout-header>
-		<TheSearchBar />
+		
+		<template v-if="!postId">
+			<TheSearchBar />
+		</template>
+		<template v-if="postId">
+			<TheSearchDetail />
+		</template>
 
 		<a-layout>
 			<a-layout-content>
@@ -20,11 +26,33 @@
 </template>
 
 <script setup>
-import { ref, h , onMounted} from "vue";
+import { ref, h , onMounted, watch} from "vue";
 import Config from "../api/config/config.js";
- const { getconfig, responseConfig, updateConfig } = Config();
-  const keyword = ref("");
- onMounted(async () => {
+import { useRoute } from "vue-router";
+const route = useRoute();
+const postId = ref(null);
+
+const updatePostId = () => {
+  if (route.path.startsWith('/post-detail')) {
+    postId.value = route.params.id || null;
+  } else {
+    postId.value = null;
+  }
+};
+
+onMounted(() => {
+  updatePostId();
+});
+
+watch(() => route.path, () => {
+  updatePostId();
+}, { immediate: true });
+
+
+
+const { getconfig, responseConfig, updateConfig } = Config();
+const keyword = ref("");
+onMounted(async () => {
     await getconfig();
     const configData = responseConfig.data;
     console.log(configData);
@@ -43,6 +71,7 @@ const footerStyle = {
 <script>
 import TheHeader from "../components/User/TheHeader.vue";
 import TheSearchBar from "../components/User/TheSearchBar.vue";
+import TheSearchDetail from "../components/User/TheSearchDetail.vue";
 import ThePageHeader from "../components/ThePageHeader.vue";
 import TheContent from "../components/User/TheContent.vue";
 
@@ -52,6 +81,7 @@ export default {
 		TheSearchBar,
 		ThePageHeader,
 		TheContent,
+		TheSearchDetail
 	},
 };
 </script>
