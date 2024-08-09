@@ -71,6 +71,16 @@ const admin = [
 				name: "admin-config",
 				component: () => import("../views/admin/config/ConfigDetail.vue"),
 			},
+			{
+				path: "admmin-client-report",
+				name: "admin-client-report",
+				component: () => import("../views/admin/report/ReportClient.vue"),
+			},
+			{
+				path: "admin/edit/report_id=:id(\\d+)?",
+				name: "admin-client-report-detail",
+				component: () => import("../views/admin/report/ReportDetail.vue"),
+			},
 		],
 		beforeEnter(to, from, next) {
 			// ...

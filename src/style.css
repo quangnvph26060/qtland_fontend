@@ -287,6 +287,10 @@ a:focus {
    margin-left: 20px;
 }
 
+.footer_mobi{
+    display: none;
+}
+
 @media (max-width: 768px) {
     .hide-on-mobile {
         display: none !important;
@@ -432,6 +436,21 @@ a:focus {
    #report-client{
     margin-top: 30px;
    }
+   .back-to-top{
+    display: none;
+   }
+   .footer_mobi{
+    display: block;
+    z-index: 1000;
+    
+   }
+  
 
 
+}
+
+@media (max-width: 400px){
+        .feature>div {
+            padding: 0px 10px !important;
+        }
 }

@@ -129,22 +129,6 @@
                   </a-tooltip>
                 </div>
 
-                <!-- <a-tooltip placement="top">
-                  <template #title>
-                    <span>Báo cáo</span>
-                  </template>
-                  <a-button class="border-none">
-                    <WarningOutlined :style="{ fontSize: '24px' }" />
-                  </a-button>
-                </a-tooltip> -->
-                <!-- <a-tooltip placement="top">
-                  <template #title>
-                    <span>Lưu tin</span>
-                  </template>
-                  <a-button class="border-none">
-                    <HeartOutlined :style="{ fontSize: '24px' }" />
-                  </a-button>
-                </a-tooltip> -->
                 <div>
                   <a-tooltip placement="top">
                     <template #title>
@@ -408,6 +392,32 @@
     </template>
   </SidebarFilter>
   <!-- end::Sidebar -->
+ <div class="footer_mobi" style="position: fixed; bottom:0px; left: 0; background:#ffff;width: 100%; box-shadow: 0px -2px 2px rgba(203,203,203,0.25); ">
+        <div class="" style=" display: flex; flex: 1; justify-content:space-around ; padding: 5px 30px; gap:15px ">
+          
+          <a
+            target="_blank"
+            class="user_button-item"
+            :href="'https://zalo.me/' + data.user.phone"
+            style="margin-bottom: 10px; flex: 1; font-weight:600 !important"
+          >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
+              alt=""
+              class="user_button-img" style="margin-right: 10px"
+            />
+            Chat Zalo
+          </a>
+          <a
+            class="user_button-item mobile"
+            @click.prevent="copyToClipboard(data.user.phone)"
+            style="margin-bottom: 10px; font-weight:600 !important; flex: 1;align-items:center; background: #009BA1 !important; border: none;"
+          >
+            {{ data.user.phone }}
+          </a>
+          
+        </div>
+ </div>
 </template>
 
 <script setup>
@@ -418,6 +428,7 @@ import {
   CopyOutlined,
 } from "@ant-design/icons-vue";
 import { reactive, ref, onMounted, computed } from "vue";
+import { message } from "ant-design-vue";
 import { useRoute } from "vue-router";
 import getPostAPI from "../../../api/posts/getDetails";
 import getCommentDetailsAPI from "../../../api/comment/getDetails";
@@ -455,6 +466,15 @@ const data = reactive({
   bonus: "",
   bonusmonthly: "",
 });
+
+const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text).then(() => {
+    message.success("Số điện thoại đã được sao chép!");
+  }).catch((err) => {
+    console.error("Không thể sao chép văn bản: ", err);
+    message.error("Không thể sao chép số điện thoại.");
+  });
+};
 
 // lưu 
 const isHearted = ref(false);

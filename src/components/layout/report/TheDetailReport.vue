@@ -6,6 +6,15 @@
         <div class="flex flex-col gap-lg-10">
           <Card title="Thông tin báo cáo" class="p-0 border-0">
             <template #content>
+              <!-- <div style="display: none">
+                 <InputBasic
+               
+                
+                  :value="data.user_id"
+                @input="handleInput('user_id', $event)"
+              
+              />
+              </div> -->
               <!-- begin::Input Group -->
               <InputBasic
                 title="Họ và tên"
@@ -56,7 +65,7 @@
                 <label class="required form-label">Thời gian dẫn khách</label>
                 <input
                   style="padding: 3px 11px"
-                  type="date"
+                   type="datetime-local"
                   :placeholder="placeholder"
                   :value="data.time ?? ''"
                   v-model="data.time"
@@ -65,7 +74,7 @@
               </div>
             </template>
           </Card>
-          <Card title="Hình ảnh" class="p-0 border-0">
+          <Card title="Ảnh dẫn khách" class="p-0 border-0">
             <template #content>
               <!-- begin::Input Group -->
               <div class="mb-2 h-100" v-if="!postId">
@@ -125,6 +134,66 @@
               </div>
             </template>
           </Card>
+           <Card title="Phiếu yêu cầu dich" class="p-0 border-0">
+            <template #content>
+              <!-- begin::Input Group -->
+              <div class="mb-2 h-100" v-if="!postId">
+                <!-- begin::Dropzone -->
+
+                <a-upload-dragger
+                  v-model:fileList="fileListCard"
+                  name="filecard"
+                  :multiple="true"
+                  :action="uploadURLCard"
+                  @change="handleChangeCard"
+                  @drop="handleDropCard"
+                  @preview="handlePreviewCard"
+                  :max-count="10"
+                >
+                  <p class="ant-upload-drag-icon">
+                    <InboxOutlined></InboxOutlined>
+                  </p>
+
+                  <p class="ant-upload-hint">
+                    Tải lên tối thiểu 1 hình ảnh, tối đa 20
+                  </p>
+                </a-upload-dragger>
+                <a-modal
+                  :open="previewVisibleCard"
+                  :title="previewTitleCard"
+                  :footer="null"
+                  @cancel="handleCancelCard"
+                >
+                  <img alt="example" style="width: 100%" :src="previewImageCard" />
+                </a-modal>
+
+                <!-- end::Dropzone -->
+              </div>
+              <!-- end::Input Group -->
+
+              <div class="clearfix" v-else>
+                <a-upload
+                  v-model:file-list="fileListCard"
+                  :action="uploadURLCard"
+                  list-type="picture-card"
+                  :multiple="true"
+                  @preview="handlePreviewCard"
+                >
+                  <div v-if="fileListCard.length < 20">
+                    <plus-outlined />
+                    <div style="margin-top: 8px">Tải ảnh lên</div>
+                  </div>
+                </a-upload>
+                <a-modal
+                  :open="previewVisibleCard"
+                  :footer="null"
+                  @cancel="handleCancelCard"
+                >
+                  <img alt="example" style="width: 100%" :src="previewImageCard" />
+                </a-modal>
+              </div>
+            </template>
+          </Card>
           <!-- end::Media Option -->
         </div>
       </div>
@@ -150,21 +219,30 @@
   <script setup>
 import { reactive, ref, computed, onMounted    } from "vue";
 import { InboxOutlined, PlusOutlined } from "@ant-design/icons-vue";
-import { useRoute } from "vue-router";
+import { useRoute , useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import getReportAPI from "../../../api/report/getDetails";
 import getImageDetailAPI from "../../../api/images/getDetail";
 import createImageAPI from "../../../api/images/createreport";
+import createImageCardAPI from "../../../api/images/createreportcard";
 import createReportAPI from "../../../api/report/create";
 import getCommentDetailsAPI from "../../../api/comment/getDetails";
 import apiURL from "../../../api/constants";
 import router from "../../../router";
 import auth from "../../../stores/auth";
-
+import getUserAPI from "../../../api/users/getUser";
 const store = auth();
+const user_id = ref('');
 const visible = ref(false);
-
+onMounted( async ()=>{
+  const token = localStorage.getItem('token');
+  const userId  = await getUserAPI.getByToken(token);
+  if(userId){
+    user_id.value = userId.id;
+  }
+})
 const route = useRoute();
+const router1 = useRouter();
 const disabledCommentTab = ref(false);
 
 const data = reactive({
@@ -178,10 +256,10 @@ const data = reactive({
     description: "",
     created_at: "",
     post_id: "",
-    user : "",
+   
     post: "",
     images: "",
-
+    card: ""
 });
 
 const disabledSubmit = computed(() => {
@@ -225,12 +303,31 @@ const handlePreview = async (file) => {
   previewVisible.value = true;
   previewTitle.value = file.name || file.url.substring(file.url.lastIndexOf("/") + 1);
 };
+
+
+const previewVisibleCard = ref(false);
+const previewImageCard = ref("");
+const previewTitleCard = ref("");
+
+const handleCancelCard = () => {
+  previewVisible.value = false;
+  previewTitle.value = "";
+};
+
+const handlePreviewCard = async (file) => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase64(file.originFileObj);
+  }
+  previewImageCard.value = file.url || file.preview;
+  previewVisibleCard.value = true;
+  previewTitleCard.value = file.name || file.url.substring(file.url.lastIndexOf("/") + 1);
+};
 // Xử lý input từ các input
 
 //123
 const imagesData = ref([]);
 const fileList = ref([]);
-
+const fileListCard = ref([]);
 onMounted(() => {
     if (postId) {
     disabledCommentTab.value = false;
@@ -247,6 +344,15 @@ onMounted(() => {
           url: data.images[i].image,
         });
       }
+ 
+      for (let i = 0; i < data.card.length; i++) {
+        fileListCard.value.push({
+          ...data.card[i],
+          url: data.card[i].image,
+        });
+      }
+    console.log(fileListCard.value);
+      console.log(fileList.value);
     };
 
     fetchPost(postId);
@@ -271,6 +377,10 @@ const onSubmitComment = () => {
 // Xử lý upload nhiều file
 const uploadURL = apiURL.baseURL + "/uploadMultiplereport";
 const updateURL = apiURL.baseURL + "/updateMultiplereport";
+
+const uploadURLCard = apiURL.baseURL + "/uploadMultiplecard";
+const updateURLCard = apiURL.baseURL + "/updateMultiplecard";
+
 const uploading = ref(false);
 
 function handleDrop(e) {
@@ -302,6 +412,27 @@ const onSubmit = async () => {
 
           fileList.value = [];
           uploading.value = false;
+         
+        } catch (error) {
+          uploading.value = false;
+          console.log(error);
+        }
+        //// card123
+
+        const formDataCard = new FormData();
+        fileListCard.value.forEach((file) => {
+          formDataCard.append("filecard[]", file.originFileObj);
+        });
+        const filteredArrayCard = fileListCard.value.filter(
+          (item) => item.id !== undefined
+        );
+         formDataCard.append("deleted_file_card", JSON.stringify(filteredArrayCard));
+        formDataCard.append("report_id", response.data.id);
+        try {
+          const res = await createImageCardAPI.updateReportImage(formDataCard);
+
+          fileListCard.value = [];
+          uploading.value = false;
           router.go(0);
         } catch (error) {
           uploading.value = false;
@@ -312,7 +443,6 @@ const onSubmit = async () => {
       }
     } else {
       data.user_id = store.user.id;
-
       const response = await createReportAPI(data);
       if (response && response.status === 201) {
         message.success("Tạo cáo cáo thành công");
@@ -322,6 +452,12 @@ const onSubmit = async () => {
           formData.append("files[]", file.originFileObj);
         });
         formData.append("report_id", response.data.id);
+
+        const formDataCard = new FormData();
+        fileListCard.value.forEach((file) => {
+          formDataCard.append("filecard[]", file.originFileObj);
+        });
+        formDataCard.append("report_id", response.data.id);
         try {
           const response = await fetch(uploadURL, {
             method: "post",
@@ -332,8 +468,20 @@ const onSubmit = async () => {
             message.error("Tải ảnh lên không thành công");
           }
           fileList.value = [];
-          uploading.value = false;
-          router.push({ name: "admin-post-list" });
+
+          const responsecard = await fetch(uploadURLCard, {
+            method: "post",
+            body: formDataCard,
+          });
+
+          if (!responsecard.ok) {
+            message.error("Tải ảnh lên không thành công");
+          }
+          fileListCard.value = [];
+
+          
+          // uploading.value = false;
+          router1.push({ name: "client-report" });
         } catch (error) {
           uploading.value = false;
           console.log(error);

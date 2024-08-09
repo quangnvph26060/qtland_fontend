@@ -54,7 +54,7 @@
         <template #renderItem="{ item, index }">
           <div :key="item.id" class="w-full md:w-1/4 p-2 post-container">
             <div
-              class="border rounded-lg overflow-hidden flex flex-row h-full post-item"
+              class="border rounded-lg overflow-hidden flex flex-column  h-full post-item"
             >
               <router-link
                 :to="{ name: 'post-detail', params: { id: item.id } }"
@@ -73,7 +73,7 @@
                     {{ item.priority_status }}
                   </div>
                 </div>
-                <div  style=" padding: 5px 11px 6px 12px">
+                <div style="padding: 5px 11px 6px 12px">
                   <h2 class="text-lg font-semibold line-clamp-2">
                     {{ item.title }}
                   </h2>
@@ -89,24 +89,56 @@
                   <div class="mt-2 line-clamp-2 main_text_address">
                     {{ item.address }}
                   </div>
-                  <a-divider style="margin-bottom:8px; margin-top: 5px" />
-                  <div class="flex items-center">
-                    <a-avatar
-                      class="me-2"
-                      :style="{
-                        backgroundColor: '#ADC178',
-                        verticalAlign: 'middle',
-                      }"
-                    >
-                      {{ item.user.name[0] }}
-                    </a-avatar>
-                    <div class="flex flex-col">
-                      <div>{{ item.user.name }}</div>
-                      <div style="font-size : 13px; color: gray;">{{ item.created_at }}</div>
-                    </div>
-                  </div>
+                  <a-divider style="margin-bottom: 8px; margin-top: 5px" />
+                
                 </div>
-              </router-link>
+              </router-link>  
+             <div class="demo" style="padding:5px 15px">
+
+               <div class="flex items-baseline justify-content-between">
+                    <div style="display: flex;">
+                      <a-avatar
+                        class="me-2"
+                        :style="{
+                          backgroundColor: '#ADC178',
+                          verticalAlign: 'middle',
+                        }"
+                      >
+                        {{ item.user_info.name[0] }}
+                      </a-avatar>
+                      <div class="flex flex-col">
+                        <div>{{ item.user_info.name }}</div>
+                        <div style="font-size: 13px; color: gray">
+                          {{ item.created_at }}
+                        </div>
+                      </div>
+                     
+                    </div>
+                     <div id="lienhe_phone" style="color: #ffff; font-weight: 600" >                     
+                        <div
+                         v-if="!isPhoneVisible[item.id]"
+                          style="display: flex; align-items: center; margin:0px"
+                        >
+                          <div style="display: flex; background: #009BA1; align-items: center; padding: 0px 5px; border-radius: 5px" > 
+                            {{ item.user_info.phone .replace(/(\d{7})\d{3}/, '$1***') }}
+                            <span
+                              @click="togglePhoneVisibility(item.id)"
+                              class="show-link"
+                              >.Hiện</span
+                            >
+                          </div>                
+                        </div>
+                        <div v-else style="display: flex;align-items: center;; margin:0px;  background: #009BA1; padding: 0px 5px; border-radius: 5px">
+                          <div style="display: flex ; align-items: center; ">
+                            {{ item.user_info.phone }}
+                            <span @click="copyPhoneNumber(item.user_info.phone)" class="copy-link"
+                              >.Copy</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+              </div>
+             </div>
             </div>
           </div>
         </template>
@@ -133,6 +165,7 @@ import {
   onBeforeUnmount,
   onMounted,
   nextTick,
+  computed 
 } from "vue";
 import formatMoney from "../../../utils/formatMoney";
 import auth from "../../../stores/auth";
@@ -243,6 +276,15 @@ const pageFilter = ref(1);
 const pageSizeFilter = ref(10);
 const currentPage = ref(1);
 
+const datacall = ref({
+  user: {
+    phone: "",
+    name: "",
+    email: "",
+  },
+});
+
+
 const fetchPostsFilter = async (
   filter,
   page = 1,
@@ -280,7 +322,10 @@ const fetchPostsFilter = async (
     user: "",
     comment: [],
     post_image: [],
+    user_info: "",
   });
+
+   
   const posts = [];
   if (listPosts.length === 0) {
     isLoading.value = false;
@@ -288,6 +333,12 @@ const fetchPostsFilter = async (
   }
   for (let i = 0; i < listPosts.length; i++) {
     const post = listPosts[i];
+    if (post && posts.user_info) {
+    datacall.value.user.phone = post.user_info.phone;
+    datacall.value.user.name = post.user_info.name;
+    datacall.value.user.email = post.user_info.email;
+  }
+  
     Object.keys(ans).forEach((key) => {
       ans[key] = post[key];
     });
@@ -315,6 +366,22 @@ const fetchPostsFilter = async (
 };
 
 fetchPostsFilter(filter);
+const isPhoneVisible = ref({});
+
+const maskedPhone = computed(() => {
+  const phone = datacall.value.user.phone;
+  return phone.slice(0, -3) + "***";
+});
+
+const togglePhoneVisibility = (id) => {
+  isPhoneVisible.value[id] = !isPhoneVisible.value[id];
+};
+
+const copyPhoneNumber = (phone) => {
+  navigator.clipboard.writeText(phone)
+    .then(() => alert("Số điện thoại đã được sao chép vào clipboard!"))
+    .catch((err) => console.error("Không thể sao chép số điện thoại:", err));
+};
 
 // Hàm lấy màu tag theo trạng thái ưu tiên
 const getColorTagByPriorityStatus = (priority_status) => {

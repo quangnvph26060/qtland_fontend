@@ -1,9 +1,9 @@
 import apiURL from "../constants";
 
 const listReportAPI = {
-	getAllPosts: async () => {
+	getAllReport: async () => {
 		try {
-			const response = await axios.get(`${apiURL.baseURL}/posts`);
+			const response = await axios.get(`${apiURL.baseURL}/report`);
 			return response.data;
 		} catch (error) {
 			console.log(error);
