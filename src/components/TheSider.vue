@@ -77,6 +77,13 @@
 						Danh sách khách hàng</a-menu-item
 					>					
 				</a-sub-menu>
+				<a-menu-item key="10">
+					<div class="flex align-items-center">
+						<router-link :to="{ name: 'admin-client-report' }"> </router-link>
+						<PieChartOutlined />
+						<span>Báo cáo dẫn khách</span>
+					</div>
+				</a-menu-item>
 				<a-menu-item key="9">
 					<div class="flex align-items-center">
 						<router-link :to="{ name: 'admin-config' }"> </router-link>

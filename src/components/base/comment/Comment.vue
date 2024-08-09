@@ -33,7 +33,7 @@
         <a-list
             item-layout="vertical"
             size="large"
-            :pagination="pagination"
+        
             :data-source="listData"
         >
             <template #renderItem="{ item }">
