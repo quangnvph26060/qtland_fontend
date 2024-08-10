@@ -80,7 +80,7 @@
 				<a-menu-item key="10">
 					<div class="flex align-items-center">
 						<router-link :to="{ name: 'admin-client-report' }"> </router-link>
-						<PieChartOutlined />
+						<i class="fas fa-file-alt" style="font-size: 17px; color:gray; padding-right: 5px"></i>
 						<span>Báo cáo dẫn khách</span>
 					</div>
 				</a-menu-item>
