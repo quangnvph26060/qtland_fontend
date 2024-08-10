@@ -148,7 +148,7 @@ async function updateTitle() {
             if (configData && configData.logo) {
                 bannerImage.src = configData.logo;
             } else {
-                bannerImage.src = '../assets/background/login_background.jpg'; h
+                bannerImage.src = '../assets/background/login_background.jpg'; 
             }
         }
 
@@ -157,7 +157,7 @@ async function updateTitle() {
             if (banner && configData.banner) {
                 banner.src = configData.banner;
             } else {
-                banner.src = '../assets/background/login_background.jpg'; h
+                banner.src = '../assets/background/login_background.jpg'; 
             }
         }
   }

@@ -98,7 +98,7 @@
                 class="list-search-selected w-100 flex mt-2"
                 v-if="props.type === 'user'"
             >
-                <div v-text="computedRangePrice"></div>
+                <!-- <div v-text="computedRangePrice"></div> -->
             </div>
         </div>
     </a-popover>

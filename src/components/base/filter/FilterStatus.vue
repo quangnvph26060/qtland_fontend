@@ -165,7 +165,7 @@ const handleSearchStatus = () => {
 		...router.currentRoute.value.query,
 		sold_status: soldStatus,
 		priority: priorityStatus,
-		classrank: classrank,
+		// classrank: classrank,
 	};
 
 	const routeName = props.type === "admin" ? "admin-post-list" : "post-list";

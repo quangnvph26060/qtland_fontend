@@ -1,7 +1,7 @@
 <template>
   <!-- begin::Tabs -->
   <a-tabs>
-    <a-tab-pane >
+    <a-tab-pane>
       <div class="tab-content">
         <div class="flex flex-col gap-lg-10">
           <Card title="Thông tin báo cáo" class="p-0 border-0">
@@ -19,9 +19,8 @@
               <InputBasic
                 title="Họ và tên"
                 placeholder="Nhập họ và tên"
-                  :value="data.name"
+                :value="data.name"
                 @input="handleInput('name', $event)"
-              
               />
 
               <InputBasic
@@ -54,18 +53,18 @@
                   class="form-control"
                 />
               </div>
-             <InputBasic
+              <InputBasic
                 title="Mã tin"
                 placeholder="Nhập mã tin"
                 :value="data.post_id"
                 @input="handleInput('post_id', $event)"
               />
 
-               <div class="flex-fill me-2 mt-3">
+              <div class="flex-fill me-2 mt-3">
                 <label class="required form-label">Thời gian dẫn khách</label>
                 <input
                   style="padding: 3px 11px"
-                   type="datetime-local"
+                  type="datetime-local"
                   :placeholder="placeholder"
                   :value="data.time ?? ''"
                   v-model="data.time"
@@ -134,7 +133,7 @@
               </div>
             </template>
           </Card>
-           <Card title="Phiếu yêu cầu dich" class="p-0 border-0">
+          <Card title="Phiếu yêu cầu dich" class="p-0 border-0">
             <template #content>
               <!-- begin::Input Group -->
               <div class="mb-2 h-100" v-if="!postId">
@@ -164,7 +163,11 @@
                   :footer="null"
                   @cancel="handleCancelCard"
                 >
-                  <img alt="example" style="width: 100%" :src="previewImageCard" />
+                  <img
+                    alt="example"
+                    style="width: 100%"
+                    :src="previewImageCard"
+                  />
                 </a-modal>
 
                 <!-- end::Dropzone -->
@@ -189,27 +192,41 @@
                   :footer="null"
                   @cancel="handleCancelCard"
                 >
-                  <img alt="example" style="width: 100%" :src="previewImageCard" />
+                  <img
+                    alt="example"
+                    style="width: 100%"
+                    :src="previewImageCard"
+                  />
                 </a-modal>
               </div>
             </template>
           </Card>
           <!-- end::Media Option -->
+          <div class="checkbox_report" style="display: flex; align-items:center; padding: 0px 24px">
+            <input  
+              type="checkbox"
+              v-model="isChecked"
+              @change="handleCheckboxChange"
+              style="transform: scale(1.2);"
+            />
+            <div style="padding-left: 10px; color:red; font-size: 16px" >
+              Bạn chắc chắn sẽ chịu trách nhiệm cho những báo cáo bạn đã ghi ở
+              trên không?
+            </div>
+          </div>
         </div>
       </div>
     </a-tab-pane>
   </a-tabs>
   <!-- end::Tabs -->
   <div class="flex justify-end mb-4">
-    <a-button type="default">Hủy</a-button>
+    <!-- <a-button type="default">Hủy</a-button> -->
 
     <a-button
       type="primary"
       class="mx-4"
       @click="onSubmit"
-      :disabled="
-        postId ? disabledSubmit : fileList.length < 1 || disabledSubmit
-      "
+     :disabled="!isChecked || (postId ? disabledSubmit : fileList.length < 1 || disabledSubmit)"
       :loading="uploading"
       >Lưu</a-button
     >
@@ -217,9 +234,9 @@
 </template>
   
   <script setup>
-import { reactive, ref, computed, onMounted    } from "vue";
+import { reactive, ref, computed, onMounted } from "vue";
 import { InboxOutlined, PlusOutlined } from "@ant-design/icons-vue";
-import { useRoute , useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import getReportAPI from "../../../api/report/getDetails";
 import getImageDetailAPI from "../../../api/images/getDetail";
@@ -232,34 +249,35 @@ import router from "../../../router";
 import auth from "../../../stores/auth";
 import getUserAPI from "../../../api/users/getUser";
 const store = auth();
-const user_id = ref('');
+const user_id = ref("");
 const visible = ref(false);
-onMounted( async ()=>{
-  const token = localStorage.getItem('token');
-  const userId  = await getUserAPI.getByToken(token);
-  if(userId){
+onMounted(async () => {
+  const token = localStorage.getItem("token");
+  const userId = await getUserAPI.getByToken(token);
+  if (userId) {
     user_id.value = userId.id;
   }
-})
+});
+const isChecked = ref(false);
 const route = useRoute();
 const router1 = useRouter();
 const disabledCommentTab = ref(false);
 
 const data = reactive({
-    id: "",
-    name: "",
-    phone: "",
-    cccd: "",
-    address: "",
-    birthday: "",
-    time: "",
-    description: "",
-    created_at: "",
-    post_id: "",
-   
-    post: "",
-    images: "",
-    card: ""
+  id: "",
+  name: "",
+  phone: "",
+  cccd: "",
+  address: "",
+  birthday: "",
+  time: "",
+  description: "",
+  created_at: "",
+  post_id: "",
+
+  post: "",
+  images: "",
+  card: "",
 });
 
 const disabledSubmit = computed(() => {
@@ -267,7 +285,7 @@ const disabledSubmit = computed(() => {
     data.name &&
     data.phone &&
     data.cccd &&
-    data.address && 
+    data.address &&
     data.post_id
   );
 });
@@ -301,9 +319,9 @@ const handlePreview = async (file) => {
   }
   previewImage.value = file.url || file.preview;
   previewVisible.value = true;
-  previewTitle.value = file.name || file.url.substring(file.url.lastIndexOf("/") + 1);
+  previewTitle.value =
+    file.name || file.url.substring(file.url.lastIndexOf("/") + 1);
 };
-
 
 const previewVisibleCard = ref(false);
 const previewImageCard = ref("");
@@ -320,7 +338,8 @@ const handlePreviewCard = async (file) => {
   }
   previewImageCard.value = file.url || file.preview;
   previewVisibleCard.value = true;
-  previewTitleCard.value = file.name || file.url.substring(file.url.lastIndexOf("/") + 1);
+  previewTitleCard.value =
+    file.name || file.url.substring(file.url.lastIndexOf("/") + 1);
 };
 // Xử lý input từ các input
 
@@ -329,12 +348,12 @@ const imagesData = ref([]);
 const fileList = ref([]);
 const fileListCard = ref([]);
 onMounted(() => {
-    if (postId) {
+  if (postId) {
     disabledCommentTab.value = false;
     const fetchPost = async () => {
       isLoading.value = true;
       const post = await getReportAPI.getById(postId);
-      
+
       Object.keys(data).forEach((key) => {
         data[key] = post[key];
       });
@@ -344,14 +363,14 @@ onMounted(() => {
           url: data.images[i].image,
         });
       }
- 
+
       for (let i = 0; i < data.card.length; i++) {
         fileListCard.value.push({
           ...data.card[i],
           url: data.card[i].image,
         });
       }
-    console.log(fileListCard.value);
+      console.log(fileListCard.value);
       console.log(fileList.value);
     };
 
@@ -391,7 +410,6 @@ function handleDrop(e) {
 const onSubmit = async () => {
   try {
     if (postId) {
-  
       const response = await updateReportAPI.update(postId, data);
 
       console.log(response);
@@ -412,7 +430,6 @@ const onSubmit = async () => {
 
           fileList.value = [];
           uploading.value = false;
-         
         } catch (error) {
           uploading.value = false;
           console.log(error);
@@ -426,7 +443,10 @@ const onSubmit = async () => {
         const filteredArrayCard = fileListCard.value.filter(
           (item) => item.id !== undefined
         );
-         formDataCard.append("deleted_file_card", JSON.stringify(filteredArrayCard));
+        formDataCard.append(
+          "deleted_file_card",
+          JSON.stringify(filteredArrayCard)
+        );
         formDataCard.append("report_id", response.data.id);
         try {
           const res = await createImageCardAPI.updateReportImage(formDataCard);
@@ -479,7 +499,6 @@ const onSubmit = async () => {
           }
           fileListCard.value = [];
 
-          
           // uploading.value = false;
           router1.push({ name: "client-report" });
         } catch (error) {
@@ -494,13 +513,13 @@ const onSubmit = async () => {
     console.error(error);
   }
 };
- const handleInput = (key, value) => {
-	if (key === "province" || key === "district" || key === "ward") {
-	  selectorAddress[key] = value;
-	  return;
-	}
-	data[key] = value;
-  };
+const handleInput = (key, value) => {
+  if (key === "province" || key === "district" || key === "ward") {
+    selectorAddress[key] = value;
+    return;
+  }
+  data[key] = value;
+};
 </script>
   
   <script>

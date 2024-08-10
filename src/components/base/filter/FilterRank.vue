@@ -17,10 +17,10 @@
             {{ item.name }}
           </a-button>
         </div>
-        <a-divider />
+        <a-divider style="margin: 5px 0px" />
         <div class="flex justify-between mt-2">
           <a-button @click="resetSelection">Đặt lại</a-button>
-          <a-button type="primary" @click="applySelection">Áp dụng</a-button>
+          <!-- <a-button type="primary" @click="applySelection">Áp dụng</a-button> -->
         </div>
       </div>
     </template>

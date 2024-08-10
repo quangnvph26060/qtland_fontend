@@ -11,7 +11,7 @@
 				  <InputSelect
 					:valueSelected="data.sold_status.toString()"
 					:options="soldStatus"
-					:title="'Trạng thái bán'"
+					:title="'Trạng thái thuê'"
 					@update:selected="handleInput('sold_status', $event)"
 				  />
 				</div>

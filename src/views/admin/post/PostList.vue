@@ -596,6 +596,7 @@ const fetchPostsList = async (filter, page = 1, pageSize = 10) => {
     user: "",
     comment: [],
     post_image: [],
+    user_info: "",
   });
   if (listPosts.length === 0) return;
   for (let i = 0; i < listPosts.length; i++) {
@@ -605,7 +606,7 @@ const fetchPostsList = async (filter, page = 1, pageSize = 10) => {
     });
 
     ans.created_at = getTimeSincePostCreation(post.created_at, true);
-    ans.name = post.user.name;
+     ans.name = post.user_info.name;
     ans.key = i + 1;
     posts.push({ ...ans });
   }

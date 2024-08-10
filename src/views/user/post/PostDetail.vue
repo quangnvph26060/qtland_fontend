@@ -70,7 +70,7 @@
             <div v-else style="display: flex; align-items: center">
               <div style="display: flex">
                 {{ data.user.phone }}
-                <span @click="copyPhoneNumber" class="copy-link">Sao chép</span>
+                <span @click="copyPhoneNumber" class="copy-link">Copy</span>
               </div>
               Mr.{{ data.user.name }}
             </div>
@@ -86,7 +86,7 @@
                   <br />
                   <span class="content">
                     {{ formatMoney(data.price) }}
-                    {{ getUnitLabel(data.unit) }}/tháng
+                    {{ getUnitLabel(data.unit) }}
                   </span>
                 </div>
               </div>
@@ -108,11 +108,12 @@
               <div class="flex-end feature flex ml-auto align-items-center">
                 <div>
                   <a-tooltip placement="top">
-                    <template #title>
-                      <span>Chia sẻ</span>
-                    </template>
+                    
                     <a-dropdown>
-                      <a-button class="border-none hover:bg-slate-200">
+                      <a-button
+                        class="border-none hover:bg-slate-200"
+                        v-bind:wave="false"
+                      >
                         <ShareAltOutlined :style="{ fontSize: '24px' }" />
                       </a-button>
                       <template #overlay>
@@ -131,20 +132,25 @@
 
                 <div>
                   <a-tooltip placement="top">
-                    <template #title>
-                      <span>Sao chép link</span>
-                    </template>
-                    <a-button class="border-none" @click="copyCurrentPageUrl()">
+                   
+                    <a-button
+                      class="border-none"
+                      @click="copyCurrentPageUrl()"
+                      v-bind:wave="false"
+                    >
                       <CopyOutlined :style="{ fontSize: '24px' }" />
                     </a-button>
                   </a-tooltip>
                 </div>
-                <div>
+                <div class="h">
                   <a-tooltip placement="top">
-                    <template #title>
-                      <span>Lưu tin</span>
-                    </template>
-                    <a-button class="border-none"  @click="toggleHeart" :style="heartStyle">
+                    
+                    <a-button
+                      class="border-none"
+                      @click="toggleHeart"
+                      :style="heartStyle"
+                      v-bind:wave="false"
+                    >
                       <HeartOutlined :style="{ fontSize: '24px' }" />
                     </a-button>
                   </a-tooltip>
@@ -185,7 +191,7 @@
               <template #label>
                 <i class="fas fa-money-bill-wave"></i> Mức giá</template
               >
-              {{ formatMoney(data.price) }} {{ getUnitLabel(data.unit) }}/tháng
+              {{ formatMoney(data.price) }} {{ getUnitLabel(data.unit) }}
             </a-descriptions-item>
             <a-descriptions-item
               v-if="data.direction !== null && data.direction !== undefined"
@@ -392,32 +398,58 @@
     </template>
   </SidebarFilter>
   <!-- end::Sidebar -->
- <div class="footer_mobi" style="position: fixed; bottom:0px; left: 0; background:#ffff;width: 100%; box-shadow: 0px -2px 2px rgba(203,203,203,0.25); ">
-        <div class="" style=" display: flex; flex: 1; justify-content:space-around ; padding: 5px 30px; gap:15px ">
-          
-          <a
-            target="_blank"
-            class="user_button-item"
-            :href="'https://zalo.me/' + data.user.phone"
-            style="margin-bottom: 10px; flex: 1; font-weight:600 !important"
-          >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
-              alt=""
-              class="user_button-img" style="margin-right: 10px"
-            />
-            Chat Zalo
-          </a>
-          <a
-            class="user_button-item mobile"
-            @click.prevent="copyToClipboard(data.user.phone)"
-            style="margin-bottom: 10px; font-weight:600 !important; flex: 1;align-items:center; background: #009BA1 !important; border: none;"
-          >
-            {{ data.user.phone }}
-          </a>
-          
-        </div>
- </div>
+  <div
+    class="footer_mobi"
+    style="
+      position: fixed;
+      bottom: 0px;
+      left: 0;
+      background: #ffff;
+      width: 100%;
+      box-shadow: 0px -2px 2px rgba(203, 203, 203, 0.25);
+    "
+  >
+    <div
+      class=""
+      style="
+        display: flex;
+        flex: 1;
+        justify-content: space-around;
+        padding: 5px 30px;
+        gap: 15px;
+      "
+    >
+      <a
+        target="_blank"
+        class="user_button-item"
+        :href="'https://zalo.me/' + data.user.phone"
+        style="margin-bottom: 10px; flex: 1; font-weight: 600 !important"
+      >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
+          alt=""
+          class="user_button-img"
+          style="margin-right: 10px"
+        />
+        Chat Zalo
+      </a>
+      <a
+        class="user_button-item mobile"
+        @click.prevent="copyToClipboard(data.user.phone)"
+        style="
+          margin-bottom: 10px;
+          font-weight: 600 !important;
+          flex: 1;
+          align-items: center;
+          background: #009ba1 !important;
+          border: none;
+        "
+      >
+        <i style="margin-right: 10px" class="fa-solid fa-phone-volume"></i>
+        {{ data.user.phone }}
+      </a>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -435,7 +467,7 @@ import getCommentDetailsAPI from "../../../api/comment/getDetails";
 import viewedPostsAPI from "../../../api/posts/viewed/index";
 import formatMoney from "../../../utils/formatMoney";
 import formatDateOnly from "../../../scripts/formatDateOnly";
-import copyCurrentPageUrl from "../../../scripts/copyText.js";
+// import copyCurrentPageUrl from "../../../scripts/copyText.js";
 import auth from "../../../stores/auth";
 const route = useRoute();
 const data = reactive({
@@ -468,26 +500,39 @@ const data = reactive({
 });
 
 const copyToClipboard = (text) => {
-  navigator.clipboard.writeText(text).then(() => {
-    message.success("Số điện thoại đã được sao chép!");
-  }).catch((err) => {
-    console.error("Không thể sao chép văn bản: ", err);
-    message.error("Không thể sao chép số điện thoại.");
-  });
+  if (
+    navigator.clipboard &&
+    typeof navigator.clipboard.writeText === "function"
+  ) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        message.success("Số điện thoại đã được sao chép!");
+      })
+      .catch((err) => {
+        console.error("Không thể sao chép văn bản: ", err);
+        message.error("Không thể sao chép số điện thoại.");
+      });
+  } else {
+    console.error("Trình duyệt không hỗ trợ API Clipboard");
+    message.error("Trình duyệt không hỗ trợ sao chép văn bản.");
+  }
 };
 
-// lưu 
+// lưu
 const isHearted = ref(false);
 
 // Hàm để thay đổi trạng thái của nút
 const toggleHeart = () => {
   isHearted.value = !isHearted.value;
+  if (isHearted.value) {
+    message.success("Lưu tin thành công!");
+  }
 };
 
 // Tính toán kiểu của nút dựa trên trạng thái
 const heartStyle = computed(() => ({
-  
-  color: isHearted.value ? 'red' : 'inherit'
+  color: isHearted.value ? "red" : "inherit",
 }));
 
 const isPhoneVisible = ref(false);
@@ -504,25 +549,92 @@ const togglePhoneVisibility = () => {
 
 // // Sao chép số điện thoại vào clipboard
 const copyPhoneNumber = () => {
-  navigator.clipboard
-    .writeText(datacall.value.user.phone)
-    .then(() => {
-      alert("Số điện thoại đã được sao chép vào clipboard!");
-    })
-    .catch((err) => {
-      console.error("Không thể sao chép số điện thoại:", err);
-    });
+  // navigator.clipboard
+  //   .writeText(datacall.value.user.phone)
+  //   .then(() => {
+  //     message.success("Số điện thoại đã được sao chép!");
+  //   })
+  //   .catch((err) => {
+  //     console.error("Không thể sao chép số điện thoại:", err);
+  //   });
+
+    if (typeof window !== "undefined") {
+    // Kiểm tra nếu đang chạy trong môi trường trình duyệt
+    if (
+      navigator &&
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function"
+    ) {
+      navigator.clipboard
+        .writeText(datacall.value.user.phone)
+        .then(() => {
+          message.success("Email đã được sao chép!");
+        })
+        .catch((err) => {
+          console.error("Không thể sao chép văn bản: ", err);
+          fallbackCopyTextToClipboard(datacall.value.user.phone);
+        });
+    } else {
+      fallbackCopyTextToClipboard(y);
+    }
+  } else {
+    console.error("Môi trường không hỗ trợ sao chép văn bản.");
+    message.error("Không thể sao chép số điện thoại.");
+  }
 };
 
 const copyEmail = () => {
-  navigator.clipboard
-    .writeText(datacall.value.user.email)
-    .then(() => {
-      alert("Email đã được sao chép vào clipboard!");
-    })
-    .catch((err) => {
-      console.error("Không thể sao chép email:", err);
-    });
+  if (typeof window !== "undefined") {
+    // Kiểm tra nếu đang chạy trong môi trường trình duyệt
+    if (
+      navigator &&
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function"
+    ) {
+      navigator.clipboard
+        .writeText(datacall.value.user.email)
+        .then(() => {
+          message.success("Email đã được sao chép!");
+        })
+        .catch((err) => {
+          console.error("Không thể sao chép văn bản: ", err);
+          fallbackCopyTextToClipboard(datacall.value.user.email);
+        });
+    } else {
+      fallbackCopyTextToClipboard(datacall.value.user.email);
+    }
+  } else {
+    console.error("Môi trường không hỗ trợ sao chép văn bản.");
+    message.error("Không thể sao chép số điện thoại.");
+  }
+};
+
+
+const copyCurrentPageUrl = () => {
+  const currentUrl = window.location.href;
+  if (typeof window !== "undefined") {
+    // Kiểm tra nếu đang chạy trong môi trường trình duyệt
+    if (
+      navigator &&
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function"
+    ) {
+      navigator.clipboard
+        .writeText(currentUrl)
+        .then(() => {
+          message.success("Sao chép thành công!");
+        })
+        .catch((err) => {
+          console.error("Không thể sao chép văn bản: ", err);
+          fallbackCopyTextToClipboard(currentUrl);
+        });
+    } else {
+      fallbackCopyTextToClipboard(currentUrl);
+    }
+  } else {
+    console.error("Môi trường không hỗ trợ sao chép văn bản.");
+    message.error("Không thể sao chép .");
+  }
 };
 
 const handleMenuClick = ({ key }) => {
@@ -610,14 +722,11 @@ const getDirectionLabel = (value) => {
 const unit = [
   {
     value: 1,
-    label: "m2",
+    label: "VND/tháng",
   },
+
   {
     value: 2,
-    label: "VND",
-  },
-  {
-    value: 3,
     label: "Thảo thuận",
   },
 ];
@@ -696,6 +805,21 @@ const fetchCommentsList = async (id) => {
 const onSubmitComment = () => {
   fetchCommentsList(postId);
 };
+
+const fallbackCopyTextToClipboard = (text) => {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.select();
+  try {
+    document.execCommand("copy");
+    message.success("Sao chép thành công!");
+  } catch (err) {
+    console.error("Không thể sao chép văn bản: ", err);
+    message.error("Không thể sao chép văn bản.");
+  }
+  document.body.removeChild(textArea);
+};
 </script>
 
 <script>
@@ -705,7 +829,6 @@ import Comment from "../../../components/base/comment/Comment.vue";
 import PostCarousel from "../../../components/base/carousel/PostCarousel.vue";
 import SidebarFilter from "../../../components/base/sidebar/SidebarFilter.vue";
 import { template } from "lodash-es";
-
 export default {
   components: {
     ThePageHeader,
@@ -837,6 +960,9 @@ div.ant-descriptions-title {
   letter-spacing: -0.2px;
   padding: 13px 15px;
   border-radius: 8px;
+}
+.ant-wave {
+  display: none !important;
 }
 
 .user_button-img {
@@ -979,5 +1105,12 @@ div.ant-descriptions-title {
   background: #f2f2f2;
   color: #999;
 }
+.feature button .ant-wave {
+  display: none;
+}
 
+div[style*="position: absolute;"] {
+  display: none !important;
+  z-index: -100;
+}
 </style>

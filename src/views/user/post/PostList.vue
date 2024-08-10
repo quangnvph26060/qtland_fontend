@@ -173,6 +173,7 @@ import router from "../../../router";
 import filterRange from "../../../stores/filterRange";
 import { gsap } from "gsap";
 import apiURL from "../../../api/constants";
+import { message } from "ant-design-vue";
 
 const text5 = ref(null);
 
@@ -378,9 +379,44 @@ const togglePhoneVisibility = (id) => {
 };
 
 const copyPhoneNumber = (phone) => {
-  navigator.clipboard.writeText(phone)
-    .then(() => alert("Số điện thoại đã được sao chép vào clipboard!"))
-    .catch((err) => console.error("Không thể sao chép số điện thoại:", err));
+   if (typeof window !== "undefined") {
+    // Kiểm tra nếu đang chạy trong môi trường trình duyệt
+    if (
+      navigator &&
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function"
+    ) {
+      navigator.clipboard
+        .writeText(phone)
+        .then(() => {
+          message.success("Sao chép thành công!");
+        })
+        .catch((err) => {
+          console.error("Không thể sao chép văn bản: ", err);
+          fallbackCopyTextToClipboard(phone);
+        });
+    } else {
+      fallbackCopyTextToClipboard(phone);
+    }
+  } else {
+    console.error("Môi trường không hỗ trợ sao chép văn bản.");
+    message.error("Không thể sao chép .");
+  }
+};
+
+const fallbackCopyTextToClipboard = (text) => {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.select();
+  try {
+    document.execCommand("copy");
+    message.success("Sao chép thành công!");
+  } catch (err) {
+    console.error("Không thể sao chép văn bản: ", err);
+    message.error("Không thể sao chép văn bản.");
+  }
+  document.body.removeChild(textArea);
 };
 
 // Hàm lấy màu tag theo trạng thái ưu tiên
