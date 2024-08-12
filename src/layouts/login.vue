@@ -235,8 +235,24 @@ const disabledLogin = computed(() => {
         display: flex;
         align-items: stretch;
     }
-    .layout_main_mobi input {
-                padding: 8px;
-            }
+
+}
+@media (max-width: 768px) {
+    .ant-form-item-control-input-content {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .ant-input {
+        width: 100%;
+    }
+
+    .ant-form-item {
+        margin: 0;
+    }
+
+    .ant-form-item-control-input {
+        margin: 0;
+    }
 }
 </style>
