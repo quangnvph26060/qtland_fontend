@@ -65,12 +65,19 @@
                                 },
                             ]"
                         >
-                            <a-input-password
+                            <a-input
+                                v-model:value="formState.password"
+                                type="password"
+                                placeholder="Mật khẩu"
+                                class="h-[40px]"
+                            >
+                            </a-input>
+                            <!-- <a-input-password
                                 v-model:value="formState.password"
                                 placeholder="Mật khẩu"
                                 class="h-[40px]"
                             >
-                            </a-input-password>
+                            </a-input-password> -->
                             <p
                                 class="m-0 text-[#ff4d4f] text-sm"
                                 v-if="authInfo"
@@ -236,23 +243,5 @@ const disabledLogin = computed(() => {
         align-items: stretch;
     }
 
-}
-@media (max-width: 768px) {
-    .ant-form-item-control-input-content {
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    .ant-input {
-        width: 100%;
-    }
-
-    .ant-form-item {
-        margin: 0;
-    }
-
-    .ant-form-item-control-input {
-        margin: 0;
-    }
 }
 </style>
