@@ -36,7 +36,7 @@
 				class="list-search-selected w-100 text-black flex mt-2"
 				v-if="props.type === 'user'"
 			>
-				<div v-text="computedAddress"></div>
+				<!-- <div v-text="computedAddress"></div> -->
 			</div>
 		</div>
 	</a-popover>

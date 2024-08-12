@@ -4,7 +4,7 @@
       <div class="flex flex-wrap align-items-center border-t-[1px] ml-auto mr-auto w-[100%]">
         <div class="menu-tabs col-12 d-flex justify-content-center" style="padding: 5px; max-width: 720px; ">
           <a-tabs :activeKey="activeKey" @change="handleTabChange" style=" font-weight: 600; ">
-            <a-tab-pane key="1" tab="Thông tin mô tả"  >
+            <a-tab-pane key="1" tab="Mô tả"  >
               <div class="tab-content" >
                 <!-- Add content or import component here -->
               </div>

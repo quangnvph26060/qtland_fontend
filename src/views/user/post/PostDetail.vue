@@ -42,10 +42,7 @@
 
         <!-- begin::Description -->
         <div class="description" id="features-section">
-          <a-descriptions
-            title="Thông tin mô tả"
-            :titleStyle="{ fontSize: '18px' }"
-          >
+          <a-descriptions title="Mô tả" :titleStyle="{ fontSize: '18px' }">
             <a-descriptions-item
               label=""
               class="select-all whitespace-pre-line"
@@ -60,10 +57,17 @@
               style="display: flex; align-items: center"
             >
               <div style="display: flex">
-                {{ maskedPhone }}
-                <span @click="togglePhoneVisibility" class="show-link"
-                  >Hiện</span
+                <!-- {{ maskedPhone }} -->
+                {{ data.user.phone }}
+                <!-- <span @click="togglePhoneVisibility" class="show-link"
+                  >Hiện</span> -->
+                <a
+                  :href="`tel:${data.user.phone}`"
+                  class="show-link"
+                  style="padding: 5px 13px; background: rgb(0, 155, 161);margin-left: 5px; border-radius: 5px"
                 >
+                  Gọi
+                </a>
               </div>
               Mr.{{ data.user.name }}
             </div>
@@ -106,6 +110,62 @@
                 </span>
               </div>
               <div class="flex-end feature flex ml-auto align-items-center">
+                <div>
+                  <a-tooltip placement="top">
+                    <a-dropdown>
+                      <a
+                        class="border-none hover:bg-slate-200"
+                        v-bind:wave="false"
+                      >
+                        <ShareAltOutlined :style="{ fontSize: '24px' }" />
+                      </a>
+                      <template #overlay>
+                        <a-menu @click="handleMenuClick">
+                          <a-menu-item key="facebook">
+                            <span>Chia sẻ lên Facebook</span>
+                          </a-menu-item>
+                          <a-menu-item key="zalo">
+                            <span>Chia sẻ lên Zalo</span>
+                          </a-menu-item>
+                          <a-menu-item
+                            class="border-none"
+                            @click="copyCurrentPageUrl()"
+                            v-bind:wave="false"
+                          >
+                            <span>Sao chép đường dẫn</span>
+                          </a-menu-item>
+                        </a-menu>
+                      </template>
+                    </a-dropdown>
+                  </a-tooltip>
+                </div>
+
+                <div>
+                  <a-tooltip placement="top">
+                    <a
+                      class="border-none"
+                      @click="copyCurrentPageUrl()"
+                      v-bind:wave="false"
+                    >
+                      <CopyOutlined :style="{ fontSize: '24px' }" />
+                    </a>
+                  </a-tooltip>
+                </div>
+                <div class="h">
+                  <a-tooltip placement="top">
+                    <a
+                      class="border-none"
+                      @click="toggleHeart"
+                      :style="heartStyle"
+                      v-bind:wave="false"
+                    >
+                      <HeartOutlined :style="{ fontSize: '24px' }" />
+                    </a>
+                  </a-tooltip>
+                </div>
+              </div>
+
+              <!-- <div class="flex-end feature flex ml-auto align-items-center">
                 <div>
                   <a-tooltip placement="top">
                     
@@ -155,7 +215,7 @@
                     </a-button>
                   </a-tooltip>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -255,7 +315,7 @@
               <template #label
                 ><i class="fas fa-percentage icon"></i>Hoa hồng</template
               >
-              {{ data.bonus }} %
+              {{ data.bonus }}%
             </a-descriptions-item>
             <a-descriptions-item
               v-if="
@@ -267,7 +327,7 @@
               <template #label
                 ><i class="fas fa-percentage icon"></i>Hoa hồng</template
               >
-              {{ data.bonusmonthly }}/tháng
+              {{ formatMoney(data.bonusmonthly) }} VND/tháng
             </a-descriptions-item>
             <a-descriptions-item
               v-if="data.rooms !== null && data.rooms !== undefined"
@@ -286,6 +346,42 @@
             >
               <template #label><i class="fas fa-toilet"></i>Số toilet</template>
               {{ data.bathrooms }}
+            </a-descriptions-item>
+
+            <a-descriptions-item
+              v-if="
+                data.priceservice !== null && data.priceservice !== undefined
+              "
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label
+                ><i class="fas fa-toilet"></i>Phí dịch vụ</template
+              >
+              {{ formatPrice(data.priceservice) }}
+              {{ getUnitLabel1(data.unit1) }}
+            </a-descriptions-item>
+
+            <a-descriptions-item
+              v-if="
+                data.priceElectricity !== null &&
+                data.priceElectricity !== undefined
+              "
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label><i class="fas fa-toilet"></i>Giá điện</template>
+              {{ formatPrice(data.priceElectricity) }}
+              {{ getUnitLabel2(data.unit2) }}
+            </a-descriptions-item>
+
+            <a-descriptions-item
+              v-if="data.pricewater !== null && data.pricewater !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label><i class="fas fa-toilet"></i>Giá nước</template>
+              {{ formatPrice(data.pricewater) }} {{ getUnitLabel3(data.unit3) }}
             </a-descriptions-item>
           </a-descriptions>
         </div>
@@ -307,6 +403,11 @@
               <span class="content">
                 {{ data.id }}
               </span>
+            </div>
+            <div>
+              <router-link :to="{ name: 'client-report-post-create-postId', params: { id: data.id } }">
+                  <a-button class=""> Thêm báo cáo</a-button>
+                </router-link>
             </div>
           </div>
         </div>
@@ -415,7 +516,7 @@
         display: flex;
         flex: 1;
         justify-content: space-around;
-        padding: 5px 30px;
+        padding: 10px 30px;
         gap: 15px;
       "
     >
@@ -423,7 +524,13 @@
         target="_blank"
         class="user_button-item"
         :href="'https://zalo.me/' + data.user.phone"
-        style="margin-bottom: 10px; flex: 1; font-weight: 600 !important"
+        style="
+          margin-bottom: 10px;
+          flex: 1;
+          font-weight: 600 !important;
+          padding: 0px 5px;
+          align-items: center;
+        "
       >
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
@@ -433,21 +540,89 @@
         />
         Chat Zalo
       </a>
-      <a
-        class="user_button-item mobile"
-        @click.prevent="copyToClipboard(data.user.phone)"
-        style="
-          margin-bottom: 10px;
-          font-weight: 600 !important;
-          flex: 1;
-          align-items: center;
-          background: #009ba1 !important;
-          border: none;
-        "
-      >
-        <i style="margin-right: 10px" class="fa-solid fa-phone-volume"></i>
-        {{ data.user.phone }}
-      </a>
+      <div style="position: relative; flex: 1">
+        <a
+          class="user_button-item mobile"
+          @click.prevent="showOptions = true"
+          style="
+            margin-bottom: 10px;
+            font-weight: 600 !important;
+            flex: 1;
+            align-items: center;
+            background: #009ba1 !important;
+            border: none;
+          "
+        >
+          <i style="margin-right: 10px" class="fa-solid fa-phone-volume"></i>
+          {{ data.user.phone }}
+        </a>
+
+        <!-- Overlay -->
+        <div
+          v-if="showOptions"
+          class="overlay"
+          @click="closeOptions"
+          style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+          "
+        >
+          <div
+            class="options-container"
+            style="
+              background: white;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+              text-align: center;
+              display: flex;
+              width: 80%;
+              gap: 10px;
+            "
+          >
+            <button
+              @click="copyPhone"
+              style="
+                display: block;
+                width: 100%;
+                padding: 10px;
+                background: #009ba1;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-weight: 600;
+                cursor: pointer;
+              "
+            >
+              Sao chép
+            </button>
+            <button
+              @click="callPhone"
+              style="
+                display: block;
+                width: 100%;
+                padding: 10px;
+                background: #4caf50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-weight: 600;
+                cursor: pointer;
+              "
+            >
+              Gọi
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -468,6 +643,11 @@ import viewedPostsAPI from "../../../api/posts/viewed/index";
 import formatMoney from "../../../utils/formatMoney";
 import formatDateOnly from "../../../scripts/formatDateOnly";
 // import copyCurrentPageUrl from "../../../scripts/copyText.js";
+
+function formatPrice(value) {
+  // return value.toLocaleString('vi-VN');
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 import auth from "../../../stores/auth";
 const route = useRoute();
 const data = reactive({
@@ -488,6 +668,9 @@ const data = reactive({
   comment: [],
   post_image: [],
   unit: "",
+  unit1: "",
+  unit2: "",
+  unit3: "",
   rooms: "",
   bathrooms: "",
   floors: "",
@@ -497,27 +680,37 @@ const data = reactive({
   stairs: "",
   bonus: "",
   bonusmonthly: "",
+  priceservice: "",
+  priceElectricity: "",
+  pricewater: "",
 });
 
-const copyToClipboard = (text) => {
-  if (
-    navigator.clipboard &&
-    typeof navigator.clipboard.writeText === "function"
-  ) {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        message.success("Số điện thoại đã được sao chép!");
-      })
-      .catch((err) => {
-        console.error("Không thể sao chép văn bản: ", err);
-        message.error("Không thể sao chép số điện thoại.");
-      });
-  } else {
-    console.error("Trình duyệt không hỗ trợ API Clipboard");
-    message.error("Trình duyệt không hỗ trợ sao chép văn bản.");
-  }
-};
+const authStore = auth();
+
+const userId = authStore.getUser.id;
+
+const showOptions = ref(false);
+
+function closeOptions() {
+  showOptions.value = false;
+}
+
+function copyPhone() {
+  navigator.clipboard
+    .writeText(data.user.phone)
+    .then(() => {
+      message.success("Số điện thoại đã được sao chép!");
+      closeOptions();
+    })
+    .catch((err) => {
+      alert("Failed to copy phone number.");
+    });
+}
+
+function callPhone() {
+  window.location.href = `tel:${data.user.phone}`;
+  closeOptions();
+}
 
 // lưu
 const isHearted = ref(false);
@@ -558,7 +751,7 @@ const copyPhoneNumber = () => {
   //     console.error("Không thể sao chép số điện thoại:", err);
   //   });
 
-    if (typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
     // Kiểm tra nếu đang chạy trong môi trường trình duyệt
     if (
       navigator &&
@@ -609,9 +802,8 @@ const copyEmail = () => {
   }
 };
 
-
 const copyCurrentPageUrl = () => {
-  const currentUrl = window.location.href;
+  const title = data.title;
   if (typeof window !== "undefined") {
     // Kiểm tra nếu đang chạy trong môi trường trình duyệt
     if (
@@ -620,9 +812,9 @@ const copyCurrentPageUrl = () => {
       typeof navigator.clipboard.writeText === "function"
     ) {
       navigator.clipboard
-        .writeText(currentUrl)
+        .writeText(title)
         .then(() => {
-          message.success("Sao chép thành công!");
+          message.success("Sao chép nội dung bài viết thành công!");
         })
         .catch((err) => {
           console.error("Không thể sao chép văn bản: ", err);
@@ -638,10 +830,9 @@ const copyCurrentPageUrl = () => {
 };
 
 const handleMenuClick = ({ key }) => {
-  const localUrl = "http://example.com"; // Thay thế bằng URL công khai của bạn
+  const localUrl = "http://example.com";
   const currentUrl = window.location.href;
 
-  // Sử dụng URL tạm thời nếu đang ở localhost
   const urlToShare = currentUrl.includes("localhost") ? localUrl : currentUrl;
 
   if (
@@ -721,17 +912,59 @@ const getDirectionLabel = (value) => {
 
 const unit = [
   {
-    value: 1,
-    label: "VND/tháng",
+    value: "1",
+    label: "VND/Tháng",
   },
-
   {
-    value: 2,
-    label: "Thảo thuận",
+    value: "2",
+    label: "VND/m2",
+  },
+];
+const unit1 = [
+  {
+    value: "1",
+    label: "VND/m2",
+  },
+  {
+    value: "2",
+    label: "Thỏa thuận",
+  },
+];
+const unit2 = [
+  {
+    value: "1",
+    label: "VND/Số",
+  },
+  {
+    value: "2",
+    label: "Thỏa thuận",
+  },
+];
+
+const unit3 = [
+  {
+    value: "1",
+    label: "VND/Số",
+  },
+  {
+    value: "2",
+    label: "Thỏa thuận",
   },
 ];
 const getUnitLabel = (value) => {
-  const unitObj = unit.find((item) => item.value === value);
+  const unitObj = unit.find((item) => item.value == value);
+  return unitObj ? unitObj.label : "";
+};
+const getUnitLabel1 = (value) => {
+  const unitObj = unit1.find((item) => item.value == value);
+  return unitObj ? unitObj.label : "";
+};
+const getUnitLabel2 = (value) => {
+  const unitObj = unit2.find((item) => item.value == value);
+  return unitObj ? unitObj.label : "";
+};
+const getUnitLabel3 = (value) => {
+  const unitObj = unit3.find((item) => item.value == value);
   return unitObj ? unitObj.label : "";
 };
 
@@ -740,10 +973,6 @@ const comments = ref([]);
 const isLoading = ref(false);
 
 const postId = route.params.id;
-
-const authStore = auth();
-
-const userId = authStore.getUser.id;
 
 const priceChange = ref("up");
 
