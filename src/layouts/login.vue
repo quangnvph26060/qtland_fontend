@@ -1,5 +1,5 @@
 <template >
-    <div class="flex flex-col-reverse lg:flex-row w-screen h-screen">
+    <div class="flex flex-col-reverse lg:flex-row w-screen h-screen layout_main_mobi">
         <!-- begin::Body -->
         <div class="flex bg-white lg:w-1/2 h-100 ">
             <!-- begin::Form -->
@@ -228,5 +228,15 @@ const disabledLogin = computed(() => {
 
 .register-form-button {
     width: 100%;
+}
+@media (max-width: 768px) {
+    .layout_main_mobi {
+        padding: 20px;
+        display: flex;
+        align-items: stretch;
+    }
+    .layout_main_mobi input {
+                padding: 8px;
+            }
 }
 </style>
