@@ -7,7 +7,12 @@
       <div class="flex flex-col w-[300px]">
         <div class="flex flex-col">
           <a-button
-            v-for="item in priorityrank"
+            v-for="item in priorityrank.filter(
+              (item) =>
+                store.user.role_id == 4 ||
+                (store.user.role_id == 3 &&
+                  (item.value === 3 || item.value === 4))
+            )"
             :key="item.value"
             :class="{ selected: selectedPriority === item.value }"
             @click="selectClassRank(item.value)"
@@ -25,9 +30,28 @@
       </div>
     </template>
     <div class="filter-item-content filterrank">
-      <div class="flex justify-between filterrank" style="padding: 0px; padding-left: 5px ;">
+      <div
+        class="flex justify-between filterrank"
+        style="padding: 0px; padding-left: 5px"
+      >
         <div>Văn phòng</div>
-       <div class="mr-2 flex align-items-center"><span role="img" aria-label="down" class="anticon anticon-down"><svg focusable="false" data-icon="down" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896"><path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path></svg><!----></span></div>
+        <div class="mr-2 flex align-items-center">
+          <span role="img" aria-label="down" class="anticon anticon-down"
+            ><svg
+              focusable="false"
+              data-icon="down"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+              viewBox="64 64 896 896"
+            >
+              <path
+                d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+              ></path></svg
+            ><!----></span
+          >
+        </div>
       </div>
     </div>
   </a-popover>
@@ -37,7 +61,8 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { filterRange } from "../../../stores/filterRange";
-
+import auth from "../../../stores/auth";
+const store = auth();
 // Dữ liệu các hạng văn phòng
 const priorityrank = [
   { value: 1, name: "Văn phòng hạng A" },
@@ -68,10 +93,9 @@ const selectClassRank = (classrank) => {
 // Hàm đặt lại lựa chọn
 const resetSelection = () => {
   storeclass.setClassRank(null);
-  selectedPriority.value = null; 
+  selectedPriority.value = null;
   router.push({
     name: "post-list",
-    
   });
 };
 

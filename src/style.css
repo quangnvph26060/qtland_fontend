@@ -301,6 +301,12 @@ a:focus {
 .footer_mobi {
     display: none;
 }
+.short-info .feature>div{
+    padding: 5px 25px;
+}
+.demo>div>div:first-child{
+    margin-bottom: 10px;
+}
 
 @media (max-width: 768px) {
     .hide-on-mobile {
@@ -396,7 +402,7 @@ a:focus {
     }
 
     .short-info .feature div:first-child {
-        margin-left: 15px;
+        margin-left: 30px;
     }
 
     .short-info .feature div:nth-child(2) {
@@ -405,7 +411,7 @@ a:focus {
 
     .short-info .feature div:last-child {
         margin-left: 20px;
-        padding: 2px 3px;
+        padding: 2px 30px !important;
     }
 
     .feature {
@@ -503,12 +509,37 @@ a:focus {
     .checkbox_report {
         align-items: baseline !important;
     }
+    .checkbox_sold{
+        margin-left: 0px !important;
+    }
+   
 
 
 }
 
 @media (max-width: 400px) {
-    .feature>div {
-        padding: 0px 10px !important;
+
+    
+    .short-info .feature div {
+        padding: 3px 30px;
+        border: 1px solid gray;
+        border-radius: 10px;
     }
+
+    .short-info .feature div:first-child {
+        margin-left: 10px;
+    }
+
+    .short-info .feature div:nth-child(2) {
+        margin-left: 20px;
+    }
+
+    .short-info .feature div:last-child {
+        margin-left: 20px;
+        padding: 3x 30px !important;
+    }
+    .short-info .feature div a>span{
+        font-size: 20px !important;
+    }
+
 }

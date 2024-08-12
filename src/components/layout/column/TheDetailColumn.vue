@@ -425,7 +425,7 @@
 					</div>
   
 					<!-- Thang bộ -->
-					<div class="flex-fill me-2">
+					<!-- <div class="flex-fill me-2">
 					  <label>Thang bộ:</label>
 					  <div class="form-check">
 						<input
@@ -455,7 +455,7 @@
 						  Không
 						</label>
 					  </div>
-					</div>
+					</div> -->
 				  </div>
 				</div>
 			  </template>
@@ -582,11 +582,11 @@
   const unit = [
 	{
 	  value: "1",
-	  label: "VND/m2",
+	  label: "VND/Tháng",
 	},
 	{
 	  value: "2",
-	  label: "Thỏa thuận",
+	  label: "VND/m2",
 	},
   ];
   const unit1 = [
@@ -659,10 +659,6 @@
 	{
 	  value: "tăng chào",
 	  label: "Tăng chào",
-	},
-	{
-	  value: "quy hoạch",
-	  label: "Quy hoạch",
 	},
 	{
 	  value: "giảm chào",

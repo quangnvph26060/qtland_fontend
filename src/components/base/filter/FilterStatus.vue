@@ -24,7 +24,7 @@
 	>
 		<div class="mt-3 w-50">
 			<div class="flex flex-col">
-				<div class="text-md font-semibold mb-3">Trạng thái bán</div>
+				<div class="text-md font-semibold mb-3">Trạng thái thuê</div>
 				<div class="flex flex-wrap">
 					<label
 						class="custom-checkbox me-2 mt-2"
@@ -87,12 +87,12 @@ const filterRangeStore = filterRange();
 const filterList = reactive([
 	{
 		value: 0,
-		name: "Chưa bán",
+		name: "Chưa thuê",
 		isChecked: false,
 	},
 	{
 		value: 1,
-		name: "Đã bán",
+		name: "Đã thuê",
 		isChecked: false,
 	},
 ]);
@@ -106,11 +106,6 @@ const priorityList = reactive([
 	{
 		value: "giảm chào",
 		name: "Giảm chào",
-		isChecked: false,
-	},
-	{
-		value: "quy hoạch",
-		name: "Quy hoạch",
 		isChecked: false,
 	},
 	{
@@ -164,7 +159,7 @@ const handleSearchStatus = () => {
 	const query = {
 		...router.currentRoute.value.query,
 		sold_status: soldStatus,
-		priority: priorityStatus,
+		priority_status: priorityStatus,
 		// classrank: classrank,
 	};
 
@@ -187,7 +182,7 @@ const resetFilters = () => {
 	const query = {
 		...router.currentRoute.value.query,
 		sold_status: null,
-		priority: null,
+		priority_status: null,
 		classrank : null
 	};
 

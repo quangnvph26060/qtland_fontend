@@ -54,7 +54,7 @@
         <template #renderItem="{ item, index }">
           <div :key="item.id" class="w-full md:w-1/4 p-2 post-container">
             <div
-              class="border rounded-lg overflow-hidden flex flex-column  h-full post-item"
+              class="border rounded-lg overflow-hidden flex flex-column h-full post-item"
             >
               <router-link
                 :to="{ name: 'post-detail', params: { id: item.id } }"
@@ -90,55 +90,75 @@
                     {{ item.address }}
                   </div>
                   <a-divider style="margin-bottom: 8px; margin-top: 5px" />
-                
                 </div>
-              </router-link>  
-             <div class="demo" style="padding:5px 15px">
-
-               <div class="flex items-baseline justify-content-between">
-                    <div style="display: flex;">
-                      <a-avatar
-                        class="me-2"
-                        :style="{
-                          backgroundColor: '#ADC178',
-                          verticalAlign: 'middle',
-                        }"
-                      >
-                        {{ item.user_info.name[0] }}
-                      </a-avatar>
-                      <div class="flex flex-col">
-                        <div>{{ item.user_info.name }}</div>
-                        <div style="font-size: 13px; color: gray">
-                          {{ item.created_at }}
-                        </div>
+              </router-link>
+              <div class="demo" style="padding: 5px 15px">
+                <div class="flex items-baseline justify-content-between" style="flex-wrap: wrap">
+                  <div style="display: flex">
+                    <a-avatar
+                      class="me-2"
+                      :style="{
+                        backgroundColor: '#ADC178',
+                        verticalAlign: 'middle',
+                      }"
+                    >
+                      {{ item.user_info.name[0] }}
+                    </a-avatar>
+                    <div class="flex flex-col">
+                      <div>{{ item.user_info.name }}</div>
+                      <div style="font-size: 13px; color: gray">
+                        {{ item.created_at }}
                       </div>
-                     
                     </div>
-                     <div id="lienhe_phone" style="color: #ffff; font-weight: 600" >                     
-                        <div
-                         v-if="!isPhoneVisible[item.id]"
-                          style="display: flex; align-items: center; margin:0px"
-                        >
-                          <div style="display: flex; background: #009BA1; align-items: center; padding: 0px 5px; border-radius: 5px" > 
-                            {{ item.user_info.phone .replace(/(\d{7})\d{3}/, '$1***') }}
-                            <span
-                              @click="togglePhoneVisibility(item.id)"
-                              class="show-link"
-                              >.Hiện</span
-                            >
-                          </div>                
-                        </div>
-                        <div v-else style="display: flex;align-items: center;; margin:0px;  background: #009BA1; padding: 0px 5px; border-radius: 5px">
-                          <div style="display: flex ; align-items: center; ">
-                            {{ item.user_info.phone }}
-                            <span @click="copyPhoneNumber(item.user_info.phone)" class="copy-link"
-                              >.Copy</span
-                            >
-                          </div>
-                        </div>
+                  </div>
+                  <div id="lienhe_phone" style="color: #ffff; font-weight: 600">
+                    <div
+                      v-if="!isPhoneVisible[item.id]"
+                      style="display: flex; align-items: center; margin: 0px"
+                    >
+                      <div @click="copyPhoneNumber(item.user_info.phone)"
+                        style="
+                          display: flex;
+                          background: #009ba1;
+                          align-items: center;
+                          padding: 5px 10px;
+                          border-radius: 5px;
+                        "
+                      >
+                      <i style="padding: 0px 10px 0px 0px" class="fa-solid fa-phone"></i>{{ item.user_info.phone }}
+                        <!-- {{
+                          item.user_info.phone.replace(/(\d{7})\d{3}/, "$1***")
+                        }} -->
+                        <!-- <span
+                          @click="togglePhoneVisibility(item.id)"
+                          class="show-link"
+                          >.Hiện</span
+                        > -->
                       </div>
+                    </div>
+                    <div
+                      v-else
+                      style="
+                        display: flex;
+                        align-items: center;
+                        margin: 0px;
+                        background: #009ba1;
+                        padding: 0px 5px;
+                        border-radius: 5px;
+                      "
+                    >
+                      <div style="display: flex; align-items: center">
+                        {{ item.user_info.phone }}
+                        <span
+                          @click="copyPhoneNumber(item.user_info.phone)"
+                          class="copy-link"
+                          >.Copy</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-             </div>
             </div>
           </div>
         </template>
@@ -165,7 +185,7 @@ import {
   onBeforeUnmount,
   onMounted,
   nextTick,
-  computed 
+  computed,
 } from "vue";
 import formatMoney from "../../../utils/formatMoney";
 import auth from "../../../stores/auth";
@@ -252,10 +272,6 @@ const options1 = ref([
     label: "Tăng chào",
   },
   {
-    value: "quy hoạch",
-    label: "Quy hoạch",
-  },
-  {
     value: "giảm chào",
     label: "Giảm chào",
   },
@@ -285,7 +301,86 @@ const datacall = ref({
   },
 });
 
+// const fetchPostsFilter = async (
+//   filter,
+//   page = 1,
+//   pageSize = 10,
+//   priority_status = "all"
+// ) => {
+//   isLoading.value = true;
+//   data.value = [];
 
+//   let listPosts;
+//   let res;
+
+//   res = await listPostsAPI.getPostByFilter({
+//     ...filter,
+//     page: pageFilter.value,
+//     pageSize: pageSizeFilter.value,
+//     priority_status: value1.value,
+//   });
+//   listPosts = res.data;
+
+//   const ans = reactive({
+//     id: "",
+//     title: "",
+//     description: "",
+//     price: "",
+//     direction: "",
+//     area: "",
+//     address: "",
+//     created_at: "",
+//     views_count: 0,
+//     sold_status: "",
+//     status_id: "",
+//     priority_status: "",
+//     classrank: "",
+//     user: "",
+//     comment: [],
+//     post_image: [],
+//     user_info: "",
+//     user_id: ""
+//   });
+
+   
+//   const posts = [];
+//   if (listPosts.length === 0) {
+//     isLoading.value = false;
+//     return;
+//   }
+//   for (let i = 0; i < listPosts.length; i++) {
+//     const post = listPosts[i];
+//     if (post && posts.user_info) {
+//     datacall.value.user.phone = post.user_info.phone;
+//     datacall.value.user.name = post.user_info.name;
+//     datacall.value.user.email = post.user_info.email;
+//   }
+  
+//     Object.keys(ans).forEach((key) => {
+//       ans[key] = post[key];
+//     });
+//     ans.created_at = getTimeSincePostCreation(post.created_at);
+//     posts.push({ ...ans });
+//   }
+
+//   data.value = posts;
+
+//   // if (role_id == 4) {
+//   //   data.value = posts.filter((item) => item.price < 20000000000);
+//   // }
+
+//   // if (role_id == 2) {
+//   // 	data.value = posts.filter(
+//   // 		(item) => {
+//   // 			item.user.id == store.user.id || item.user.role_id == 1
+//   //         }
+//   // 	);
+//   // }
+
+//   total.value = res.total;
+
+//   isLoading.value = false;
+// };
 const fetchPostsFilter = async (
   filter,
   page = 1,
@@ -324,45 +419,45 @@ const fetchPostsFilter = async (
     comment: [],
     post_image: [],
     user_info: "",
+    user_id: ""
   });
 
-   
   const posts = [];
   if (listPosts.length === 0) {
     isLoading.value = false;
     return;
   }
+  
   for (let i = 0; i < listPosts.length; i++) {
     const post = listPosts[i];
-    if (post && posts.user_info) {
-    datacall.value.user.phone = post.user_info.phone;
-    datacall.value.user.name = post.user_info.name;
-    datacall.value.user.email = post.user_info.email;
-  }
+    
+    // Nếu `post.user_info` tồn tại, cập nhật thông tin người dùng
+    if (post && post.user_info) {
+      datacall.value.user.phone = post.user_info.phone;
+      datacall.value.user.name = post.user_info.name;
+      datacall.value.user.email = post.user_info.email;
+    }
   
+    // Sao chép thông tin bài viết vào `ans`
     Object.keys(ans).forEach((key) => {
       ans[key] = post[key];
     });
     ans.created_at = getTimeSincePostCreation(post.created_at);
-    posts.push({ ...ans });
+
+    // Điều kiện lọc bài viết dựa trên `role_id`
+    if (store.user.role_id == 2) {
+      // Chỉ thêm bài viết của người dùng hiện tại
+      if (post.user_id === store.user.id) {
+        posts.push({ ...ans });
+      }
+    } else {
+      // Thêm tất cả bài viết nếu `role_id` khác 2
+      posts.push({ ...ans });
+    }
   }
 
   data.value = posts;
-
-  if (role_id == 4) {
-    data.value = posts.filter((item) => item.price < 20000000000);
-  }
-
-  // if (role_id == 2) {
-  // 	data.value = posts.filter(
-  // 		(item) => {
-  // 			item.user.id == store.user.id || item.user.role_id == 1
-  //         }
-  // 	);
-  // }
-
   total.value = res.total;
-
   isLoading.value = false;
 };
 
@@ -379,7 +474,7 @@ const togglePhoneVisibility = (id) => {
 };
 
 const copyPhoneNumber = (phone) => {
-   if (typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
     // Kiểm tra nếu đang chạy trong môi trường trình duyệt
     if (
       navigator &&

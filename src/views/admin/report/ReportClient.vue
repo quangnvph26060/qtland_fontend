@@ -3,117 +3,130 @@
     <!-- <div class="w-full">
 			<ThePageHeader />
 		</div> -->
-    
+
     <!-- begin::Main Content -->
     <div class="reportlisst">
-      <a-tabs >
-        <a-tab-pane   class="space-y-5">
-          <div style="display: flex;align-items: center;justify-content: space-between">
-            <div><h2 style="margin:0; padding-left:10px">Danh sách báo cáo </h2></div>
-           
+      <a-tabs>
+        <a-tab-pane class="space-y-5">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div>
+              <h2 style="margin: 0; padding-left: 10px">Danh sách báo cáo</h2>
+            </div>
           </div>
-          
-           <a-table
-        :data-source="data"
-        :columns="columns"
-        :scroll="{ x: 1000 }"
-        :dataSource="data"
-        :rowKey="(record) => record.id"
-        :pagination="pagination"
-        :expand-column-width="20"
-        id="main-table"
-      >      
-        <template
-          #customFilterDropdown="{
-            setSelectedKeys,
-            selectedKeys,
-            confirm,
-            clearFilters,
-            column,
-          }"
-        >
-          <div style="padding: 8px">
-            <a-input
-              ref="searchInput"
-              :placeholder="`Search ${column.dataIndex}`"
-              :value="selectedKeys[0]"
-              style="width: 188px; margin-bottom: 8px; display: block"
-              @change="
-                (e) => setSelectedKeys(e.target.value ? [e.target.value] : [])
-              "
-              @pressEnter="
-                handleSearch(selectedKeys, confirm, column.dataIndex)
-              "
-            />
-            <a-button
-              type="primary"
-              size="small"
-              style="width: 90px; margin-right: 8px"
-              @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
-            >
-              <template #icon><SearchOutlined /></template>
-              Tìm
-            </a-button>
-            <a-button
-              size="small"
-              style="width: 90px"
-              @click="handleReset(clearFilters, column.dataIndex)"
-            >
-              Đặt lại
-            </a-button>
-          </div>
-        </template>
-        <template #customFilterIcon="{ filtered }">
-          <search-outlined
-            :style="{
-              color: filtered ? '#108ee9' : undefined,
-            }"
-          />
-        </template>
-        <template #bodyCell="{ text, column, record }">
-          <span
-            v-if="state.searchText && state.searchedColumn === column.dataIndex"
+
+          <a-table
+            :data-source="data"
+            :columns="columns"
+            :scroll="{ x: 1000 }"
+            :dataSource="data"
+            :rowKey="(record) => record.id"
+            :pagination="pagination"
+            :expand-column-width="20"
+            id="main-table"
           >
             <template
-              v-for="(fragment, i) in text
-                .toString()
-                .split(
-                  new RegExp(
-                    `(?<=${state.searchText})|(?=${state.searchText})`,
-                    'i'
-                  )
-                )"
+              #customFilterDropdown="{
+                setSelectedKeys,
+                selectedKeys,
+                confirm,
+                clearFilters,
+                column,
+              }"
             >
-              <mark
-                v-if="fragment.toLowerCase() === state.searchText.toLowerCase()"
-                :key="i"
-                class="highlight"
-              >
-                {{ fragment }}
-              </mark>
-              <template v-else>{{ fragment }}</template>
-            </template>
-          </span>
-          <template v-if="column.key === 'detail' && authStore.user.role_id === 1">
-            <div style="display: flex; align-items: center">
-              <router-link
-                :to="{
-                  name: 'admin-client-report-detail',
-                  params: { id: record.id },
-                }"
-              >
-                <i class="fa-solid fa-pen-to-square"></i>
-              </router-link>
-              <div
-                style="display: flex; margin-left: 15px"
-                @click="showConfirmDelete(record.id)"
-              >
-                <i class="fa-solid fa-trash"></i>
+              <div style="padding: 8px">
+                <a-input
+                  ref="searchInput"
+                  :placeholder="`Search ${column.dataIndex}`"
+                  :value="selectedKeys[0]"
+                  style="width: 188px; margin-bottom: 8px; display: block"
+                  @change="
+                    (e) =>
+                      setSelectedKeys(e.target.value ? [e.target.value] : [])
+                  "
+                  @pressEnter="
+                    handleSearch(selectedKeys, confirm, column.dataIndex)
+                  "
+                />
+                <a-button
+                  type="primary"
+                  size="small"
+                  style="width: 90px; margin-right: 8px"
+                  @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
+                >
+                  <template #icon><SearchOutlined /></template>
+                  Tìm
+                </a-button>
+                <a-button
+                  size="small"
+                  style="width: 90px"
+                  @click="handleReset(clearFilters, column.dataIndex)"
+                >
+                  Đặt lại
+                </a-button>
               </div>
-            </div>
-            
-          </template>
-          <!-- <template v-else-if="column.dataIndex === 'sold_status'">
+            </template>
+            <template #customFilterIcon="{ filtered }">
+              <search-outlined
+                :style="{
+                  color: filtered ? '#108ee9' : undefined,
+                }"
+              />
+            </template>
+            <template #bodyCell="{ text, column, record }">
+              <span
+                v-if="
+                  state.searchText && state.searchedColumn === column.dataIndex
+                "
+              >
+                <template
+                  v-for="(fragment, i) in text
+                    .toString()
+                    .split(
+                      new RegExp(
+                        `(?<=${state.searchText})|(?=${state.searchText})`,
+                        'i'
+                      )
+                    )"
+                >
+                  <mark
+                    v-if="
+                      fragment.toLowerCase() === state.searchText.toLowerCase()
+                    "
+                    :key="i"
+                    class="highlight"
+                  >
+                    {{ fragment }}
+                  </mark>
+                  <template v-else>{{ fragment }}</template>
+                </template>
+              </span>
+              <template
+                v-if="column.key === 'detail' && authStore.user.role_id === 1"
+              >
+                <div style="display: flex; align-items: center">
+                  <router-link
+                    :to="{
+                      name: 'admin-client-report-detail',
+                      params: { id: record.id },
+                    }"
+                  >
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </router-link>
+                  <div
+                    style="display: flex; margin-left: 15px"
+                    @click="showConfirmDelete(record.id)"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </div>
+                </div>
+              </template>
+              <!-- <template v-else-if="column.dataIndex === 'sold_status'">
             <div class="flex">
               <a-tag
                 style="width: 70px"
@@ -132,18 +145,14 @@
               </a-tag>
             </div>
           </template> -->
-        </template>
-      </a-table>
-        
+            </template>
+          </a-table>
         </a-tab-pane>
-       
       </a-tabs>
-      
     </div>
-     <!-- <div class="my-5 ml-auto mr-auto">
+    <!-- <div class="my-5 ml-auto mr-auto">
             <a-pagination :total="10" show-less-items> </a-pagination>
           </div> -->
-    
   </div>
 </template>
 
@@ -193,7 +202,7 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
     column: dataIndex,
     text: searchText,
   });
-}
+};
 const columns = [
   {
     title: "Họ tên",
@@ -233,8 +242,7 @@ const columns = [
     key: "post_id",
     width: 80,
     customFilterDropdown: true,
-    onFilter: (value, record) =>
-       record.post_id.toString().includes(value),
+    onFilter: (value, record) => record.post_id.toString().includes(value),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => {
@@ -243,22 +251,39 @@ const columns = [
       }
     },
   },
-  
+  ,
+  {
+    title: "Tiêu dề tin",
+    dataIndex: ["post", "title"],
+    key: "post.title",
+    width: 150,
+    customFilterDropdown: true,
+    onFilter: (value, record) => record.post.title.toString().includes(value),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
+  },
+
   {
     title: "Thời gian dẫn khách",
     dataIndex: "time",
     key: "time",
     width: 120,
   },
-   {
+  {
     title: "Ngàu tạo",
     dataIndex: "created_at",
     key: "created_at",
     width: 120,
+    
   },
   {
     title: "Người tạo",
-    dataIndex: ["user", "name"],  
+    dataIndex: ["user", "name"],
     key: "user.name",
     width: 120,
     customFilterDropdown: true,
@@ -290,7 +315,7 @@ const handleReset = (clearFilters, dataIndex) => {
     (condition) => condition.column !== dataIndex
   );
 
- fetchPostByUser(authStore.getUser.id);
+  fetchPostByUser(authStore.getUser.id);
 
   // router.push({ name: "admin-post-list" });
 };
@@ -357,8 +382,8 @@ const fetchPostByUser = async () => {
     created_at: "",
     post_id: "",
     user_id: "",
-    user:'',
-    post:'',
+    user: "",
+    post: "",
   });
   const posts = [];
 
@@ -375,9 +400,7 @@ const fetchPostByUser = async () => {
   console.log(data.value);
 };
 
-
- fetchPostByUser();
-
+fetchPostByUser();
 </script>
 
 <script>

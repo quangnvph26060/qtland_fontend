@@ -9,43 +9,43 @@
               <InputBasic
                 title="Mã tin"
                 placeholder="Nhập mã tin"
-                :value="data.post_id"
+                :value="postId"
                 @input="handleInput('post_id', $event)"
+                disabled
+                class="disabled-input"
               />
-              <!-- <div style="display: none">
-                 <InputBasic
-               
-                
-                  :value="data.user_id"
-                @input="handleInput('user_id', $event)"
               
+               <InputBasic
+                title="Tiêu đề mã tin"
+                placeholder=""
+                :value="datapost.title"
+                 disabled
+                 class="disabled-input"
               />
-              </div> -->
-              <!-- begin::Input Group -->
               <InputBasic
                 title="Họ và tên"
                 placeholder="Nhập họ và tên"
-                :value="data.name"
+               
                 @input="handleInput('name', $event)"
               />
 
               <InputBasic
                 title="Số điện thoại"
                 placeholder="Nhập số điện thoại"
-                :value="data.phone"
+              
                 @input="handleInput('phone', $event)"
               />
 
               <InputBasic
                 title="Địa chỉ"
                 placeholder="Nhập địa chỉ"
-                :value="data.address"
+                
                 @input="handleInput('address', $event)"
               />
               <InputBasic
                 title="Căn cước công dân"
                 placeholder="Nhập căn cước công dân"
-                :value="data.cccd"
+                
                 @input="handleInput('cccd', $event)"
               />
               <div class="flex-fill me-2">
@@ -54,7 +54,7 @@
                   style="padding: 3px 11px"
                   type="date"
                   :placeholder="placeholder"
-                  :value="data.birthday ?? ''"
+                  
                   v-model="data.birthday"
                   class="form-control"
                 />
@@ -65,7 +65,7 @@
                   style="padding: 3px 11px"
                   type="datetime-local"
                   :placeholder="placeholder"
-                  :value="data.time ?? ''"
+                 
                   v-model="data.time"
                   class="form-control"
                 />
@@ -244,6 +244,7 @@ import { InboxOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import { useRoute, useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import getReportAPI from "../../../api/report/getDetails";
+import getPostAPI from "../../../api/posts/getDetails";
 import getImageDetailAPI from "../../../api/images/getDetail";
 import createImageAPI from "../../../api/images/createreport";
 import createImageCardAPI from "../../../api/images/createreportcard";
@@ -253,6 +254,7 @@ import apiURL from "../../../api/constants";
 import router from "../../../router";
 import auth from "../../../stores/auth";
 import getUserAPI from "../../../api/users/getUser";
+
 const store = auth();
 const user_id = ref("");
 const visible = ref(false);
@@ -267,7 +269,7 @@ const isChecked = ref(false);
 const route = useRoute();
 const router1 = useRouter();
 const disabledCommentTab = ref(false);
-
+const postId = route.params.id;
 const data = reactive({
   id: "",
   name: "",
@@ -278,11 +280,16 @@ const data = reactive({
   time: "",
   description: "",
   created_at: "",
-  post_id: "",
+  post_id: postId,
 
   post: "",
   images: "",
   card: "",
+});
+
+const datapost = reactive({
+  id: "",
+ title: ""
 });
 
 const disabledSubmit = computed(() => {
@@ -297,8 +304,6 @@ const disabledSubmit = computed(() => {
 
 const comments = ref([]);
 const isLoading = ref(false);
-
-const postId = route.params.id;
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -352,37 +357,28 @@ const handlePreviewCard = async (file) => {
 const imagesData = ref([]);
 const fileList = ref([]);
 const fileListCard = ref([]);
+
 onMounted(() => {
-  if (postId) {
+ 
     disabledCommentTab.value = false;
     const fetchPost = async () => {
       isLoading.value = true;
-      const post = await getReportAPI.getById(postId);
+      // const post = await getReportAPI.getById(postId);
+      const post = await getPostAPI.getById(postId);
 
-      Object.keys(data).forEach((key) => {
-        data[key] = post[key];
+      // Object.keys(data).forEach((key) => {
+      //   data[key] = post[key];
+      // });
+
+      Object.keys(datapost).forEach((key) => {
+        datapost[key] = post[key];
       });
-      for (let i = 0; i < data.images.length; i++) {
-        fileList.value.push({
-          ...data.images[i],
-          url: data.images[i].image,
-        });
-      }
-
-      for (let i = 0; i < data.card.length; i++) {
-        fileListCard.value.push({
-          ...data.card[i],
-          url: data.card[i].image,
-        });
-      }
-      console.log(fileListCard.value);
-      console.log(fileList.value);
+      console.log(datapost);
+      
     };
 
-    fetchPost(postId);
-  } else {
-    disabledCommentTab.value = true;
-  }
+    fetchPost();
+ 
 });
 
 const handleLoading = (value) => {
@@ -414,106 +410,53 @@ function handleDrop(e) {
 // Xử lý submit form
 const onSubmit = async () => {
   try {
-    if (postId) {
-      const response = await updateReportAPI.update(postId, data);
+    data.user_id = store.user.id;
+    const response = await createReportAPI(data);
+    if (response && response.status === 201) {
+      message.success("Tạo cáo cáo thành công");
 
-      console.log(response);
-      if (response && response.status == 200) {
-        message.success("Cập nhật báo cáo thành công");
+      const formData = new FormData();
+      fileList.value.forEach((file) => {
+        formData.append("files[]", file.originFileObj);
+      });
+      formData.append("report_id", response.data.id);
 
-        const formData = new FormData();
-        fileList.value.forEach((file) => {
-          formData.append("files[]", file.originFileObj);
+      const formDataCard = new FormData();
+      fileListCard.value.forEach((file) => {
+        formDataCard.append("filecard[]", file.originFileObj);
+      });
+      formDataCard.append("report_id", response.data.id);
+      try {
+        const response = await fetch(uploadURL, {
+          method: "post",
+          body: formData,
         });
-        const filteredArray = fileList.value.filter(
-          (item) => item.id !== undefined
-        );
-        formData.append("deleted_files", JSON.stringify(filteredArray));
-        formData.append("report_id", response.data.id);
-        try {
-          const res = await createImageAPI.updateReportImage(formData);
 
-          fileList.value = [];
-          uploading.value = false;
-        } catch (error) {
-          uploading.value = false;
-          console.log(error);
+        if (!response.ok) {
+          message.error("Tải ảnh lên không thành công");
         }
-        //// card123
+        fileList.value = [];
 
-        const formDataCard = new FormData();
-        fileListCard.value.forEach((file) => {
-          formDataCard.append("filecard[]", file.originFileObj);
+        const responsecard = await fetch(uploadURLCard, {
+          method: "post",
+          body: formDataCard,
         });
-        const filteredArrayCard = fileListCard.value.filter(
-          (item) => item.id !== undefined
-        );
-        formDataCard.append(
-          "deleted_file_card",
-          JSON.stringify(filteredArrayCard)
-        );
-        formDataCard.append("report_id", response.data.id);
-        try {
-          const res = await createImageCardAPI.updateReportImage(formDataCard);
 
-          fileListCard.value = [];
-          uploading.value = false;
-          router.go(0);
-        } catch (error) {
-          uploading.value = false;
-          console.log(error);
+        if (!responsecard.ok) {
+          message.error("Tải ảnh lên không thành công");
         }
-      } else {
-        message.error("Cập nhật báo cáo thất bại");
+        fileListCard.value = [];
+
+        // uploading.value = false;
+        router1.push({ name: "client-report" });
+      } catch (error) {
+        uploading.value = false;
+        console.log(error);
       }
     } else {
-      data.user_id = store.user.id;
-      const response = await createReportAPI(data);
-      if (response && response.status === 201) {
-        message.success("Tạo cáo cáo thành công");
-
-        const formData = new FormData();
-        fileList.value.forEach((file) => {
-          formData.append("files[]", file.originFileObj);
-        });
-        formData.append("report_id", response.data.id);
-
-        const formDataCard = new FormData();
-        fileListCard.value.forEach((file) => {
-          formDataCard.append("filecard[]", file.originFileObj);
-        });
-        formDataCard.append("report_id", response.data.id);
-        try {
-          const response = await fetch(uploadURL, {
-            method: "post",
-            body: formData,
-          });
-
-          if (!response.ok) {
-            message.error("Tải ảnh lên không thành công");
-          }
-          fileList.value = [];
-
-          const responsecard = await fetch(uploadURLCard, {
-            method: "post",
-            body: formDataCard,
-          });
-
-          if (!responsecard.ok) {
-            message.error("Tải ảnh lên không thành công");
-          }
-          fileListCard.value = [];
-
-          // uploading.value = false;
-          router1.push({ name: "client-report" });
-        } catch (error) {
-          uploading.value = false;
-          console.log(error);
-        }
-      } else {
-        message.error("Tạo cáo cáo thất bại");
-      }
+      message.error("Tạo cáo cáo thất bại");
     }
+    // }
   } catch (error) {
     console.error(error);
   }
@@ -545,5 +488,11 @@ export default {
   },
 };
 </script>
-  <style lang=""></style>
+<style scoped>
+.disabled-input {
+  pointer-events: none;
+  opacity: 0.5; 
+  cursor: not-allowed;
+}
+</style>
   
