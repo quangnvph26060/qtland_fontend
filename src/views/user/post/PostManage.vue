@@ -13,7 +13,7 @@
 					<div
 						class="flex n:flex-col sm:flex-row border-[1px] cursor-pointer"
 						v-for="item in data"
-						@click="redirectPostDetail(item.id)"
+						
 					>
 						<div
 							class="relative flex align-items-center justify-center col-sm-3 w-full"
@@ -30,17 +30,17 @@
 								{{ item.priority_status }}
 							</div>
 							<a-image
+								@click="redirectPostDetail(item.id)"
 								:src="item.post_image?.[0]?.image_path"
 								class="object-cover"
 								:preview="false"
-								:height="150"
-								:width="300"
+								
 							/>
 						</div>
-						<div class="col-sm-9">
+						<div class="col-sm-9" >
 							<Card :title="item.title">
 								<template #content>
-									<span class="text-sm">
+									<span class="text-sm" @click="redirectPostDetail(item.id)">
 										{{ item.description }}
 									</span>
 									<CardInfor type="manage" :post="item" />
@@ -56,7 +56,7 @@
 					<div
 						class="flex n:flex-col sm:flex-row border-[1px] cursor-pointer"
 						v-for="item in data"
-						@click="redirectPostDetail(item.id)"
+						
 					>
 						<div
 							class="relative flex align-items-center justify-center col-sm-3 w-full"
@@ -73,6 +73,7 @@
 								{{ item.priority_status }}
 							</div>
 							<a-image
+							@click="redirectPostDetail(item.id)"
 								:src="item.post_image?.[0]?.image_path"
 								class="object-cover"
 								:preview="false"
@@ -80,7 +81,7 @@
 								:width="300"
 							/>
 						</div>
-						<div class="col-sm-9">
+						<div class="col-sm-9" @click="redirectPostDetail(item.id)">
 							<Card :title="item.title">
 								<template #content>
 									<span class="text-sm">

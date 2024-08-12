@@ -11,19 +11,30 @@
         <div class="app-header-logo flex align-items-center gap-2 w-100">
           <div @click="handleLogoClick" class="cursor-pointer">
             <!-- begin::Logo Image -->
-            <img style="width: 160px;"
+            <img
+              style="width: 160px"
               :src="logo"
               alt="Logo"
               class="app-header-logo-image w-[100px] h-[64px]"
             />
             <!-- end::Logo Image -->
           </div>
-          <div style="flex:1" 
+          <div
+            style="flex: 1"
             class="n:px-2 md:px-0 hidden sm:block"
-            v-if="store.user.role_id == 3 || store.user.role_id == 4 "
+            v-if="store.user.role_id == 3 || store.user.role_id == 4"
           >
-            <div id="header_rank" >
-              <a v-for="(item, index) in rankroom" :key="index" @click="selectClassRank(item.value)">
+            <div id="header_rank">
+              <a
+                v-for="(item, index) in rankroom.filter(
+                  (item) =>
+                    store.user.role_id == 4 ||
+                    (store.user.role_id == 3 &&
+                      (item.value === 3 || item.value === 4))
+                )"
+                :key="index"
+                @click="selectClassRank(item.value)"
+              >
                 {{ item.label }}
               </a>
             </div>
@@ -44,50 +55,7 @@
               >
                 <TheMenu />
               </div>
-              <!-- end::Drawer -->
-              <!-- begin::Notification -->
-              <!-- <div class="n:pl-4 md:px-4">
-				  <a-popover placement="bottomRight" trigger="click" class="flex">
-					<template #content>
-					  <div class="max-h-[440px] max-w-[580px]">
-						<div class="flex align-items-center cursor-pointer p-2 hover:bg-slate-100">
-						  <div class="type me-3">
-							<UserOutlined :style="{ fontSize: '16px' }" />
-						  </div>
-						  <div class="flex flex-col content">
-							<div class="detail">
-							  Đăng ký tham dự miễn phí Báo cáo thị trường BĐS Quý 1/2024
-							</div>
-							<div class="day">20/10/2024</div>
-						  </div>
-						</div>
-						<div class="flex align-items-center cursor-pointer p-2 hover:bg-slate-100">
-						  <div class="type me-3">
-							<ClockCircleOutlined :style="{ fontSize: '16px' }" />
-						  </div>
-						  <div class="flex flex-col content">
-							<div class="detail">
-							  Số điện thoại 0373388843 đã được thêm vào danh sách liên lạc của bạn. Xem chi tiết tại đây.
-							</div>
-							<div class="day">20/10/2024</div>
-						  </div>
-						</div>
-					  </div>
-					</template>
-					<template #title>
-					  <h2>Thông báo</h2>
-					</template>
-					<a-badge>
-					  <a-button class="flex justify-center align-items-center w-16">
-						<NotificationOutlined />
-					  </a-button>
-					  <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-sky-400 opacity-75 right-[7px] top-[-3px]"></span>
-					  <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500 right-[5px] top-[-5px]"></span>
-					</a-badge>
-				  </a-popover>
-				</div> -->
-              <!-- end::Notification -->
-              <!-- begin::User Feature -->
+
               <div class="n:px-2 md:px-4 hidden sm:block">
                 <a-dropdown :placement="'bottomLeft'" trigger="click">
                   <template #overlay>
@@ -107,12 +75,96 @@
                           :to="{ name: 'post-manage' }"
                         ></router-link>
                       </a-menu-item>
-                      <!-- <a-menu-item key="2">
-						  <div class="inline-flex items-center mr-3">
-							<InfoOutlined />
-						  </div>
-						  <div class="inline-flex">Thay đổi thông tin cá nhân</div>
-						</a-menu-item> -->
+                      <a-menu-item key="4">
+                        <a-button
+                          class="h-[36px] w-100 flex align-items-center border-none p-0"
+                          :icon="h(AccountBookOutlined)"
+                          @click="showAvatarModal"
+                        >
+                          Thay đổi ảnh đại diện
+                        </a-button>
+                        <a-modal
+                          v-model:open="isAvatarModalVisible"
+                          title="Ảnh đại diện"
+                          @ok="handleAvatarOk"
+                          @cancel="handleAvatarCancel"
+                        >
+                          <div id="info_user" style="display: flex; j">
+                            <!-- Chọn ảnh mới -->
+
+                            <a-upload
+                              style="text-align: center"
+                              list-type="picture-card"
+                              :show-upload-list="false"
+                              :before-upload="beforeUpload"
+                            >
+                              <img
+                                v-if="store.user.avatar"
+                                :src="store.user.avatar"
+                                alt="avatar"
+                                style="width: 100%; height: 100%"
+                              />
+                            </a-upload>
+                            <a-upload
+                              style="text-align: center"
+                              name="avatar"
+                              list-type="picture-card"
+                              :show-upload-list="false"
+                              :before-upload="beforeUpload"
+                            >
+                              <img
+                                v-if="avatarUrl"
+                                :src="avatarUrl"
+                                alt="avatar"
+                                style="width: 100%; height: 100%"
+                              />
+                              <div v-else>
+                                <a-icon
+                                  :type="uploading ? 'loading' : 'plus'"
+                                />
+                                <div style="margin-top: 8px">Upload</div>
+                              </div>
+                            </a-upload>
+                          </div>
+                        </a-modal>
+                      </a-menu-item>
+
+                      <a-menu-item key="2">
+                        <a-button
+                          class="h-[36px] w-100 flex align-items-center border-none p-0"
+                          :icon="h(AccountBookOutlined)"
+                          @click="showAccountModal"
+                        >
+                          Thông tin tài khoản
+                        </a-button>
+                        <a-modal
+                          v-model:open="isAccountModalVisible"
+                          title="Thông tin người dùng"
+                          @ok="handleAccountOk"
+                          @cancel="handleAccountCancel"
+                        >
+                          <div id="info_user">
+                            <p>Tên người dùng: {{ store.user.name }}</p>
+                            <p>Email: {{ store.user.email }}</p>
+                            <p>Số điện thoại: {{ store.user.phone }}</p>
+                            <p>Đơn vị công tác: {{ store.user.workunit }}</p>
+                            <p>
+                              Chức vụ:
+                              {{
+                                store.user.role_id === 1
+                                  ? "Quản trị viên"
+                                  : store.user.role_id === 2
+                                  ? "Đầu chủ"
+                                  : store.user.role_id === 3
+                                  ? "Sale"
+                                  : store.user.role_id === 4
+                                  ? "Sale VIP"
+                                  : "Đầu chủ VIP"
+                              }}
+                            </p>
+                          </div>
+                        </a-modal>
+                      </a-menu-item>
                       <a-menu-item key="3" @click="onLogout">
                         <div class="inline-flex items-center mr-3">
                           <LogoutOutlined />
@@ -122,18 +174,33 @@
                     </a-menu>
                   </template>
                   <div
-                    class="flex justify-center align-items-center cursor-pointer"
+                    class="flex justify-center items-center cursor-pointer"
                     style="min-width: 160px"
                   >
                     <a-avatar
                       size="large"
-                      class="me-2"
+                      class="me-2 avatar-container"
                       :style="{
-                        backgroundColor: '#ADC178',
+                        backgroundColor: store.user.avatar
+                          ? 'transparent'
+                          : '#ADC178',
                         verticalAlign: 'middle',
                       }"
                     >
-                      <span>{{ store.user.name[0] }}</span>
+                      <!-- Hiển thị ảnh avatar nếu có -->
+                      <template v-if="store.user.avatar">
+                        <img
+                          :src="store.user.avatar"
+                          alt="avatar"
+                          class="avatar-img"
+                        />
+                      </template>
+                      <!-- Hiển thị chữ cái đầu tiên của tên người dùng nếu không có avatar -->
+                      <template v-else>
+                        <span class="avatar-text">{{
+                          store.user.name[0]
+                        }}</span>
+                      </template>
                     </a-avatar>
                     <div class="d-none d-sm-block">
                       {{ store.user.name }}
@@ -156,7 +223,7 @@
               </div>
               <div
                 class="n:px-2 md:px-4 hidden sm:block"
-                v-if="store.user.role_id == 3"
+                v-if="store.user.role_id == 3 || store.user.role_id == 4"
               >
                 <router-link :to="{ name: 'client-report' }">
                   <a-button class=""> Báo cáo dẫn khách </a-button>
@@ -208,9 +275,7 @@
                         </a-button>
                       </router-link>
                     </div>
-                    <div
-                      v-if="store.user.role_id == 3"
-                    >
+                    <div v-if="store.user.role_id == 3">
                       <router-link :to="{ name: 'client-report' }">
                         <a-button
                           class="w-100 h-[40px]"
@@ -231,6 +296,9 @@
                         }"
                       >
                         <a-button
+                          v-if="
+                            store.user.role_id === 5 || store.user.role_id == 2
+                          "
                           class="h-[36px] w-100 flex align-items-center border-none"
                           :icon="h(ScheduleOutlined)"
                           @click="onClose"
@@ -247,11 +315,10 @@
                       </a-button>
                       <a-drawer
                         v-model:open="childrenDrawer"
-                        title="Thông tin tài khoản"
                         :closable="false"
                         width="280"
                       >
-                        <div class="px-3">
+                        <div class="px-3" style="padding-top: 20px">
                           <a-row>
                             <a-col :span="24">
                               <a-descriptions title="Thông tin cá nhân">
@@ -260,6 +327,12 @@
                                 </a-descriptions-item>
                                 <a-descriptions-item label="Email">
                                   {{ store.user.email }}
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Số điện thoại">
+                                  {{ store.user.phone }}
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Đơn vị công tac">
+                                  {{ store.user.workunit }}
                                 </a-descriptions-item>
                                 <a-descriptions-item label="Chức vụ">
                                   {{
@@ -280,6 +353,7 @@
                         </div>
                       </a-drawer>
                     </div>
+
                     <a-button
                       class="h-[36px] w-100 flex align-items-center border-none"
                       @click="onLogout"
@@ -306,7 +380,7 @@
   
   
   <script setup>
-import { ref, h , onMounted, watch} from "vue";
+import { ref, h, onMounted, watch } from "vue";
 import {
   NotificationOutlined,
   DownOutlined,
@@ -325,12 +399,102 @@ import { filterRange } from "../../stores/filterRange";
 import logout from "../../api/auth/logout";
 import Config from "../../api/config/config.js";
 import { useRouter, useRoute } from "vue-router";
+import updateUserAPI from "../../api/users/avatar.js";
 
+const isModalVisible = ref(false);
+
+const user = ref({
+  name: "Nguyễn Văn A",
+  email: "nguyenvana@example.com",
+  phone: "0123456789",
+});
+
+const isAvatarModalVisible = ref(false);
+const isAccountModalVisible = ref(false);
+const store = auth();
+const avatarUrl = ref(store.user.avatar);
+const uploading = ref(false);
+
+const showAvatarModal = () => {
+  isAvatarModalVisible.value = true;
+};
+
+// const handleAvatarOk = () => {
+//   console.log("Đã chọn ảnh:", avatarUrl.value);
+//   isAvatarModalVisible.value = false;
+// };
+
+const handleAvatarOk = async () => {
+  if (avatarUrl.value) {
+    try {
+      uploading.value = true;
+
+      // Chuyển đổi base64 thành đối tượng Blob
+      const base64Data = avatarUrl.value.split(",")[1];
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "image/jpeg" });
+      const file = new File([blob], "avatar.jpg", { type: "image/jpeg" });
+
+      // Tạo FormData và thêm file vào
+      const formData = new FormData();
+      formData.append("avatar", file);
+      formData.append("id", store.user.id);
+
+      // Gửi dữ liệu đến server (đổi URL cho phù hợp)
+      const response = await updateUserAPI.updateUser(formData);
+      console.log(response);
+   window.location.reload();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật ảnh:", error);
+    } finally {
+      uploading.value = false;
+      isAvatarModalVisible.value = false;
+    }
+  } else {
+    isAvatarModalVisible.value = false;
+  }
+};
+
+// const handleAvatarCancel = () => {
+//   isAvatarModalVisible.value = false;
+// };
+const handleAvatarCancel = () => {
+  // Xóa ảnh vừa upload
+  avatarUrl.value = null;
+  isAvatarModalVisible.value = false;
+};
+
+const showAccountModal = () => {
+  isAccountModalVisible.value = true;
+};
+
+const handleAccountOk = () => {
+  console.log("Đã đóng thông tin tài khoản");
+  isAccountModalVisible.value = false;
+};
+
+const handleAccountCancel = () => {
+  isAccountModalVisible.value = false;
+};
+
+const beforeUpload = (file) => {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    avatarUrl.value = reader.result;
+  });
+  reader.readAsDataURL(file);
+  return false;
+};
 const route = useRoute();
 const postId = ref(null);
 
 const updatePostId = () => {
-  if (route.path.startsWith('/post-detail')) {
+  if (route.path.startsWith("/post-detail")) {
     postId.value = route.params.id || null;
   } else {
     postId.value = null;
@@ -341,9 +505,14 @@ onMounted(() => {
   updatePostId();
 });
 
-watch(() => route.path, () => {
-  updatePostId();
-}, { immediate: true });
+watch(
+  () => route.path,
+  () => {
+    updatePostId();
+  },
+  { immediate: true }
+);
+
 
 const { getconfig, responseConfig, updateConfig } = Config();
 const logo = ref(null);
@@ -356,7 +525,7 @@ onMounted(async () => {
   }
 });
 
-const store = auth();
+// const store = auth();
 
 const onLogout = async () => {
   const response = await logout();
@@ -376,33 +545,33 @@ const onLogout = async () => {
   }
 };
 
- const storeclass = filterRange();
- const { setClassRank } = storeclass;
- const router = useRouter();
+const storeclass = filterRange();
+const { setClassRank } = storeclass;
+const router = useRouter();
 
 const rankroom = [
   { value: 1, label: "Văn phòng hạng A" },
   { value: 2, label: "Văn phòng hạng B" },
   { value: 3, label: "Văn phòng hạng C" },
-  { value: 4, label: "Văn phòng hạng Coworking" }
+  { value: 4, label: "Văn phòng hạng Coworking" },
 ];
 
 const selectClassRank = async (classrank) => {
   storeclass.setClassRank(classrank);
   router.push({
-    name:  "post-list",
+    name: "post-list",
     query: {
       ...router.currentRoute.value.query,
-      classrank: classrank
-    }
+      classrank: classrank,
+    },
   });
-};  
+};
 
 const filterStore = filterRange();
 const handleLogoClick = () => {
- filterStore.resetFilters();
-  const userRole = store.user.role_id ;
-  
+  filterStore.resetFilters();
+  const userRole = store.user.role_id;
+
   if (userRole == 1) {
     router.push({ name: "admin-post-list" });
   } else {
@@ -428,6 +597,74 @@ import TheMenu from "../TheMenu.vue";
 export default {};
 </script>
   
-  <style>
+<style>
+#info_user {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.info-item {
+  font-size: 16px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+#info_user p {
+  display: flex;
+  align-items: center;
+  padding: 5px 0px;
+}
+
+#info_user p span {
+  min-width: 150px; /* Đảm bảo các tiêu đề đồng đều về chiều rộng */
+}
+.avatar-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden; 
+}
+
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+}
+.ant-avatar-string{
+  width: 59px !important;
+  height: 85px  !important;
+}
+
+/* Định dạng chữ cái đầu tiên */
+.avatar-text {
+  font-size: 24px;
+  color: white; 
+  text-align: center;
+  line-height: 64px; 
+}
 </style>
   

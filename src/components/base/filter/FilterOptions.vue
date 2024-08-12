@@ -3,8 +3,8 @@
 		<!-- <template #title>
 			<span>Lọc thêm</span>
 		</template> -->
-		<div
-			class="filter-item-content align-items-center" style="padding-bottom: 10px"
+		<div 
+			class="filter-item-content align-items-center" 
 			@click.prevent
 			@click="setModalOptions(true)"
 		>

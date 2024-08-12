@@ -20,6 +20,16 @@ const updatePostAPI = {
 			console.error(error);
 		}
 	},
+	updateSold: async (id, value) => {
+		try {
+			const response = await axios.post(
+				`${apiURL.baseURL}/posts/sold_status/${id}`, value
+			);
+			return response;
+		} catch (error) {
+			console.error(error);
+		}
+	},
 };
 
 export default updatePostAPI;

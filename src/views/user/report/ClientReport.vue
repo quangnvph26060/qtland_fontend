@@ -96,7 +96,8 @@
               <template v-else>{{ fragment }}</template>
             </template>
           </span>
-          <template v-if="column.key === 'detail' && authStore.user.role_id === 1">
+          <!-- authStore.user.role_id === 1 -->
+          <template v-if="column.key === 'detail'">
             <div style="display: flex; align-items: center">
               <router-link
                 :to="{
@@ -106,7 +107,7 @@
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </router-link>
-              <div
+              <div v-if="authStore.user.role_id === 1"
                 style="display: flex; margin-left: 15px"
                 @click="showConfirmDelete(record.id)"
               >
@@ -244,6 +245,22 @@ const columns = [
         }, 100);
       }
     },
+  }
+  ,
+  {
+    title: "Tiêu dề tin",
+    dataIndex: ["post", "title"],
+    key: "post.title",
+    width: 150,
+    customFilterDropdown: true,
+    onFilter: (value, record) => record.post.title.toString().includes(value),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
   },
   
   {
@@ -258,14 +275,13 @@ const columns = [
     key: "created_at",
     width: 120,
   },
-];
-if (authStore.user.role_id === 1) {
-  columns.push({
+  {
     title: "Chi tiết",
     key: "detail",
     width: 20,
-  });
-}
+  },
+];
+
 
 const handleReset = (clearFilters, dataIndex) => {
   clearFilters({

@@ -59,9 +59,9 @@
           <!-- begin::Filter Item -->
           <div class="filter-item col-sm-2">
             <a-tooltip placement="bottom">
-              <template #title>
+              <!-- <template #title>
                 <span>Đặt lại</span>
-              </template>
+              </template> -->
               <div
                 class="filter-item-content align-items-center"
                 @click="handResetFilter"
