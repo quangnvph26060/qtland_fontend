@@ -805,7 +805,6 @@ const copyEmail = () => {
 const copyCurrentPageUrl = () => {
   const title = data.title;
   if (typeof window !== "undefined") {
-    // Kiểm tra nếu đang chạy trong môi trường trình duyệt
     if (
       navigator &&
       navigator.clipboard &&
