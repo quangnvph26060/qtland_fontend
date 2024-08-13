@@ -426,9 +426,34 @@
                                 <a-descriptions-item label="Số điện thoại">
                                   {{ store.user.phone }}
                                 </a-descriptions-item>
-                                <a-descriptions-item label="Đơn vị công tac">
+                                <a-descriptions-item label="Đơn vị công tác">
                                   {{ store.user.workunit }}
                                 </a-descriptions-item>
+                                <a-descriptions-item label="Mật khẩu" class="description-item">
+								<span class="password-mask">********</span>
+								<span class="change-password" @click="handleFormToggle">Thay đổi</span>
+							</a-descriptions-item>	
+							<a-descriptions-item v-if="isFlag">
+								<div class="">
+									<p v-html="error" class="alert alert-success "></p>
+									<form action="" @submit.prevent="submitFormPassWord">
+										<input
+										type="password"
+										class="form-control"
+										placeholder="Mật khẩu hiện tại"
+										v-model="currentPassword"
+										/>
+										<input
+										type="password"
+										class="form-control"
+										placeholder="Mật khẩu mới"
+										v-model="newPassword"
+										/>
+										<button type="submit" class="main-btn">Lưu</button>
+									
+									</form>
+								</div>
+							</a-descriptions-item>
                                 <a-descriptions-item label="Chức vụ">
                                   {{
                                     store.user.role_id === 1
@@ -498,6 +523,7 @@ import Config from "../../api/config/config.js";
 import { useRouter, useRoute } from "vue-router";
 import updateUserAPI from "../../api/users/avatar.js";
 import changePasswordAPI from "../../api/users/changePassword.js";
+
 const isModalVisible = ref(false);
 
 const user = ref({
