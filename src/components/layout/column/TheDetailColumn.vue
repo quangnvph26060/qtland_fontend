@@ -938,7 +938,7 @@
 		}
 	  } else {
 		data.sold_status = 0;
-		data.status_id = 4;
+		data.status_id = 3;
 		data.user_id = store.user.id;
 		
 		const response = await createPostAPI(data);
