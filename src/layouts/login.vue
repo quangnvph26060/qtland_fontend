@@ -192,7 +192,7 @@ const onLogin = async () => {
 
         if (loginUser.status == 200) {
             store.login(loginUser.data.token, loginUser.data);
-            if (loginUser.data.role_id == 1) {
+            if (loginUser.data.role_id == 1 || loginUser.data.role_id == 6) {
                 localStorage.setItem("role", "admin");
                 await router.push({ name: "admin-post-list" });
                 return;

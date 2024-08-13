@@ -349,6 +349,9 @@ a:focus {
     .ant-table-tbody tr.ant-table-row td.ant-table-cell:first-child {
         display: none !important;
     }
+    #duyettin .ant-table-tbody tr.ant-table-row td.ant-table-cell:first-child {
+        display: block !important;
+    }
 
     .reportlisst .ant-table-row-expand-icon-cell {
         display: block !important;

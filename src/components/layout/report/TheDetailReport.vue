@@ -11,22 +11,21 @@
                 placeholder="Nhập mã tin"
                 :value="data.post_id"
                 @input="handleInput('post_id', $event)"
+                @change="handleChange"
+                v-model="postid"
               />
-              <!-- <div style="display: none">
-                 <InputBasic
-               
-                
-                  :value="data.user_id"
-                @input="handleInput('user_id', $event)"
-              
+              <InputBasic
+                title="Tiêu đề mã tin Mã tin"
+                class="title_post disabled-input"
+                :value="data1.title"
               />
-              </div> -->
               <!-- begin::Input Group -->
               <InputBasic
                 title="Họ và tên"
                 placeholder="Nhập họ và tên"
                 :value="data.name"
                 @input="handleInput('name', $event)"
+                :disabled="!canEdit"
               />
 
               <InputBasic
@@ -34,6 +33,7 @@
                 placeholder="Nhập số điện thoại"
                 :value="data.phone"
                 @input="handleInput('phone', $event)"
+                :disabled="!canEdit"
               />
 
               <InputBasic
@@ -41,12 +41,14 @@
                 placeholder="Nhập địa chỉ"
                 :value="data.address"
                 @input="handleInput('address', $event)"
+                :disabled="!canEdit"
               />
               <InputBasic
                 title="Căn cước công dân"
                 placeholder="Nhập căn cước công dân"
                 :value="data.cccd"
                 @input="handleInput('cccd', $event)"
+                :disabled="!canEdit"
               />
               <div class="flex-fill me-2">
                 <label class="required form-label">Năm sinh</label>
@@ -57,6 +59,7 @@
                   :value="data.birthday ?? ''"
                   v-model="data.birthday"
                   class="form-control"
+                  :disabled="!canEdit"
                 />
               </div>
               <div class="flex-fill me-2 mt-3">
@@ -68,6 +71,7 @@
                   :value="data.time ?? ''"
                   v-model="data.time"
                   class="form-control"
+                  :disabled="!canEdit"
                 />
               </div>
             </template>
@@ -239,7 +243,7 @@
 </template>
   
   <script setup>
-import { reactive, ref, computed, onMounted } from "vue";
+import { reactive, ref, computed, onMounted, watch } from "vue";
 import { InboxOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import { useRoute, useRouter } from "vue-router";
 import { message } from "ant-design-vue";
@@ -249,6 +253,7 @@ import createImageAPI from "../../../api/images/createreport";
 import createImageCardAPI from "../../../api/images/createreportcard";
 import createReportAPI from "../../../api/report/create";
 import getCommentDetailsAPI from "../../../api/comment/getDetails";
+import getPostAPI from "../../../api/posts/getDetails";
 import apiURL from "../../../api/constants";
 import router from "../../../router";
 import auth from "../../../stores/auth";
@@ -262,11 +267,29 @@ onMounted(async () => {
   if (userId) {
     user_id.value = userId.id;
   }
-});
+});const id = ref('');
 const isChecked = ref(false);
 const route = useRoute();
 const router1 = useRouter();
 const disabledCommentTab = ref(false);
+const canEdit = ref(false);
+const data1 = ref({
+  title: '',
+  test: ""
+});
+const handleChange = async (event) => {
+  const id = event.target.value;
+ 
+    const response = await getPostAPI.getpostById(id);
+    if (response && response.data) {
+      data1.value.title = response.data.title;
+      canEdit.value = true;
+    } else {
+      data1.value.title = " ";
+      canEdit.value = false;
+    }
+ 
+};
 
 const data = reactive({
   id: "",
@@ -545,5 +568,16 @@ export default {
   },
 };
 </script>
-  <style lang=""></style>
+<style >
+.disabled-input {
+  pointer-events: none;
+  user-select: none;
+  background-color: #f5f5f5;
+  color: #a9a9a9;
+}
+input[disabled] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+</style>
   

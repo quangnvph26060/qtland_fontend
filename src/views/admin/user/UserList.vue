@@ -191,7 +191,7 @@
             <template v-if="column.dataIndex === 'role_id'">
               <a-tag
                 :color="
-                  record.role_id == 1
+                  record.role_id == 1 || record.role_id == 6
                     ? '#87d068'
                     : record.role_id == 2 || record.role_id == 5
                     ? '#2db7f5'
@@ -202,7 +202,7 @@
               >
                 {{
                   record.role_id == 1
-                    ? "admin"
+                    ? "supper admin"
                     : record.role_id == 2
                     ? "đầu chủ"
                     : record.role_id == 3
@@ -211,6 +211,8 @@
                     ? "sale vip"
                     : record.role_id == 5
                     ? "đầu chủ vip"
+                    : record.role_id == 6
+                    ? "admin"
                     : ""
                 }}
               </a-tag>
@@ -358,6 +360,10 @@ const columns = [
       {
         text: "Đầu chủ VIP",
         value: 5,
+      },
+      {
+        text: "Quản trị viên thường",
+        value: 6,
       },
     ],
     onFilter: (value, record) => record.role_id === value,
