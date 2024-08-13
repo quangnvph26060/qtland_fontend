@@ -203,7 +203,7 @@ const handleOkModal = async () => {
         const emailData = {
           email: information.email,
           password: information.password,
-          name: information.name
+          name: information.name,
         };
         await sendEmailAPI(emailData);
         emits("updateUserList");
@@ -239,14 +239,18 @@ const handleOkModal = async () => {
     const fetchUpdateUser = async (id, information) => {
       try {
         await updateUserAPI(id, information);
-        const emailData = {
-          email: information.email,
-          password: information.password,
-          name: information.name
-        };
-        await sendEmailAPI(emailData);
-        emits("updateUserList");
+          emits("updateUserList");
         messageAnt.success("Cập nhật thông tin thành công!");
+        if (information.password !== null) {
+          const emailData = {
+            email: information.email,
+            password: information.password,
+            name: information.name,
+          };
+          await sendEmailAPI(emailData);
+        }
+
+      
       } catch (error) {
         errors.value = error.responsive.data.errors;
       } finally {
