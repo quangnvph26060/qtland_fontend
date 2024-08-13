@@ -149,6 +149,29 @@
                           <div id="info_user">
                             <p>Tên người dùng: {{ store.user.name }}</p>
                             <p>Email: {{ store.user.email }}</p>
+                            <div class="d-flex justify-content-between ">
+                              <p>Mật khẩu: ******** </p>
+                              <span class="main_password" @click="handleFormToggle">Thay đổi mật khẩu</span>
+                            </div>
+                            <div v-if="isFlag">
+                              <p v-html="error" class="alert alert-success"></p>
+                              <form action="" @submit.prevent="submitFormPassWord">
+                                <input
+                                  type="password"
+                                  class="form-control"
+                                  placeholder="Mật khẩu hiện tại"
+                                  v-model="currentPassword"
+                                />
+                                <input
+                                  type="password"
+                                  class="form-control"
+                                  placeholder="Mật khẩu mới"
+                                  v-model="newPassword"
+                                />
+                                <button type="submit" class="main-btn">Lưu</button>
+                               
+                              </form>
+                            </div>
                             <p>Số điện thoại: {{ store.user.phone }}</p>
                             <p>Đơn vị công tác: {{ store.user.workunit }}</p>
                             <p>
@@ -454,7 +477,7 @@
   
   
   <script setup>
-import { ref, h, onMounted, watch } from "vue";
+import { ref, h, onMounted, watch, reactive } from "vue";
 import {
   NotificationOutlined,
   DownOutlined,
@@ -474,7 +497,7 @@ import logout from "../../api/auth/logout";
 import Config from "../../api/config/config.js";
 import { useRouter, useRoute } from "vue-router";
 import updateUserAPI from "../../api/users/avatar.js";
-
+import changePasswordAPI from "../../api/users/changePassword.js";
 const isModalVisible = ref(false);
 
 const user = ref({
@@ -498,6 +521,37 @@ const showAvatarModal = () => {
 //   isAvatarModalVisible.value = false;
 // };
 
+// Tạo biến trạng thái
+const isFlag = ref(false);
+
+
+const handleFormToggle = () => {
+  isFlag.value = !isFlag.value;
+};
+
+
+const currentPassword = ref('');
+const newPassword = ref('');
+const error = ref('');
+// Hàm xử lý khi người dùng nhấn nút lưu
+const submitFormPassWord = async () => {
+  const formData = {
+    id: store.user.id,
+    current_password: currentPassword.value,
+    new_password: newPassword.value,
+  };
+  
+  try {
+    const response = await changePasswordAPI.changePassword(formData); 
+    if (response && response.status === 200) {
+       error.value = 'Mật khẩu đã được thay đổi thành công';
+    } else {
+      error.value = 'Đã xảy ra lỗi khi thay đổi mật khẩu';
+    }
+  } catch (error) {
+    console.error('Lỗi khi gọi API:', error);
+  }
+};
 const handleAvatarOk = async () => {
   if (avatarUrl.value) {
     try {
@@ -671,6 +725,12 @@ export default {};
 </script>
   
 <style>
+.form-control {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
 #info_user {
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
@@ -737,6 +797,19 @@ export default {};
   color: white;
   text-align: center;
   line-height: 64px;
+}
+.main_password{
+  font-size: 10px;
+  cursor: pointer;
+}
+.main-btn{
+  float:right;
+  background: #8b3035 ;
+  color:#fff;
+  font-size: 14px;
+  height: 32px;
+  padding: 4px 15px;
+  border-radius: 6px;
 }
 </style>
   
