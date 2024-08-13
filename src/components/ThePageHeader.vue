@@ -4,17 +4,16 @@
         <div class="app-toolbar-wrapper">
             <!-- begin::Page Title -->
             <div class="page-title">
-                <a-page-header
-                    :title="title"
-                    :breadcrumb="{ routes }"
-                    sub-title=""
-                    class="px-0 border-y-[1px]"
-                />
+                <router-link v-for="(breadcrumb, index) in routes" :key="index" :to="breadcrumb.path">
+            {{ breadcrumb.breadcrumbName }} /
+           
+            </router-link>
             </div>
             <!-- end::Page Title -->
         </div>
         <!-- end::Toolbar Wrapper -->
     </div>
+    <hr>
 </template>
 
 <script setup>
@@ -35,10 +34,15 @@ const routes = [
         breadcrumbName: "Home",
     },
     {
-        path: "first",
+        path: "#",
         breadcrumbName: "Chi tiết",
     },
 ];
 </script>
+<style >
+.toolbar{
+    margin-bottom: 20px !important;
+}
+</style>
 
 
