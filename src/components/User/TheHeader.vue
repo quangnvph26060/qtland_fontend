@@ -75,7 +75,10 @@
                           :to="{ name: 'post-manage' }"
                         ></router-link>
                       </a-menu-item>
-                      <a-menu-item key="4">
+                     
+                      <a-menu-item key="4"  v-if="
+                          store.user.role_id === 3  ||  store.user.role_id === 4
+                        ">
                         <a-button
                           class="h-[36px] w-100 flex align-items-center border-none p-0"
                           :icon="h(AccountBookOutlined)"

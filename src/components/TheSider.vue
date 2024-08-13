@@ -121,28 +121,34 @@
 			<div class="px-3">
 				<a-row>
 					<a-col :span="24">
-						<a-descriptions title="Thông tin cá nhân" :column="1">
+						<a-descriptions :column="1">
 							<a-descriptions-item label="Tên">
-								{{ store.user.name }}
-							</a-descriptions-item>
-							<a-descriptions-item label="Email">
-								{{ store.user.email }}
-							</a-descriptions-item>
-							<a-descriptions-item label="Chức vụ">
-								{{
-									store.user.role_id === 1
-										? "Quản trị viên"
-										: store.user.role_id === 2
-											? "Đầu chủ"
-											: store.user.role_id === 3
-												? "Sale"
-												: store.user.role_id === 4
-													? "Sale VIP"
-													: store.user.role_id === 5
-													? "Đầu chủ VIP"
-														: "Quản trị viên thường"
-								}}
-							</a-descriptions-item>
+                                  {{ store.user.name }}
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Email">
+                                  {{ store.user.email }}
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Số điện thoại">
+                                  {{ store.user.phone }}
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Đơn vị công tac">
+                                  {{ store.user.workunit }}
+                                </a-descriptions-item>
+                                <a-descriptions-item label="Chức vụ">
+                                  {{
+                                    store.user.role_id === 1
+                                      ? "Quản trị viên"
+                                      : store.user.role_id === 2
+                                      ? "Đầu chủ"
+                                      : store.user.role_id === 3
+                                      ? "Sale"
+                                      : store.user.role_id === 4
+                                      ? "Sale VIP"
+                                      : store.user.role_id === 5
+                                      ? "Đầu chủ VIP"
+                                      : "Quản trị viên thường"
+                                  }}
+                                </a-descriptions-item>
 						</a-descriptions>
 					</a-col>
 				</a-row>
