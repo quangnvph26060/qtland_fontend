@@ -109,6 +109,32 @@
 							<a-descriptions-item label="Email">
 								{{ store.user.email }}
 							</a-descriptions-item>
+							
+							<a-descriptions-item label="Mật khẩu" class="description-item">
+								<span class="password-mask">********</span>
+								<span class="change-password" @click="handleFormToggle">Thay đổi</span>
+							</a-descriptions-item>	
+							<a-descriptions-item v-if="isFlag">
+								<div class="">
+									<p v-html="error" class="alert alert-success "></p>
+									<form action="" @submit.prevent="submitFormPassWord">
+										<input
+										type="password"
+										class="form-control"
+										placeholder="Mật khẩu hiện tại"
+										v-model="currentPassword"
+										/>
+										<input
+										type="password"
+										class="form-control"
+										placeholder="Mật khẩu mới"
+										v-model="newPassword"
+										/>
+										<button type="submit" class="main-btn">Lưu</button>
+									
+									</form>
+								</div>
+							</a-descriptions-item>
 							<a-descriptions-item label="Chức vụ">
 								{{
 									store.user.role_id === 1
@@ -151,7 +177,7 @@ import {
 import router from "../router";
 import auth from "../stores/auth";
 import logout from "../api/auth/logout";
-
+import changePasswordAPI from "../api/users/changePassword.js";
 const placement = ref("left");
 const openSidebar = ref(false);
 const showSidebar = () => {
@@ -170,7 +196,34 @@ const childrenDrawer = ref(false);
 const showChildrenDrawer = () => {
 	childrenDrawer.value = true;
 };
+const isFlag = ref(false);
 
+
+const handleFormToggle = () => {
+  isFlag.value = !isFlag.value;
+};
+const currentPassword = ref('');
+const newPassword = ref('');
+const error = ref('');
+// Hàm xử lý khi người dùng nhấn nút lưu
+const submitFormPassWord = async () => {
+  const formData = {
+    id: store.user.id,
+    current_password: currentPassword.value,
+    new_password: newPassword.value,
+  };
+  
+  try {
+    const response = await changePasswordAPI.changePassword(formData); 
+    if (response && response.status === 200) {
+       error.value = 'Mật khẩu đã được thay đổi thành công';
+    } else {
+      error.value = 'Đã xảy ra lỗi khi thay đổi mật khẩu';
+    }
+  } catch (error) {
+    console.error('Lỗi khi gọi API:', error);
+  }
+};
 const onLogout = async () => {
 	const response = await logout();
 	if (response.status === 200) {
@@ -200,5 +253,27 @@ export default {};
 <style>
 .ant-drawer .ant-drawer-body {
 	padding: 0 !important;
+}
+.description-item {
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+}
+
+.password-mask {
+  margin-right: 10px;
+}
+
+.change-password {
+  color: #007bff;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.change-password:hover {
+  color: #0056b3;
+}
+.alert.alert-success:empty {
+  display: none; 
 }
 </style>

@@ -131,9 +131,34 @@
                                 <a-descriptions-item label="Số điện thoại">
                                   {{ store.user.phone }}
                                 </a-descriptions-item>
-                                <a-descriptions-item label="Đơn vị công tac">
+                                <a-descriptions-item label="Đơn vị công tác">
                                   {{ store.user.workunit }}
                                 </a-descriptions-item>
+								<a-descriptions-item label="Mật khẩu" class="description-item">
+								<span class="password-mask">********</span>
+								<span class="change-password" @click="handleFormToggle">Thay đổi</span>
+							</a-descriptions-item>	
+							<a-descriptions-item v-if="isFlag">
+								<div class="">
+									<p v-html="error" class="alert alert-success "></p>
+									<form action="" @submit.prevent="submitFormPassWord">
+										<input
+										type="password"
+										class="form-control"
+										placeholder="Mật khẩu hiện tại"
+										v-model="currentPassword"
+										/>
+										<input
+										type="password"
+										class="form-control"
+										placeholder="Mật khẩu mới"
+										v-model="newPassword"
+										/>
+										<button type="submit" class="main-btn">Lưu</button>
+									
+									</form>
+								</div>
+							</a-descriptions-item>
                                 <a-descriptions-item label="Chức vụ">
                                   {{
                                     store.user.role_id === 1
@@ -169,7 +194,7 @@ import {
 } from "@ant-design/icons-vue";
 import router from "../router";
 import logout from "../api/auth/logout";
-
+import changePasswordAPI from "../api/users/changePassword.js";
 const route = useRoute();
 
 const menu = [
@@ -262,7 +287,34 @@ const childrenDrawer = ref(false);
 const showChildrenDrawer = () => {
 	childrenDrawer.value = true;
 };
+const isFlag = ref(false);
 
+
+const handleFormToggle = () => {
+  isFlag.value = !isFlag.value;
+};
+const currentPassword = ref('');
+const newPassword = ref('');
+const error = ref('');
+// Hàm xử lý khi người dùng nhấn nút lưu
+const submitFormPassWord = async () => {
+  const formData = {
+    id: store.user.id,
+    current_password: currentPassword.value,
+    new_password: newPassword.value,
+  };
+  
+  try {
+    const response = await changePasswordAPI.changePassword(formData); 
+    if (response && response.status === 200) {
+       error.value = 'Mật khẩu đã được thay đổi thành công';
+    } else {
+      error.value = 'Đã xảy ra lỗi khi thay đổi mật khẩu';
+    }
+  } catch (error) {
+    console.error('Lỗi khi gọi API:', error);
+  }
+};
 const onClose = () => {
 	childrenDrawer.value = false;
 };
