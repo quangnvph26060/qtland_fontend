@@ -699,7 +699,7 @@ const handleLogoClick = () => {
   filterStore.resetFilters();
   const userRole = store.user.role_id;
 
-  if (userRole == 1) {
+  if (userRole == 1 || userRole == 6) {
     router.push({ name: "admin-post-list" });
   } else {
     router.push({ name: "post-list" });
@@ -811,5 +811,6 @@ export default {};
   padding: 4px 15px;
   border-radius: 6px;
 }
+
 </style>
   

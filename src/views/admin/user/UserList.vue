@@ -258,18 +258,19 @@ import {
   DownOutlined,
   SearchOutlined,
 } from "@ant-design/icons-vue";
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted ,computed } from "vue";
 
 import { Modal } from "ant-design-vue";
 
 import { createVNode } from "vue";
-import listUsersAPI from "../../../api/users/index";
+import { listUsersRoleAPI, listUsersAPI } from "../../../api/users/index";
+
 import listPostsAPI from "../../../api/posts/index";
 import deleteUserAPI from "../../../api/users/deleteUser";
 import formatDate from "../../../scripts/formatDate";
 import UserDetail from "./UserDetail.vue";
 import messageAnt from "../../../scripts/message";
-
+import auth from "../../../stores/auth";
 const state = reactive({
   searchText: "",
   searchedColumn: "",
@@ -415,10 +416,27 @@ const pagination = reactive({
  * @param
  * CreatedBy: youngbachhh (28/03/2024)
  */
+const store = auth();
+ const value = computed(() => store.user);
+ console.log(value); 
+onMounted(() => {
+  console.log(store.user);
+});
+const id =  ref('');
 const fetchUsersList = async () => {
+  
+
   data.value = [];
-  const listUsers = await listUsersAPI();
   const users = [];
+  let listUsers = [];
+  // alert(store.user.role_id);
+  if(store.user.role_id != 6){
+      listUsers = await listUsersAPI();
+  }else{
+     listUsers = await listUsersRoleAPI();
+  }
+ 
+ 
   for (const user of listUsers) {
     users.push({
       id: user.id,
@@ -440,7 +458,10 @@ const fetchUsersList = async () => {
   }
   data.value = users;
 };
-fetchUsersList();
+
+onMounted(() => {
+  fetchUsersList();
+});
 
 // modal update/add
 const title = ref("");

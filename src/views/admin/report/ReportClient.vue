@@ -275,7 +275,7 @@ const columns = [
     width: 120,
   },
   {
-    title: "Ngàu tạo",
+    title: "Ngày tạo",
     dataIndex: "created_at",
     key: "created_at",
     width: 120,

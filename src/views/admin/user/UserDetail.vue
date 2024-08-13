@@ -78,17 +78,18 @@
           </a-button>
         </div>
       </a-form-item>
+     
       <a-form-item
         label="Vai trò"
         :rules="[{ required: true, message: 'Hãy nhập vai trò !' }]"
       >
         <a-select v-model:value="user.role_id">
-          <a-select-option :value="1">Supper Admin</a-select-option>
-          <a-select-option :value="2">Đầu chủ</a-select-option>
-          <a-select-option :value="3">Sale</a-select-option>
-          <a-select-option :value="4">Sale VIP</a-select-option>
+          <a-select-option :value="1" v-if="store.user.role_id === 1">Supper Admin</a-select-option>
+          <a-select-option :value="6" v-if="store.user.role_id === 1">Admin</a-select-option>
           <a-select-option :value="5">Đầu chủ VIP</a-select-option>
-          <a-select-option :value="6">Admin</a-select-option>
+          <a-select-option :value="2">Đầu chủ</a-select-option>
+          <a-select-option :value="4">Sale VIP</a-select-option>
+          <a-select-option :value="3">Sale</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="Trạng thái">
@@ -107,7 +108,8 @@ import createUserAPI from "../../../api/users/createUser";
 import sendEmailAPI from "../../../api/users/email";
 import messageAnt from "../../../scripts/message";
 import { message } from "ant-design-vue";
-
+import auth from "../../../stores/auth";
+ const store = auth();
 const props = defineProps({
   title: String,
   userSelected: Object,
@@ -239,7 +241,7 @@ const handleOkModal = async () => {
     const fetchUpdateUser = async (id, information) => {
       try {
         await updateUserAPI(id, information);
-          emits("updateUserList");
+        emits("updateUserList");
         messageAnt.success("Cập nhật thông tin thành công!");
         if (information.password !== null) {
           const emailData = {
@@ -249,8 +251,6 @@ const handleOkModal = async () => {
           };
           await sendEmailAPI(emailData);
         }
-
-      
       } catch (error) {
         errors.value = error.responsive.data.errors;
       } finally {
