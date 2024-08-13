@@ -52,13 +52,13 @@
 						</router-link>
 						Danh sách tin</a-menu-item
 					>
-					<!-- <a-menu-item key="4" class="hover-text">
+					<a-menu-item key="4" class="hover-text">
 						<router-link :to="{ name: 'admin-post-browse' }">
 						</router-link>
 						Duyệt tin</a-menu-item
-					> -->
+					>
 				</a-sub-menu>	
-				<a-sub-menu key="sub2">
+				<a-sub-menu v-if="store.user.role == 6" key="sub2">
 					<template #title>
 						<div class="flex align-items-center">
 							<svg style="margin-right : 5px" font-size="17px" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 6C5.32843 6 6 5.32843 6 4.5C6 3.67157 5.32843 3 4.5 3C3.67157 3 3 3.67157 3 4.5C3 5.32843 3.67157 6 4.5 6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4.5 13C5.32843 13 6 12.3284 6 11.5C6 10.6716 5.32843 10 4.5 10C3.67157 10 3 10.6716 3 11.5C3 12.3284 3.67157 13 4.5 13Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4.5 20C5.32843 20 6 19.3284 6 18.5C6 17.6716 5.32843 17 4.5 17C3.67157 17 3 17.6716 3 18.5C3 19.3284 3.67157 20 4.5 20Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.5 4.5H20.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.5 11.5H20.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.5 18.5H20.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -84,7 +84,7 @@
 						<span>Báo cáo dẫn khách</span>
 					</div>
 				</a-menu-item>
-				<a-menu-item key="9">
+				<a-menu-item v-if="store.user.role == 6"   key="9">
 					<div class="flex align-items-center">
 						<router-link :to="{ name: 'admin-config' }"> </router-link>
 						<PieChartOutlined />
@@ -138,7 +138,9 @@
 												? "Sale"
 												: store.user.role_id === 4
 													? "Sale VIP"
-													: "Đầu chủ VIP"
+													: store.user.role_id === 5
+													? "Đầu chủ VIP"
+														: "Quản trị viên thường"
 								}}
 							</a-descriptions-item>
 						</a-descriptions>

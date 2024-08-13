@@ -8,24 +8,42 @@
     :confirm-loading="loading"
     class="top-[20%]"
   >
-    <a-form layout="horizontal" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-      <a-form-item label="Tên" class="mt-3" :rules="[{ required: true, message: 'Hãy nhập tên!' }]">
+    <a-form
+      layout="horizontal"
+      :label-col="{ span: 8 }"
+      :wrapper-col="{ span: 16 }"
+    >
+      <a-form-item
+        label="Tên"
+        class="mt-3"
+        :rules="[{ required: true, message: 'Hãy nhập tên!' }]"
+      >
         <a-input v-model:value="user.name" />
       </a-form-item>
-      <a-form-item label="Email" :rules="[{ required: true, message: 'Hãy nhập email!' }]">
-        <a-input v-model:value="user.email"  />
+      <a-form-item
+        label="Email"
+        :rules="[{ required: true, message: 'Hãy nhập email!' }]"
+      >
+        <a-input v-model:value="user.email" />
       </a-form-item>
       <a-form-item
         label="Căn cước công dân"
-        :rules="[{ required:true, message: 'Hãy nhập căn cước công dân!' }]"
+        :rules="[{ required: true, message: 'Hãy nhập căn cước công dân!' }]"
       >
         <a-input v-model:value="user.cccd" />
       </a-form-item>
-      <a-form-item  label="Ngày sinh" :rules="[{ required: false, message: 'Hãy chọn ngày sinh!' }]">
+      <a-form-item
+        label="Ngày sinh"
+        :rules="[{ required: false, message: 'Hãy chọn ngày sinh!' }]"
+      >
         <!-- <a-date-picker style="width: 100%;" v-model:value="user.birthday" format="YYYY-MM-DD" /> -->
-         <a-input v-model:value="user.birthday" type="date" format="YYYY-MM-DD"  />
+        <a-input
+          v-model:value="user.birthday"
+          type="date"
+          format="YYYY-MM-DD"
+        />
       </a-form-item>
-   
+
       <a-form-item
         label="Số điện thoại"
         :rules="[{ required: true, message: 'Hãy nhập số điện thoại!' }]"
@@ -38,14 +56,17 @@
       >
         <a-input v-model:value="user.workunit" />
       </a-form-item>
-      <a-form-item label="Mật khẩu" :rules="[{ required: true, message: 'Hãy nhập mật khẩu!' }]">
+      <a-form-item
+        label="Mật khẩu"
+        :rules="[{ required: true, message: 'Hãy nhập mật khẩu!' }]"
+      >
         <div class="grid grid-cols-10 gap-2">
           <a-input
-            
             v-model:value="user.password"
-            :class="props.title === 'Sửa' ? 'col-span-6 lg:col-span-7' : 'col-span-10'"
+            :class="
+              props.title === 'Sửa' ? 'col-span-6 lg:col-span-7' : 'col-span-10'
+            "
             :disabled="!changePassword && props.title === 'Sửa'"
-           
           />
           <a-button
             type="primary"
@@ -53,17 +74,21 @@
             v-if="props.title === 'Sửa'"
             @click="onChangePassword(false)"
           >
-           Thay đổi
+            Thay đổi
           </a-button>
         </div>
       </a-form-item>
-      <a-form-item label="Vai trò" :rules="[{ required: true, message: 'Hãy nhập vai trò !' }]">
-        <a-select v-model:value="user.role_id" >
-          <a-select-option :value="1">Admin</a-select-option>
+      <a-form-item
+        label="Vai trò"
+        :rules="[{ required: true, message: 'Hãy nhập vai trò !' }]"
+      >
+        <a-select v-model:value="user.role_id">
+          <a-select-option :value="1">Supper Admin</a-select-option>
           <a-select-option :value="2">Đầu chủ</a-select-option>
           <a-select-option :value="3">Sale</a-select-option>
           <a-select-option :value="4">Sale VIP</a-select-option>
           <a-select-option :value="5">Đầu chủ VIP</a-select-option>
+          <a-select-option :value="6">Admin</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="Trạng thái">
@@ -79,6 +104,7 @@
 import { reactive, ref, watch } from "vue";
 import updateUserAPI from "../../../api/users/updateUser";
 import createUserAPI from "../../../api/users/createUser";
+import sendEmailAPI from "../../../api/users/email";
 import messageAnt from "../../../scripts/message";
 import { message } from "ant-design-vue";
 
@@ -108,8 +134,7 @@ const user = reactive({
   phone: "",
   address: "",
   workunit: "",
-  birthday : "",
-
+  birthday: "",
 });
 const errors = ref({});
 
@@ -175,6 +200,12 @@ const handleOkModal = async () => {
     const fetchCreateUser = async (information) => {
       try {
         await createUserAPI(information);
+        const emailData = {
+          email: information.email,
+          password: information.password,
+          name: information.name
+        };
+        await sendEmailAPI(emailData);
         emits("updateUserList");
         messageAnt.success("Thêm mới người dùng thành công!");
       } catch (error) {
@@ -208,6 +239,12 @@ const handleOkModal = async () => {
     const fetchUpdateUser = async (id, information) => {
       try {
         await updateUserAPI(id, information);
+        const emailData = {
+          email: information.email,
+          password: information.password,
+          name: information.name
+        };
+        await sendEmailAPI(emailData);
         emits("updateUserList");
         messageAnt.success("Cập nhật thông tin thành công!");
       } catch (error) {

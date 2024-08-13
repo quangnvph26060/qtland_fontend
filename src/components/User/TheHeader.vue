@@ -12,7 +12,7 @@
           <div @click="handleLogoClick" class="cursor-pointer">
             <!-- begin::Logo Image -->
             <img
-              style="width: 160px"
+              style="width: 200px"
               :src="logo"
               alt="Logo"
               class="app-header-logo-image w-[100px] h-[64px]"
@@ -51,7 +51,7 @@
               <!-- begin::Drawer -->
               <div
                 class="n:px-2 md:px-4 block sm:hidden"
-                v-if="store.user.role_id == 1"
+                v-if="store.user.role_id == 1 || store.user.role_id == 6 "
               >
                 <TheMenu />
               </div>
@@ -159,7 +159,9 @@
                                   ? "Sale"
                                   : store.user.role_id === 4
                                   ? "Sale VIP"
-                                  : "Đầu chủ VIP"
+                                   : store.user.role_id === 5
+                                  ? "Đàu chỉ VIP"
+                                  : "Quản trị viên thường"
                               }}
                             </p>
                           </div>
@@ -175,7 +177,7 @@
                   </template>
                   <div
                     class="flex justify-center items-center cursor-pointer"
-                    style="min-width: 160px"
+                    style="min-width: 300px"
                   >
                     <a-avatar
                       size="large"
@@ -231,7 +233,7 @@
               </div>
               <div
                 class="n:px-2 md:px-4"
-                :class="store.user.role_id == 1 ? 'hidden' : 'sm:hidden'"
+                :class="store.user.role_id == 1 || store.user.role_id == 6   ? 'hidden' : 'sm:hidden'"
               >
                 <a-button
                   @click="showDrawer"
@@ -250,13 +252,28 @@
                     <div class="flex align-items-center cursor-pointer">
                       <a-avatar
                         size="large"
-                        class="me-2"
+                        class="me-2 avatar-container"
                         :style="{
-                          backgroundColor: '#ADC178',
+                          backgroundColor: store.user.avatar
+                            ? 'transparent'
+                            : '#ADC178',
                           verticalAlign: 'middle',
                         }"
                       >
-                        <span>{{ store.user.name[0] }}</span>
+                        <!-- Hiển thị ảnh avatar nếu có -->
+                        <template v-if="store.user.avatar">
+                          <img
+                            :src="store.user.avatar"
+                            alt="avatar"
+                            class="avatar-img"
+                          />
+                        </template>
+                        <!-- Hiển thị chữ cái đầu tiên của tên người dùng nếu không có avatar -->
+                        <template v-else>
+                          <span class="avatar-text">{{
+                            store.user.name[0]
+                          }}</span>
+                        </template>
                       </a-avatar>
                       <div>
                         {{ store.user.name }}
@@ -285,6 +302,58 @@
                           Báo cáo dẫn khách
                         </a-button>
                       </router-link>
+                    </div>
+                    <div style="padding: 4px 15px">
+                      <a-button
+                        class="h-[36px] w-100 flex align-items-center border-none p-0"
+                        :icon="h(AccountBookOutlined)"
+                        @click="showAvatarModal"
+                      >
+                        Thay đổi ảnh đại diện
+                      </a-button>
+                      <a-modal
+                        v-model:open="isAvatarModalVisible"
+                        title="Ảnh đại diện"
+                        @ok="handleAvatarOk"
+                        @cancel="handleAvatarCancel"
+                      >
+                        <div id="info_user" style="display: flex; j">
+                          <!-- Chọn ảnh mới -->
+
+                          <a-upload
+                            style="text-align: center"
+                            list-type="picture-card"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                          >
+                            <img
+                              v-if="store.user.avatar"
+                              :src="store.user.avatar"
+                              alt="avatar"
+                              style="width: 100%; height: 100%"
+                            />
+                          </a-upload>
+                          
+                          <a-upload
+                            style="text-align: center"
+                            name="avatar"
+                            list-type="picture-card"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                          >
+                            <img
+                              v-if="avatarUrl"
+                              :src="avatarUrl"
+                              alt="avatar"
+                              style="width: 100%; height: 100%"
+                            />
+                            <div v-else>
+                              <a-icon :type="uploading ? 'loading' : 'plus'" />
+                              <div style="margin-top: 8px">Upload</div>
+                            </div>
+                          </a-upload>
+                        </div>
+                      </a-modal>
                     </div>
                     <div>
                       <router-link
@@ -344,7 +413,9 @@
                                       ? "Sale"
                                       : store.user.role_id === 4
                                       ? "Sale VIP"
-                                      : "Đầu chủ VIP"
+                                      : store.user.role_id === 5
+                                      ? "Đầu chủ VIP"
+                                      : "Quản trị viên thường"
                                   }}
                                 </a-descriptions-item>
                               </a-descriptions>
@@ -448,7 +519,7 @@ const handleAvatarOk = async () => {
       // Gửi dữ liệu đến server (đổi URL cho phù hợp)
       const response = await updateUserAPI.updateUser(formData);
       console.log(response);
-   window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.error("Lỗi khi cập nhật ảnh:", error);
     } finally {
@@ -512,7 +583,6 @@ watch(
   },
   { immediate: true }
 );
-
 
 const { getconfig, responseConfig, updateConfig } = Config();
 const logo = ref(null);
@@ -645,26 +715,25 @@ export default {};
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  overflow: hidden; 
+  overflow: hidden;
 }
-
 
 .avatar-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
 }
-.ant-avatar-string{
+.ant-avatar-string {
   width: 59px !important;
-  height: 85px  !important;
+  height: 85px !important;
 }
 
 /* Định dạng chữ cái đầu tiên */
 .avatar-text {
   font-size: 24px;
-  color: white; 
+  color: white;
   text-align: center;
-  line-height: 64px; 
+  line-height: 64px;
 }
 </style>
   
