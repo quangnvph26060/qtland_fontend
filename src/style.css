@@ -313,6 +313,20 @@ a:focus {
     display: none  !important;
 }
 
+.thanhtoan h3, .thanhtoan span{
+    padding-bottom: 6px;
+}
+@media (min-width: 769px) {
+    .gop{
+        display: flex;
+        align-items: center;
+    }
+    .pay{
+        display: flex;
+        align-items: center;
+    }
+}
+
 @media (max-width: 768px) {
     .hide-on-mobile {
         display: none !important;
@@ -523,6 +537,34 @@ a:focus {
     #gop_pay{
         display: none !important;
     }
+    .trichthuong h3{
+        margin-right: 228px !important;
+    }
+    .mobitrichthuong{
+        flex-direction: column;
+    }
+    .mobiinput{
+        flex-wrap: nowrap !important;
+    }
+    .thanhtoan>div{
+        flex-direction: column  !important;
+    }
+    .thanhtoan .title h3{
+        margin-right: 169px !important;
+        padding-bottom: 10px;
+    }
+    .gop{
+        flex: 1;
+    }
+    .gop h3, .pay h3{
+        font-size: 13px !important;
+    }
+    .pay{
+        flex: 1;
+    }
+    .gop_pay{
+        gap: 24px;
+    }
    
 
 
@@ -554,3 +596,4 @@ a:focus {
     }
 
 }
+

@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="text-red-500 text-base">
-                      {{ item.area }} m<sup>2</sup>
+                      {{ item.areausable }} m<sup>2</sup>
                     </div>
                   </div>
                   <div class="mt-2 line-clamp-2 main_text_address">
@@ -199,7 +199,7 @@ const text5 = ref(null);
 
 onMounted(() => {
   const text5Element = text5.value;
-
+console.log(auth.user);
   if (text5Element) {
     // Replace text with span-wrapped characters
     text5Element.innerHTML = text5Element.textContent.replace(
@@ -245,6 +245,7 @@ const props = defineProps({
 });
 
 const store = auth();
+const role = localStorage.getItem('role_id');
 const role_id = store.user.role_id;
 
 const total = ref(0);
@@ -265,7 +266,7 @@ const options1 = ref([
   },
   {
     value: "hot",
-    label: "HOT",
+    label: "Khách nhượng",
   },
   {
     value: "tăng chào",
@@ -301,86 +302,7 @@ const datacall = ref({
   },
 });
 
-// const fetchPostsFilter = async (
-//   filter,
-//   page = 1,
-//   pageSize = 10,
-//   priority_status = "all"
-// ) => {
-//   isLoading.value = true;
-//   data.value = [];
 
-//   let listPosts;
-//   let res;
-
-//   res = await listPostsAPI.getPostByFilter({
-//     ...filter,
-//     page: pageFilter.value,
-//     pageSize: pageSizeFilter.value,
-//     priority_status: value1.value,
-//   });
-//   listPosts = res.data;
-
-//   const ans = reactive({
-//     id: "",
-//     title: "",
-//     description: "",
-//     price: "",
-//     direction: "",
-//     area: "",
-//     address: "",
-//     created_at: "",
-//     views_count: 0,
-//     sold_status: "",
-//     status_id: "",
-//     priority_status: "",
-//     classrank: "",
-//     user: "",
-//     comment: [],
-//     post_image: [],
-//     user_info: "",
-//     user_id: ""
-//   });
-
-   
-//   const posts = [];
-//   if (listPosts.length === 0) {
-//     isLoading.value = false;
-//     return;
-//   }
-//   for (let i = 0; i < listPosts.length; i++) {
-//     const post = listPosts[i];
-//     if (post && posts.user_info) {
-//     datacall.value.user.phone = post.user_info.phone;
-//     datacall.value.user.name = post.user_info.name;
-//     datacall.value.user.email = post.user_info.email;
-//   }
-  
-//     Object.keys(ans).forEach((key) => {
-//       ans[key] = post[key];
-//     });
-//     ans.created_at = getTimeSincePostCreation(post.created_at);
-//     posts.push({ ...ans });
-//   }
-
-//   data.value = posts;
-
-//   // if (role_id == 4) {
-//   //   data.value = posts.filter((item) => item.price < 20000000000);
-//   // }
-
-//   // if (role_id == 2) {
-//   // 	data.value = posts.filter(
-//   // 		(item) => {
-//   // 			item.user.id == store.user.id || item.user.role_id == 1
-//   //         }
-//   // 	);
-//   // }
-
-//   total.value = res.total;
-
-//   isLoading.value = false;
-// };
 const fetchPostsFilter = async (
   filter,
   page = 1,
@@ -407,7 +329,7 @@ const fetchPostsFilter = async (
     description: "",
     price: "",
     direction: "",
-    area: "",
+    areausable: "",
     address: "",
     created_at: "",
     views_count: 0,
@@ -444,20 +366,20 @@ const fetchPostsFilter = async (
     });
     ans.created_at = getTimeSincePostCreation(post.created_at);
 
-    // Điều kiện lọc bài viết dựa trên `role_id`
-    if (store.user.role_id == 2) {
-      // Chỉ thêm bài viết của người dùng hiện tại
+    if (role == 2 || role == 5 ) {
+      
       if (post.user_id === store.user.id) {
         posts.push({ ...ans });
+        
       }
     } else {
-      // Thêm tất cả bài viết nếu `role_id` khác 2
+
       posts.push({ ...ans });
     }
   }
 
   data.value = posts;
-  total.value = res.total;
+  total.value = posts.length;
   isLoading.value = false;
 };
 

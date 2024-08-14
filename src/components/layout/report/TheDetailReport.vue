@@ -314,7 +314,8 @@ const disabledSubmit = computed(() => {
     data.phone &&
     data.cccd &&
     data.address &&
-    data.post_id
+    data.post_id &&
+      data.time
   );
 });
 

@@ -61,6 +61,16 @@ const listPostsAPI = {
 			console.log(error);
 		}
 	},
+	getPostStatusByUser: async (id) => {
+		try {
+			const response = await axios.get(
+				`${apiURL.baseURL}/posts/user-status/${id}`
+			);
+			return response.data;
+		} catch (error) {
+			console.log(error);
+		}
+	},
 	getPostCountByUser: async (id) => {
 		try {
 			const response = await axios.get(

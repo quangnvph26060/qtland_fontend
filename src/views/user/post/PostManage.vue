@@ -30,20 +30,21 @@
 								{{ item.priority_status }}
 							</div>
 							<a-image
-								@click="redirectPostDetail(item.id)"
+							@click="redirectPostDetail(item.id)"
 								:src="item.post_image?.[0]?.image_path"
 								class="object-cover"
 								:preview="false"
-								
+								:height="150"
+								:width="300"
 							/>
 						</div>
-						<div class="col-sm-9" >
+						<div class="col-sm-9">
 							<Card :title="item.title">
 								<template #content>
 									<span class="text-sm" @click="redirectPostDetail(item.id)">
 										{{ item.description }}
 									</span>
-									<CardInfor type="manage" :post="item" />
+									<CardInfor type="list" :post="item" />
 								</template>
 							</Card>
 						</div>
@@ -51,11 +52,11 @@
 					<!-- end::Post Items -->
 				</a-tab-pane>
 				<a-tab-pane key="2" class="space-y-5">
-					<template #tab> Đang hiển thị ({{ totalLand }}) </template>
+					<template #tab> Đang hiển thị ({{ totalLandHT }}) </template>
 					<!-- begin::Post Items -->
 					<div
 						class="flex n:flex-col sm:flex-row border-[1px] cursor-pointer"
-						v-for="item in data"
+						v-for="item in datahienthi"
 						
 					>
 						<div
@@ -81,10 +82,10 @@
 								:width="300"
 							/>
 						</div>
-						<div class="col-sm-9" @click="redirectPostDetail(item.id)">
+						<div class="col-sm-9" >
 							<Card :title="item.title">
 								<template #content>
-									<span class="text-sm">
+									<span class="text-sm" @click="redirectPostDetail(item.id)">
 										{{ item.description }}
 									</span>
 									<CardInfor type="manage" :post="item" />
@@ -163,6 +164,7 @@ const showConfirmDelete = () => {
 };
 
 const data = ref([]);
+const totalLandHT = ref(0);
 const fetchPostByUser = async (userId) => {
 	// isLoading.value = true;
 	data.value = [];
@@ -199,6 +201,42 @@ const fetchPostByUser = async (userId) => {
 	data.value = posts;
 	totalLand.value = posts.length;
 };
+const datahienthi = ref([]);
+const fetchPostByUserHT = async (userId) => {
+	// isLoading.value = true;
+	datahienthi.value = [];
+	const listPosts = await listPostsAPI.getPostStatusByUser(userId);
+	const ans = reactive({
+		id: "",
+		title: "",
+		description: "",
+		price: "",
+		direction: "",
+		area: "",
+		address: "",
+		created_at: "",
+		view: 1000,
+		sold_status: "",
+		classrank: "",
+		status_id: "",
+		priority_status: "",
+		user: "",
+		comment: [],
+		post_image: [],
+	});
+	const posts = [];
+
+	for (let i = 0; i < listPosts.length; i++) {
+		const post = listPosts[i];
+		Object.keys(ans).forEach((key) => {
+			ans[key] = post[key];
+		});
+		posts.push({ ...ans });
+	}
+
+	datahienthi.value = posts;
+	totalLandHT.value = posts.length;
+};
 
 const getColorTagByPriorityStatus = (priority_status) => {
 	switch (priority_status) {
@@ -214,8 +252,11 @@ const getColorTagByPriorityStatus = (priority_status) => {
 			return "";
 	}
 };
-
-if (userId.value) fetchPostByUser(userId.value);
+const userid = localStorage.getItem('user_id');
+if (userid){
+	fetchPostByUser(userid);
+	fetchPostByUserHT(userid);
+} 
 </script>
 
 <script>
@@ -235,5 +276,9 @@ export default {
 .sidebar-box-item {
 	margin-bottom: 12px;
 	font-weight: normal;
+}
+
+.ant-image{
+	width: 100%  !important;
 }
 </style>

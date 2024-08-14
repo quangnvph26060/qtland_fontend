@@ -1,22 +1,24 @@
 <template>
   <div class="flex flex-col mt-3">
     <!-- begin::Card Infor For List -->
-    <div v-if="type === 'list'">
-      <!-- begin::Card Info Config -->
-      <div class="flex flex-wrap align-items-center space-x-5">
-        <span class="text-sm text-gray-500">
-          {{ formatMoney(data.price) }}
-        </span>
-        <span class="text-sm text-gray-500"> 126 m&sup2 </span>
-        <span class="text-sm text-gray-500"> 138 triệu/m&sup2 </span>
+    <div class="flex flex-wrap space-x-10" v-if="type === 'list'">
+      <div class="flex flex-col">
+        <span class="text-slate-400">Trạng thái</span>
+        <div class="news-status">
+          <a-tag color="warning" v-if="data?.status_id === 3">chờ duyệt</a-tag>
+          <a-tag color="success" v-else-if="data?.status_id === 4"
+            >công khai</a-tag
+          >
+          <a-tag color="error" v-else-if="data?.status_id === 5"
+            >không công khai</a-tag
+          >
+        </div>
       </div>
-      <!-- end::Card Info Config -->
-
-      <!-- begin::Card Info Location -->
-      <div class="mt-2">
-        <span class="text-sm text-gray-500"> Quận 9, Hồ Chí Minh </span>
+      <div class="flex flex-col">
+        <span class="text-slate-400">Ngày đăng </span>
+        <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
-      <!-- end::Card Info Location -->
+      
     </div>
     <!-- end::Card Infor For List -->
 
@@ -38,7 +40,7 @@
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
-      <div class="flex flex-col checkbox_sold" >
+      <div class="flex flex-col checkbox_sold">
         <label class="switch">
           <input
             type="checkbox"
@@ -48,7 +50,9 @@
           />
           <span class="slider"></span>
         </label>
-        <p style="font-weight: 600">{{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}</p>
+        <p style="font-weight: 600">
+          {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
+        </p>
       </div>
     </div>
     <!-- end::Card Infor For Manage -->
@@ -85,17 +89,17 @@ watch(
   async (newStatus) => {
     try {
       // Gửi yêu cầu PUT hoặc PATCH đến API để cập nhật status
-      const response = await updatePostAPI.updateSold(props.post.id, {sold_status: newStatus});
+      const response = await updatePostAPI.updateSold(props.post.id, {
+        sold_status: newStatus,
+      });
       if (response && response.status == 200) {
-		    message.success("Cập nhật trạng thái cho thuê thành công");
+        message.success("Cập nhật trạng thái cho thuê thành công");
       }
     } catch (error) {
-      console.error('Error updating status:', error);
-      
+      console.error("Error updating status:", error);
     }
   }
 );
-
 </script>
 
 <script>

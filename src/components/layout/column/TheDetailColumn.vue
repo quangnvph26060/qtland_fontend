@@ -7,16 +7,16 @@
           <!-- begin::Status -->
           <Card title="Trạng thái" class="p-0 border-0">
             <template #content>
-              <div v-if="postId">
+              <!-- <div v-if="postId">
                 <InputSelect
                   :valueSelected="data.sold_status.toString()"
                   :options="soldStatus"
                   :title="'Trạng thái thuê'"
                   @update:selected="handleInput('sold_status', $event)"
                 />
-              </div>
-
-              <div v-if="postId">
+              </div> -->
+            
+              <div v-if="postId && (store.user.role_id != 2 && store.user.role_id != 5)">
                 <InputSelect
                   :valueSelected="data.status_id?.toString()"
                   :options="status"
@@ -262,9 +262,9 @@
 
               <div class="col-12 col-xl-12">
                 <!-- begin::Header and Inputs -->
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center mobitrichthuong">
                   <!-- Tiêu đề -->
-                  <div class="me-4 flex-shrink-0">
+                  <div class="me-4 flex-shrink-0 trichthuong">
                     <h3
                       class="mb-0"
                       style="
@@ -277,7 +277,7 @@
                     </h3>
                   </div>
                   <!-- Các input -->
-                  <div class="d-flex flex-wrap flex-grow-1 align-items-center">
+                  <div class="d-flex  flex-grow-1 align-items-center mobiinput">
                     <!-- Phần trăm input -->
                     <div class="d-flex align-items-center">
                       <InputBasic
@@ -313,68 +313,74 @@
                 <!-- end::Header and Inputs -->
               </div>
 
-              <div class="col-12 col-xl-12">
+              <div class="col-12 col-xl-12 thanhtoan">
                 <!-- begin::Header and Inputs -->
-                <div class="d-flex align-items-center justify-content-start">
+                <div class="d-flex align-items-center justify-content-start ">
                   <!-- Tiêu đề bao quanh -->
-                  <div class="me-4 flex-shrink-0">
-                    <h3
-                      class="mb-0"
-                      style="
-                        
-                        font-size: 14px;
-                        color: black;
-                      "
-                    >
-                      Hình thức thanh toán :
+                  <div class="me-4 flex-shrink-0 title">
+                    <h3 class="mb-0" style="font-size: 14px; color: black">
+                      Hình thức thanh toán
                     </h3>
                   </div>
                   <!-- Các input -->
-                  <div class="d-flex flex-wrap align-items-center">
+                  <div class="d-flex flex-wrap align-items-center gop_pay">
                     <!-- Tiêu đề "Cọc" -->
-                    <div class="me-4">
-                      <h3
-                        class="mb-0"
-                        style="
-                         
-                          font-size: 14px;
-                          color: black;
-                          font-weight: 700 !important;
-
-                        "
-                      >
-                        Cọc
-                      </h3>
+                    <div class="gop">
+                      <div class="me-4">
+                        <h3
+                          class="mb-0"
+                          style="
+                            font-size: 14px;
+                            color: black;
+                            font-weight: 500 !important;
+                          "
+                        >
+                          Cọc
+                        </h3>
+                      </div>
+                      <!-- Input cho "Cọc" -->
+                      <div class="d-flex align-items-center">
+                        <InputBasic
+                          title=""
+                          placeholder="Nhập tháng cọc, VD: 3"
+                          :value="data.gop ? data.gop : ''"
+                          @input="handleInput('gop', $event)"
+                          inputType="number"
+                        />
+                        <span class="ms-2" style="font-weight: 500 !important"
+                          >Tháng</span
+                        >
+                      </div>
                     </div>
-                    <!-- Input cho "Cọc" -->
-                    <div class="d-flex align-items-center">
-                      <InputBasic
-                        title=""
-                        placeholder="Nhập tháng cọc, VD: 3"
-                        :value="data.gop ? data.gop : ''"
-                        @input="handleInput('gop', $event)"
-                        inputType="number"
-                      />
-                      <span class="ms-2" style="font-weight: 500 !important"
-                        >Tháng</span
-                      >
-                    </div>
 
-                    <div id="gop_pay" style="width: 60px;"></div>
+                    <div id="gop_pay" style="width: 50px"></div>
                     <!-- Phần cách "hoặc" -->
-                    <span class="mr-6 align-self-center" style="font-weight: 700 !important">Thanh toán</span>
-                    <!-- Input cho "Thanh toán theo tháng" -->
-                    <div class="d-flex align-items-center flex-grow-1 col-xl-3">
-                      <InputBasic
-                        title=""
-                        placeholder="Só tháng thanh toán 1 lần, VD: 3 "
-                        :value=" data.pay ? data.pay : '' "
-                        @input="handleInput('pay', $event)"
-                        inputType="number"
-                      />
-                      <span class="ms-2" style="font-weight: 500 !important"
-                        >Tháng</span
-                      >
+                    <div class="pay">
+                      <div class="me-4">
+                        <h3
+                          class="mb-0"
+                          style="
+                            font-size: 14px;
+                            color: black;
+                            font-weight: 500 !important;
+                          "
+                        >
+                          Thanh toán
+                        </h3>
+                      </div>
+                      <!-- Input cho "Cọc" -->
+                      <div class="d-flex align-items-center">
+                        <InputBasic
+                          title=""
+                          placeholder="Thanh toán 1 lần, VD: 3"
+                          :value="data.pay ? data.pay : ''"
+                          @input="handleInput('pay', $event)"
+                          inputType="number"
+                        />
+                        <span class="ms-2" style="font-weight: 500 !important"
+                          >Tháng</span
+                        >
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -724,7 +730,7 @@ const priorityStatus = [
   },
   {
     value: "hot",
-    label: "Hot",
+    label: "Khách nhượng",
   },
   {
     value: "tăng chào",
@@ -827,8 +833,8 @@ const data = reactive({
   user: "",
   comment: [],
   post_image: [],
-  gop: '',
-  pay: ''
+  gop: "",
+  pay: "",
 });
 
 const disabledSubmit = computed(() => {
@@ -995,10 +1001,10 @@ const onSubmit = async () => {
         formData.append("post_id", response.data.id);
         try {
           const res = await createImageAPI.updatePostImage(formData);
-
+          router.push({ name: "admin-post-list" });
           fileList.value = [];
           uploading.value = false;
-          router.go(0);
+          // router.go(0);
         } catch (error) {
           uploading.value = false;
           console.log(error);

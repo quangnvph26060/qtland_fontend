@@ -5,6 +5,7 @@
 		</div> -->
     
     <!-- begin::Main Content -->
+    <!-- {{ data }} -->
     <div class="reportlisst">
       <a-tabs >
         <a-tab-pane   class="space-y-5">

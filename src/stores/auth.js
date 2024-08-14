@@ -17,12 +17,16 @@ const auth = defineStore({
 		login(token, user) {
 			this.token = token;
 			this.user = user;
+			localStorage.setItem("role_id", user.role_id);
+			localStorage.setItem("user_id", user.id);
 			localStorage.setItem("token", token);
 		},
 		logout() {
 			this.token = "";
 			this.user = {};
 			localStorage.removeItem("token");
+			localStorage.removeItem("role_id");
+			localStorage.removeItem("user_id");
 			localStorage.removeItem("role");
 		},
 	},

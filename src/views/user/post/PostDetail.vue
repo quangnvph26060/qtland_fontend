@@ -97,7 +97,7 @@
               <div class="area mx-12 main_infor">
                 <span class="title">Diện tích</span>
                 <br />
-                <span class="content"> {{ data.area }} m2 </span>
+                <span class="content"> {{ data.areausable }} m2 </span>
               </div>
               <div
                 class="direction main_infor ml-10"
@@ -144,7 +144,7 @@
                   <a-tooltip placement="top">
                     <a
                       class="border-none"
-                      @click="copyCurrentPageUrl()"
+                      @click="copyCurrenttitle(data.title)"
                       v-bind:wave="false"
                     >
                       <CopyOutlined :style="{ fontSize: '24px' }" />
@@ -165,57 +165,7 @@
                 </div>
               </div>
 
-              <!-- <div class="flex-end feature flex ml-auto align-items-center">
-                <div>
-                  <a-tooltip placement="top">
-                    
-                    <a-dropdown>
-                      <a-button
-                        class="border-none hover:bg-slate-200"
-                        v-bind:wave="false"
-                      >
-                        <ShareAltOutlined :style="{ fontSize: '24px' }" />
-                      </a-button>
-                      <template #overlay>
-                        <a-menu @click="handleMenuClick">
-                          <a-menu-item key="facebook">
-                            <span>Chia sẻ lên Facebook</span>
-                          </a-menu-item>
-                          <a-menu-item key="zalo">
-                            <span>Chia sẻ lên Zalo</span>
-                          </a-menu-item>
-                        </a-menu>
-                      </template>
-                    </a-dropdown>
-                  </a-tooltip>
-                </div>
-
-                <div>
-                  <a-tooltip placement="top">
-                   
-                    <a-button
-                      class="border-none"
-                      @click="copyCurrentPageUrl()"
-                      v-bind:wave="false"
-                    >
-                      <CopyOutlined :style="{ fontSize: '24px' }" />
-                    </a-button>
-                  </a-tooltip>
-                </div>
-                <div class="h">
-                  <a-tooltip placement="top">
-                    
-                    <a-button
-                      class="border-none"
-                      @click="toggleHeart"
-                      :style="heartStyle"
-                      v-bind:wave="false"
-                    >
-                      <HeartOutlined :style="{ fontSize: '24px' }" />
-                    </a-button>
-                  </a-tooltip>
-                </div>
-              </div> -->
+              
             </div>
           </div>
         </div>
@@ -229,14 +179,14 @@
             :labelStyle="{ fontWeight: '500' }"
           >
             <a-descriptions-item
-              v-if="data.area !== null && data.area !== undefined"
+              v-if="data.areausable !== null && data.areausable !== undefined"
               :span="1"
               class="description-item-infor"
             >
               <template #label>
                 <i class="fa-solid fa-object-group"></i> Diện tích</template
               >
-              {{ data.area }} m&sup2
+              {{ data.areausable }} m&sup2
             </a-descriptions-item>
             <a-descriptions-item
               v-if="
@@ -605,7 +555,7 @@
             "
           >
             <button
-              @click="copyPhone"
+              @click="copyPhone(data.user.phone)"
               style="
                 display: block;
                 width: 100%;
@@ -658,7 +608,34 @@ import getCommentDetailsAPI from "../../../api/comment/getDetails";
 import viewedPostsAPI from "../../../api/posts/viewed/index";
 import formatMoney from "../../../utils/formatMoney";
 import formatDateOnly from "../../../scripts/formatDateOnly";
-// import copyCurrentPageUrl from "../../../scripts/copyText.js";
+
+const copyCurrentPageUrl = () => {
+  const url = window.location.href; // Lấy URL của trang web hiện tại
+
+  if (typeof window !== "undefined") {
+    // Kiểm tra nếu đang chạy trong môi trường trình duyệt
+    if (
+      navigator &&
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function"
+    ) {
+      navigator.clipboard
+        .writeText(url)
+        .then(() => {
+          message.success("Sao chép URL trang thành công!");
+        })
+        .catch((err) => {
+          console.error("Không thể sao chép văn bản: ", err);
+          fallbackCopyTextToClipboard(url);
+        });
+    } else {
+      fallbackCopyTextToClipboard(url);
+    }
+  } else {
+    console.error("Môi trường không hỗ trợ sao chép văn bản.");
+    message.error("Không thể sao chép URL trang.");
+  }
+};
 
 function formatPrice(value) {
   // return value.toLocaleString('vi-VN');
@@ -672,6 +649,7 @@ const data = reactive({
   description: "",
   price: "",
   area: "",
+  areausable: "",
   direction: "",
   directionBalcony: "",
   address: "",
@@ -713,16 +691,30 @@ function closeOptions() {
   showOptions.value = false;
 }
 
-function copyPhone() {
-  navigator.clipboard
-    .writeText(data.user.phone)
-    .then(() => {
-      message.success("Số điện thoại đã được sao chép!");
-      closeOptions();
-    })
-    .catch((err) => {
-      alert("Failed to copy phone number.");
-    });
+function copyPhone(phone) {
+  if (typeof window !== "undefined") {
+    // Kiểm tra nếu đang chạy trong môi trường trình duyệt
+    if (
+      navigator &&
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function"
+    ) {
+      navigator.clipboard
+        .writeText(phone)
+        .then(() => {
+          message.success("Sao chép thành công!");
+        })
+        .catch((err) => {
+          console.error("Không thể sao chép văn bản: ", err);
+          fallbackCopyTextToClipboard(phone);
+        });
+    } else {
+      fallbackCopyTextToClipboard(phone);
+    }
+  } else {
+    console.error("Môi trường không hỗ trợ sao chép văn bản.");
+    message.error("Không thể sao chép .");
+  }
 }
 
 function callPhone() {
@@ -760,14 +752,6 @@ const togglePhoneVisibility = () => {
 
 // // Sao chép số điện thoại vào clipboard
 const copyPhoneNumber = () => {
-  // navigator.clipboard
-  //   .writeText(datacall.value.user.phone)
-  //   .then(() => {
-  //     message.success("Số điện thoại đã được sao chép!");
-  //   })
-  //   .catch((err) => {
-  //     console.error("Không thể sao chép số điện thoại:", err);
-  //   });
 
   if (typeof window !== "undefined") {
     // Kiểm tra nếu đang chạy trong môi trường trình duyệt
@@ -820,8 +804,7 @@ const copyEmail = () => {
   }
 };
 
-const copyCurrentPageUrl = () => {
-  const title = data.title;
+const copyCurrenttitle = (title) => {
   if (typeof window !== "undefined") {
     if (
       navigator &&
@@ -835,10 +818,10 @@ const copyCurrentPageUrl = () => {
         })
         .catch((err) => {
           console.error("Không thể sao chép văn bản: ", err);
-          fallbackCopyTextToClipboard(currentUrl);
+          fallbackCopyTextToClipboard(title);
         });
     } else {
-      fallbackCopyTextToClipboard(currentUrl);
+      fallbackCopyTextToClipboard(title);
     }
   } else {
     console.error("Môi trường không hỗ trợ sao chép văn bản.");

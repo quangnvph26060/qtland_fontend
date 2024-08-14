@@ -110,7 +110,7 @@ const priorityList = reactive([
 	},
 	{
 		value: "hot",
-		name: "Hot",
+		name: "Khách nhượng",
 		isChecked: false,
 	},
 	{

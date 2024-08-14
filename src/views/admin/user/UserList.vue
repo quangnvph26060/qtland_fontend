@@ -429,8 +429,8 @@ const fetchUsersList = async () => {
   data.value = [];
   const users = [];
   let listUsers = [];
-  // alert(store.user.role_id);
-  if(store.user.role_id != 6){
+  const role = localStorage.getItem('role_id');
+  if(role != 6){
       listUsers = await listUsersAPI();
   }else{
      listUsers = await listUsersRoleAPI();
