@@ -74,7 +74,7 @@
                   </div>
                 </div>
                 <div style="padding: 5px 11px 6px 12px">
-                  <h2 class="text-lg font-semibold line-clamp-2">
+                  <h2 class="text-lg font-semibold line-clamp-2" style="height: 56px">
                     {{ item.title }}
                   </h2>
                   <div class="flex align-items-center">
@@ -93,16 +93,22 @@
                 </div>
               </router-link>
               <div class="demo" style="padding: 5px 15px">
-                <div class="flex items-baseline justify-content-between" style="flex-wrap: wrap">
+                <div
+                  class="flex items-baseline justify-content-between"
+                  style="flex-wrap: wrap"
+                >
                   <div style="display: flex">
                     <a-avatar
                       class="me-2"
+                      :src="item.user_info.avatar || ''"
                       :style="{
                         backgroundColor: '#ADC178',
                         verticalAlign: 'middle',
                       }"
                     >
-                      {{ item.user_info.name[0] }}
+                      <template v-if="!item.user_info.avatar">
+                        {{ item.user_info.name[0] }}
+                      </template>
                     </a-avatar>
                     <div class="flex flex-col">
                       <div>{{ item.user_info.name }}</div>
@@ -116,7 +122,8 @@
                       v-if="!isPhoneVisible[item.id]"
                       style="display: flex; align-items: center; margin: 0px"
                     >
-                      <div @click="copyPhoneNumber(item.user_info.phone)"
+                      <div
+                        @click="copyPhoneNumber(item.user_info.phone)"
                         style="
                           display: flex;
                           background: #009ba1;
@@ -125,7 +132,11 @@
                           border-radius: 5px;
                         "
                       >
-                      <i style="padding: 0px 10px 0px 0px" class="fa-solid fa-phone"></i>{{ item.user_info.phone }}
+                        <i
+                          style="padding: 0px 10px 0px 0px"
+                          class="fa-solid fa-phone"
+                        ></i
+                        >{{ item.user_info.phone }}
                         <!-- {{
                           item.user_info.phone.replace(/(\d{7})\d{3}/, "$1***")
                         }} -->
@@ -199,7 +210,7 @@ const text5 = ref(null);
 
 onMounted(() => {
   const text5Element = text5.value;
-console.log(auth.user);
+  console.log(auth.user);
   if (text5Element) {
     // Replace text with span-wrapped characters
     text5Element.innerHTML = text5Element.textContent.replace(
@@ -245,7 +256,7 @@ const props = defineProps({
 });
 
 const store = auth();
-const role = localStorage.getItem('role_id');
+const role = localStorage.getItem("role_id");
 const role_id = store.user.role_id;
 
 const total = ref(0);
@@ -302,7 +313,6 @@ const datacall = ref({
   },
 });
 
-
 const fetchPostsFilter = async (
   filter,
   page = 1,
@@ -341,7 +351,7 @@ const fetchPostsFilter = async (
     comment: [],
     post_image: [],
     user_info: "",
-    user_id: ""
+    user_id: "",
   });
 
   const posts = [];
@@ -349,31 +359,28 @@ const fetchPostsFilter = async (
     isLoading.value = false;
     return;
   }
-  
+
   for (let i = 0; i < listPosts.length; i++) {
     const post = listPosts[i];
-    
+
     // Nếu `post.user_info` tồn tại, cập nhật thông tin người dùng
     if (post && post.user_info) {
       datacall.value.user.phone = post.user_info.phone;
       datacall.value.user.name = post.user_info.name;
       datacall.value.user.email = post.user_info.email;
     }
-  
+
     // Sao chép thông tin bài viết vào `ans`
     Object.keys(ans).forEach((key) => {
       ans[key] = post[key];
     });
     ans.created_at = getTimeSincePostCreation(post.created_at);
 
-    if (role == 2 || role == 5 ) {
-      
+    if (role == 2 || role == 5) {
       if (post.user_id === store.user.id) {
         posts.push({ ...ans });
-        
       }
     } else {
-
       posts.push({ ...ans });
     }
   }

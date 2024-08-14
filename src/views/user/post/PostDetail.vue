@@ -64,7 +64,12 @@
                 <a
                   :href="`tel:${data.user.phone}`"
                   class="show-link"
-                  style="padding: 5px 13px; background: rgb(0, 155, 161);margin-left: 5px; border-radius: 5px"
+                  style="
+                    padding: 5px 13px;
+                    background: rgb(0, 155, 161);
+                    margin-left: 5px;
+                    border-radius: 5px;
+                  "
                 >
                   Gọi
                 </a>
@@ -164,8 +169,6 @@
                   </a-tooltip>
                 </div>
               </div>
-
-              
             </div>
           </div>
         </div>
@@ -338,15 +341,19 @@
               :span="1"
               class="description-item-infor"
             >
-              <template #label><i class="fas fa-money-bill-wave"></i>Cọc</template>
-              {{ formatPrice(data.gop) }}  Tháng
+              <template #label
+                ><i class="fas fa-money-bill-wave"></i>Cọc</template
+              >
+              {{ formatPrice(data.gop) }} Tháng
             </a-descriptions-item>
             <a-descriptions-item
               v-if="data.pay !== null && data.pay !== undefined"
               :span="1"
               class="description-item-infor"
             >
-              <template #label><i class="fas fa-credit-card"></i>Thanh toán</template>
+              <template #label
+                ><i class="fas fa-credit-card"></i>Thanh toán</template
+              >
               {{ formatPrice(data.pay) }} Tháng
             </a-descriptions-item>
           </a-descriptions>
@@ -371,9 +378,14 @@
               </span>
             </div>
             <div>
-              <router-link :to="{ name: 'client-report-post-create-postId', params: { id: data.id } }">
-                  <a-button class=""> Thêm báo cáo</a-button>
-                </router-link>
+              <router-link
+                :to="{
+                  name: 'client-report-post-create-postId',
+                  params: { id: data.id },
+                }"
+              >
+                <a-button class=""> Thêm báo cáo</a-button>
+              </router-link>
             </div>
           </div>
         </div>
@@ -420,9 +432,12 @@
           >
             <a-avatar
               :size="64"
-              :style="{ backgroundColor: '#ADC178', verticalAlign: 'middle' }"
-            >
-              {{ data.user.name?.[0] }}
+              :src="data.user.avatar || ''"
+              :style="{ backgroundColor: '#ADC178', verticalAlign: 'middle' }" >
+              <!-- Chỉ hiển thị chữ cái đầu tiên khi không có ảnh -->
+              <template v-if="!data.user.avatar">
+                {{ data.user.name?.[0] }}
+              </template>
             </a-avatar>
             <h2 class="mt-2">{{ data.user.name }}</h2>
             <a href="#" class="author_posts">Xem thêm 4 tin khác</a>
@@ -678,7 +693,7 @@ const data = reactive({
   priceElectricity: "",
   pricewater: "",
   gop: "",
-  pay: ""
+  pay: "",
 });
 
 const authStore = auth();
@@ -752,7 +767,6 @@ const togglePhoneVisibility = () => {
 
 // // Sao chép số điện thoại vào clipboard
 const copyPhoneNumber = () => {
-
   if (typeof window !== "undefined") {
     // Kiểm tra nếu đang chạy trong môi trường trình duyệt
     if (

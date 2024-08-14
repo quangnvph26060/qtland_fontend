@@ -10,13 +10,16 @@
                             <div class="author flex items-center">
                                 <a-avatar
                                     :size="64"
+                                    :src="avatar || ''"
                                     :style="{
                                         backgroundColor: '#ADC178',
                                         verticalAlign: 'middle',
                                     }"
                                     class=""
                                 >
-                                    {{ store.user.name?.[0] }}
+                                    <template v-if="!avatar">
+    {{ store.user.name?.[0] }}
+  </template>
                                 </a-avatar>
                                 <div class="author ml-5">
                                     <h2>{{ store.user?.name }}</h2>
@@ -115,6 +118,7 @@ import { ref, reactive, watch, onBeforeUnmount } from "vue";
 import { useRoute } from "vue-router";
 import formatMoney from "../../../utils/formatMoney";
 import apiURL from "../../../api/constants";
+import getUserAPI from "../../../api/users/getUser";
 
 const props = defineProps({
     rangeArea: String,
@@ -131,15 +135,19 @@ const data = ref([]);
 const route = useRoute();
 const userId = route.params.id;
 
+//   const userTin = await getUserAPI.getById(userId);
+
 /**
  * Hàm lấy danh sách bài viết theo user id
  * @param
  * CreatedBy: youngbachhh (26/04/2024)
  */
+const avatar = ref('');
 const fetchPostByUser = async (userId) => {
     isLoading.value = true;
     data.value = [];
-
+    const userTin = await getUserAPI.getById(userId);
+    avatar.value = userTin.avatar;
     const listPosts = await listPostsAPI.getPostByUser(userId);
     const ans = reactive({
         id: "",
