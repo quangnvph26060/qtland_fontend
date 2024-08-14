@@ -376,7 +376,7 @@ const fetchPostsFilter = async (
     });
     ans.created_at = getTimeSincePostCreation(post.created_at);
 
-    if (role == 2 || role == 5) {
+    if (role == 2 ) {
       if (post.user_id === store.user.id) {
         posts.push({ ...ans });
       }

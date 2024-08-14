@@ -440,7 +440,7 @@
               </template>
             </a-avatar>
             <h2 class="mt-2">{{ data.user.name }}</h2>
-            <a href="#" class="author_posts">Xem thêm 4 tin khác</a>
+            <a href="#" class="author_posts">Xem thêm {{ lengthpost }} tin khác</a>
           </div>
         </router-link>
         <div class="user_button-list" style="width: 70%">
@@ -619,6 +619,7 @@ import { reactive, ref, onMounted, computed } from "vue";
 import { message } from "ant-design-vue";
 import { useRoute } from "vue-router";
 import getPostAPI from "../../../api/posts/getDetails";
+import listPostsAPI from "../../../api/posts/index";
 import getCommentDetailsAPI from "../../../api/comment/getDetails";
 import viewedPostsAPI from "../../../api/posts/viewed/index";
 import formatMoney from "../../../utils/formatMoney";
@@ -699,7 +700,6 @@ const data = reactive({
 const authStore = auth();
 
 const userId = authStore.getUser.id;
-
 const showOptions = ref(false);
 
 function closeOptions() {
@@ -1001,11 +1001,13 @@ const datacall = ref({
     email: "",
   },
 });
+const lengthpost = ref(0);
 
 const fetchPostsList = async (id) => {
   isLoading.value = true;
   const post = await getPostAPI.getById(id);
-  console.log(datacall.value.user.phone);
+  const listpost = await listPostsAPI.getPostByUser(post.user.id);
+  lengthpost.value = listpost.length;
   if (post && post.user) {
     datacall.value.user.phone = post.user.phone;
     datacall.value.user.name = post.user.name;
