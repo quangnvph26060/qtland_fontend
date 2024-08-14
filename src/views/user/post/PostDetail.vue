@@ -383,6 +383,22 @@
               <template #label><i class="fas fa-toilet"></i>Giá nước</template>
               {{ formatPrice(data.pricewater) }} {{ getUnitLabel3(data.unit3) }}
             </a-descriptions-item>
+            <a-descriptions-item
+              v-if="data.gop !== null && data.gop !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label><i class="fas fa-money-bill-wave"></i>Cọc</template>
+              {{ formatPrice(data.gop) }}  Tháng
+            </a-descriptions-item>
+            <a-descriptions-item
+              v-if="data.pay !== null && data.pay !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label><i class="fas fa-credit-card"></i>Thanh toán</template>
+              {{ formatPrice(data.pay) }} Tháng
+            </a-descriptions-item>
           </a-descriptions>
         </div>
         <!-- end::Feature -->
@@ -683,6 +699,8 @@ const data = reactive({
   priceservice: "",
   priceElectricity: "",
   pricewater: "",
+  gop: "",
+  pay: ""
 });
 
 const authStore = auth();

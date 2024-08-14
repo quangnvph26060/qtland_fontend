@@ -37,7 +37,7 @@
         <a-sub-menu key="sub1">
           <template #title>
             <div class="flex align-items-center">
-               <PlusOutlined />
+             <FormOutlined />
 
               <span>Quản lý tin đăng</span>
             </div>
@@ -55,7 +55,6 @@
             Duyệt tin</a-menu-item
           >
         </a-sub-menu>
-		{{ store.user.role }}
         <a-sub-menu v-if="store.user.role_id == 6" key="sub2">
           <template #title>
             <div class="flex align-items-center">
@@ -78,14 +77,14 @@
 				<a-menu-item key="10">
 					<div class="flex align-items-center">
 						<router-link :to="{ name: 'admin-client-report' }"> </router-link>
-						<i class="fas fa-file-alt" style="font-size: 17px; color:gray; padding-right: 5px"></i>
-						<span>Báo cáo dẫn khách</span>
+						<FileSearchOutlined />
+						<span>Báo cáo dẫn khách </span>
 					</div>
 				</a-menu-item>
-				<a-menu-item v-if="store.user.role == 6"   key="9">
+				<a-menu-item v-if="store.user.role_id == 1" key="9">
 					<div class="flex align-items-center">
 						<router-link :to="{ name: 'admin-config' }"> </router-link>
-						<PieChartOutlined />
+						<SettingOutlined />
 						<span>Cấu hình</span>
 					</div>
 				</a-menu-item>			
@@ -103,6 +102,7 @@
 						class="flex align-items-center "
 						@click="onLogout"
 					>
+          <LogoutOutlined/>
 						<span>Đăng xuất</span>
 					</div>
 				</a-menu-item>
@@ -193,7 +193,10 @@ import {
   LogoutOutlined ,
   BarChartOutlined ,
   PlusOutlined,
-  UserOutlined 
+  UserOutlined ,
+  FormOutlined,
+  FileSearchOutlined,
+  SettingOutlined
 } from "@ant-design/icons-vue";
 import router from "../router";
 import logout from "../api/auth/logout";

@@ -520,6 +520,9 @@ a:focus {
     .checkbox_sold{
         margin-left: 0px !important;
     }
+    #gop_pay{
+        display: none !important;
+    }
    
 
 
