@@ -210,7 +210,7 @@ const text5 = ref(null);
 
 onMounted(() => {
   const text5Element = text5.value;
-  console.log(auth.user);
+
   if (text5Element) {
     // Replace text with span-wrapped characters
     text5Element.innerHTML = text5Element.textContent.replace(

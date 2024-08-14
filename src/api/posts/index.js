@@ -45,7 +45,7 @@ const listPostsAPI = {
 					classrank: arr.classrank,
 				},
 			});
-			console.log(response.data.data);
+	
 			return response.data;
 		} catch (error) {
 			console.log(error);
