@@ -55,7 +55,7 @@ const keyword = ref("");
 onMounted(async () => {
     await getconfig();
     const configData = responseConfig.data;
-    console.log(configData);
+    
     if (configData) {
       keyword.value = configData.keyword;
     //   alert(keyword.value );
