@@ -276,16 +276,8 @@ const options1 = ref([
     label: "Tất cả",
   },
   {
-    value: "hot",
+    value: "khách nhượng",
     label: "Khách nhượng",
-  },
-  {
-    value: "tăng chào",
-    label: "Tăng chào",
-  },
-  {
-    value: "giảm chào",
-    label: "Giảm chào",
   },
   {
     value: "không yêu cầu",
@@ -446,12 +438,8 @@ const fallbackCopyTextToClipboard = (text) => {
 // Hàm lấy màu tag theo trạng thái ưu tiên
 const getColorTagByPriorityStatus = (priority_status) => {
   switch (priority_status) {
-    case "hot":
+    case "khách nhượng":
       return "hot-priority";
-    case "tăng chào":
-      return "high-priority";
-    case "giảm chào":
-      return "low-priority";
     case "quy hoạch":
       return "medium-priority";
     default:
@@ -460,7 +448,7 @@ const getColorTagByPriorityStatus = (priority_status) => {
 };
 
 const pagination = reactive({
-  showSizeChanger: false,
+  showSizeChanger: true,
   responsive: true,
   current: currentPage.value,
   showLessItems: true,

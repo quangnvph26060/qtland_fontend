@@ -621,11 +621,7 @@ fetchPostsList({
 
 const getColorPriorityStatus = (priority_status) => {
   switch (priority_status) {
-    case "tăng chào":
-      return "magenta";
-    case "giảm chào":
-      return "geekblue";
-    case "hot":
+    case "khách nhượng":
       return "volcano";
     case "quy hoạch":
       return "cyan";

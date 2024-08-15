@@ -98,18 +98,9 @@ const filterList = reactive([
 ]);
 
 const priorityList = reactive([
+	
 	{
-		value: "tăng chào",
-		name: "Tăng chào",
-		isChecked: false,
-	},
-	{
-		value: "giảm chào",
-		name: "Giảm chào",
-		isChecked: false,
-	},
-	{
-		value: "hot",
+		value: "khách nhượng",
 		name: "Khách nhượng",
 		isChecked: false,
 	},

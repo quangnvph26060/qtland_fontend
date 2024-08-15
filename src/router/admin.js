@@ -3,7 +3,7 @@ const admin = [
 		path: "/admin",
 		component: () => import("../layouts/admin.vue"),
 		name: "admin",
-		redirect: "/admin/user",
+		redirect: "/admin/post",
 		children: [
 			{
 				path: "user",

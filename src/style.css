@@ -565,6 +565,17 @@ a:focus {
     .gop_pay{
         gap: 24px;
     }
+    .price_post>div:first-child{
+        flex: 3;
+        margin-right: 20px;
+    }
+    .price_post>div:last-child{
+        flex: 2;
+    }
+
+    .floor-room-bath>div>div{
+        flex: 1;
+    }
    
 
 

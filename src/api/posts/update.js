@@ -9,6 +9,14 @@ const updatePostAPI = {
 			console.error(error);
 		}
 	},
+	updateStatus2: async (id) => {
+		try {
+			const response = await axios.patch(`${apiURL.baseURL}/posts/status2/${id}`);
+			return response.data;
+		} catch (error) {
+			console.error(error);
+		}
+	},
 	update: async (id, post) => {
 		try {
 			const response = await axios.put(
