@@ -316,6 +316,16 @@ a:focus {
 .thanhtoan h3, .thanhtoan span{
     padding-bottom: 6px;
 }
+.checkbox_delet_edit{
+    gap: 15px;
+}
+.checkbox_delet_edit div button{
+    padding: 2px 20px;
+    border-radius: 5px;
+    border: 1px solid;
+    background: #8b3035;
+    color: #fff;
+}
 @media (min-width: 769px) {
     .gop{
         display: flex;
@@ -538,7 +548,7 @@ a:focus {
         display: none !important;
     }
     .trichthuong h3{
-        margin-right: 228px !important;
+        margin-right: 245px !important;
     }
     .mobitrichthuong{
         flex-direction: column;
@@ -550,7 +560,7 @@ a:focus {
         flex-direction: column  !important;
     }
     .thanhtoan .title h3{
-        margin-right: 169px !important;
+        margin-right: 190px !important;
         padding-bottom: 10px;
     }
     .gop{
@@ -576,6 +586,31 @@ a:focus {
     .floor-room-bath>div>div{
         flex: 1;
     }
+
+    .checkbox_delet_edit {
+        margin-top: 10px !important;
+        margin-left:  0px !important;
+    }
+    .checkbox_delet_edit{
+        width: 100%;
+    }
+    .checkbox_delet_edit>div:first-child{
+        width: 100%;
+        flex: 3;
+    }
+    .checkbox_delet_edit>div button{
+        padding: 7px 20px;
+        width: 100%;
+    }
+
+    .price_unit>div:first-child{
+        flex: 4;
+        margin-right: 20px;
+    }
+    .price_unit>div:last-child{
+        flex: 2;
+    }
+    
    
 
 
@@ -604,6 +639,14 @@ a:focus {
     }
     .short-info .feature div a>span{
         font-size: 20px !important;
+    }
+    .trichthuong h3{
+        margin-right: 205px !important;
+    }
+
+    .thanhtoan .title h3{
+        margin-right: 152px !important;
+        padding-bottom: 10px;
     }
 
 }
