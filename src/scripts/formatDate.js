@@ -9,9 +9,9 @@ function formatDate(dateTimeString) {
     });
 
     // Lấy thông tin giờ, phút, giây
-    const time = dateTime.toLocaleTimeString("vi-VN", { hour12: false });
+    // const time = dateTime.toLocaleTimeString("vi-VN", { hour12: false });
 
-    return `${date} ${time}`;
+    return `${date}`;
 }
 
 export default formatDate;

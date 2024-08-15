@@ -17,12 +17,26 @@
             @click="start"
           >
             Xác nhận tin
+          </a-button>      
+
+           <a-button
+            type="primary"
+            class="w-[120px] mx-3"
+            :disabled="!hasSelected"
+            :loading="state.loadingkd"
+            @click="end"
+          >
+            Không duyệt
           </a-button>
-          <span style="margin-left: 8px">
+
+          <div style="padding-top: 15px">
+            <span style="margin-left: 8px">
             <template v-if="hasSelected">
               {{ `Đã chọn ${state.selectedRowKeys.length} tin` }}
             </template>
           </span>
+          </div>
+          
         </div>
         <a-table
           :row-selection="{
@@ -569,6 +583,7 @@ fetchPostsPendingList();
 const state = reactive({
   selectedRowKeys: [],
   loading: false,
+   loadingkd: false,
 });
 const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 const start = () => {
@@ -578,6 +593,21 @@ const start = () => {
       await updatePostAPI.updateStatus(id);
     }
     state.loading = false;
+    state.selectedRowKeys = [];
+    fetchPostsPendingList();
+    messageAnt.success();
+  };
+  updateStatus();
+};
+
+
+const end = () => {
+  state.loadingkd = true;
+  const updateStatus = async () => {
+    for (const id of state.selectedRowKeys) {
+      await updatePostAPI.updateStatus2(id);
+    }
+    state.loadingkd = false;
     state.selectedRowKeys = [];
     fetchPostsPendingList();
     messageAnt.success();

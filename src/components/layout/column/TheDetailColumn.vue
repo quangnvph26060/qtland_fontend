@@ -729,16 +729,8 @@ const priorityStatus = [
     label: "Không yêu cầu",
   },
   {
-    value: "hot",
+    value: "khách nhượng",
     label: "Khách nhượng",
-  },
-  {
-    value: "tăng chào",
-    label: "Tăng chào",
-  },
-  {
-    value: "giảm chào",
-    label: "Giảm chào",
   },
 ];
 
@@ -841,9 +833,31 @@ const disabledSubmit = computed(() => {
   return !(
     data.title &&
     data.description &&
-    data.address_detail &&
+    data.classrank &&
     data.area &&
-    data.price
+    data.areausable &&
+    data.price &&
+    data.priceservice &&
+    data.priceElectricity &&
+    data.pricewater &&
+    data.floors &&
+    data.rooms &&
+    data.bathrooms &&
+    (data.bonus || data.bonusmonthly) && 
+    data.direction &&
+    data.directionBalcony &&
+    data.wayin &&
+    data.font &&
+    data.pccc &&
+    data.elevator &&
+    // data.address &&
+    data.address_detail &&
+    data.unit &&
+    data.unit1 &&
+    data.unit2 &&
+    data.unit3 &&
+    data.gop &&
+    data.pay
   );
 });
 
@@ -1001,7 +1015,8 @@ const onSubmit = async () => {
         formData.append("post_id", response.data.id);
         try {
           const res = await createImageAPI.updatePostImage(formData);
-          router.push({ name: "admin-post-list" });
+          
+          router.push({ name: "post-manage" });
           fileList.value = [];
           uploading.value = false;
           // router.go(0);
@@ -1037,7 +1052,8 @@ const onSubmit = async () => {
           }
           fileList.value = [];
           uploading.value = false;
-          router.push({ name: "admin-post-list" });
+          
+          router.push({ name: "post-manage" });
         } catch (error) {
           uploading.value = false;
           console.log(error);
