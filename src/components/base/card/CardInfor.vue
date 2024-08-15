@@ -127,12 +127,12 @@
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
-      <div class="flex flex-col checkbox_delet_edit">
+      <div class="flex checkbox_delet_edit">
         <div>
           <button  @click="redirectPostDetail(data.id)">Sửa</button>
         </div>
         <div>
-          <button  @click="showConfirmDelete()">Xóa</button>
+          <button  @click="showConfirmDelete(data.id)">Xóa</button>
         </div>
       </div>
     </div>
@@ -147,6 +147,10 @@ import formatDate from "../../../scripts/formatDate";
 import updatePostAPI from "../../../api/posts/update";
 import { message } from "ant-design-vue";
 import { useRouter } from 'vue-router';
+import { Modal, message as messageAnt } from 'ant-design-vue';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { createVNode } from 'vue';
+import deletePostAPI from "../../../api/posts/delete"
 const router = useRouter();
 const props = defineProps({
   type: {
@@ -160,7 +164,7 @@ const props = defineProps({
 });
 
 const redirectPostDetail = (postId) => {
-  alert(postId);
+  // alert(postId);
   router.push({ name: "post-edit", params: { id: postId } });
 };
 
@@ -174,7 +178,7 @@ watch(
 );
 
 
-const showConfirmDelete = () => {
+const showConfirmDelete = (id) => {
   Modal.confirm({
     title: "Cảnh báo",
     icon: createVNode(ExclamationCircleOutlined),
@@ -184,18 +188,23 @@ const showConfirmDelete = () => {
       {
         style: "color:red;",
       },
-      "Bạn chắc chắn muốn xoá người dùng này ?"
+      "Bạn chắc chắn muốn xoá người dùng này?"
     ),
     okText: "Xoá",
     cancelText: "Huỷ",
     onOk() {
-      () => {
-        messageAnt.success();
-      };
+      deleteUserById(id);
     },
-    onCancel() {},
-    class: "test",
+    onCancel() {
+      console.log("Đã hủy xóa");
+    },
   });
+};
+
+const deleteUserById = async (id) => {
+    await deletePostAPI(id);
+    messageAnt.success('Xóa bài viết thành công!');
+    router.push({ name: "post-edit", params: { id: id } });
 };
 
 const emit = defineEmits(['statusUpdated'])

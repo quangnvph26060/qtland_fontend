@@ -127,7 +127,7 @@
               <!-- end::Input Group -->
 
               <!-- begin::Input Group -->
-              <div class="flex justify-between flex-wrap">
+              <div class="flex justify-between flex-wrap price_unit" >
                 <div class="col-12 col-xl-8">
                   <!-- begin::Input -->
                   <InputBasic
@@ -153,7 +153,7 @@
               </div>
               <!-- end::Input Group -->
               <!-- begin::Input Group -->
-              <div class="flex justify-between flex-wrap">
+              <div class="flex justify-between flex-wrap price_unit">
                 <div class="col-12 col-xl-8">
                   <!-- begin::Input -->
                   <InputBasic
@@ -177,7 +177,7 @@
                   <!-- end::Select -->
                 </div>
               </div>
-              <div class="flex justify-between flex-wrap">
+              <div class="flex justify-between flex-wrap price_unit">
                 <div class="col-12 col-xl-8">
                   <!-- begin::Input -->
                   <InputBasic
@@ -201,7 +201,7 @@
                   <!-- end::Select -->
                 </div>
               </div>
-              <div class="flex justify-between flex-wrap">
+              <div class="flex justify-between flex-wrap price_unit">
                 <div class="col-12 col-xl-8">
                   <!-- begin::Input -->
                   <InputBasic
@@ -658,17 +658,17 @@ const disabledCommentTab = ref(false);
 const unit = [
   {
     value: "1",
-    label: "VND/Tháng",
+    label: "Vnd/m2",
   },
   {
     value: "2",
-    label: "VND/m2",
+    label: "Vnd/tháng",
   },
 ];
 const unit1 = [
   {
     value: "1",
-    label: "VND/m2",
+    label: "Vnd/m2",
   },
   {
     value: "2",
@@ -678,7 +678,7 @@ const unit1 = [
 const unit2 = [
   {
     value: "1",
-    label: "VND/Số",
+    label: "Vnd/Số",
   },
   {
     value: "2",
@@ -689,7 +689,7 @@ const unit2 = [
 const unit3 = [
   {
     value: "1",
-    label: "VND/Số",
+    label: "Vnd/Số",
   },
   {
     value: "2",
