@@ -1,44 +1,49 @@
 <template>
   <div class="card border-x-0">
     <!-- begin::Card Header -->
-    <div class="card-header flex flex-row-reverse justify-between mb-3 md:mb-0">
+    <div
+      class="card-header flex flex-row-reverse justify-between mb-3 md:mb-0 mt-5"
+    >
       <!-- begin::Card Toolbar -->
       <div class="card-toolbar flex justify-start md:justify-end">
+        <div class="mr-3">
+          <a-button @click="handaddpost"> Đăng tin </a-button>
+        </div>
         <!-- begin::Filter -->
-        <!-- <a-dropdown trigger="click" class="w-[100px]">
-					<template #overlay>
-						<a-menu class="w-[150px]">
-							<a-menu-item key="1">
-								<FilterAddress type="admin" />
-							</a-menu-item>
-							<a-menu-item key="2">
-								<FilterPriceRange type="admin" />
-							</a-menu-item>
-							<a-menu-item key="3">
-								<FilterAreaRange type="admin" />
-							</a-menu-item>
-							<a-menu-item key="4">
-								<FilterOptions type="admin" />
-							</a-menu-item>
-							<a-menu-item key="5">
-								<FilterStatus type="admin" />
-							</a-menu-item>
-						</a-menu>
-					</template>
-					<a-button class="me-3">
-						<template #icon>
-							<FilterOutlined />
-						</template>
-						Lọc
-					</a-button>
-				</a-dropdown> -->
+        <a-dropdown trigger="click" class="w-[100px]">
+          <template #overlay>
+            <a-menu class="w-[150px]">
+              <a-menu-item key="1">
+                <FilterAddress type="admin" />
+              </a-menu-item>
+              <a-menu-item key="2">
+                <FilterPriceRange type="admin" />
+              </a-menu-item>
+              <a-menu-item key="3">
+                <FilterAreaRange type="admin" />
+              </a-menu-item>
+              <a-menu-item key="4">
+                <FilterOptions type="admin" />
+              </a-menu-item>
+              <a-menu-item key="5">
+                <FilterStatus type="admin" />
+              </a-menu-item>
+            </a-menu>
+          </template>
+          <a-button class="me-3">
+            <template #icon>
+              <FilterOutlined />
+            </template>
+            Lọc
+          </a-button>
+        </a-dropdown>
 
         <!-- end::Filter -->
 
         <!-- begin::Reset Filter -->
-        <!-- <div class="mr-3">
-					<a-button @click="handResetFilter"> Đặt lại </a-button>
-				</div> -->
+        <div class="mr-3">
+          <a-button @click="handResetFilter"> Đặt lại </a-button>
+        </div>
         <!-- end::Reset Filter -->
 
         <!-- begin::Export -->
@@ -53,7 +58,7 @@
           title="Xuất file"
           cancelText="Huỷ"
           okText="Xuất file"
-          class="top-[100%]"
+          class="top-[20%]"
           :onOk="
             () => {
               handleOkModalExport();
@@ -82,39 +87,54 @@
 
     <!-- begin::Card Body -->
     <div class="card-body">
-      <!-- <button style="bacground: red !important" type="button" class="btn mb-4" @click="exportCLient">Xuất Excel</button> -->
-      <a-button class="mb-4 px-4" @click="exportCLient"> Xuất Excel </a-button>
       <!-- begin::Table -->
       <a-table
         :data-source="data"
         :columns="columns"
-        :scroll="{ x: 1000 }"
-        :dataSource="data"
-        :rowKey="(record) => record.id"
+        :scroll="{ x: 800 }"
         :pagination="pagination"
         :expand-column-width="20"
         id="main-table"
+        :expand-icon-column-props="{ class: 'hide-on-mobile' }"
       >
         <template #expandColumnTitle>
-          <span style="color: red">More</span>
+          <span class="hide-on-mobile" style="color: red">More</span>
         </template>
         <template #expandedRowRender="{ record }">
-          <p style="margin: 0">
+          <p style="margin: 0; padding: 0px">
             <a-descriptions title="Thông tin chi tiết" :column="1">
               <a-descriptions-item label="Địa chỉ">{{
                 record.address
               }}</a-descriptions-item>
-              <a-descriptions-item label="Email">
-                {{ record.email }}
-              </a-descriptions-item>
-              <a-descriptions-item label="Diện tích cần tìm"
-                >{{ record.area }} m<sup>2</sup></a-descriptions-item
-              ><a-descriptions-item label="Khu vực cần tìm">{{
-                record.searcharea
+              <a-descriptions-item label="Giá">{{
+                formatMoney(record.price)
               }}</a-descriptions-item>
-              <a-descriptions-item label="Ngày tham gia">
-                {{ record.created_at }}
-              </a-descriptions-item>
+              <a-descriptions-item label="Diện tích"
+                >{{ record.area }} m<sup>2</sup></a-descriptions-item
+              ><a-descriptions-item
+                label="Hướng nhà"
+                v-if="record.direction !== 0"
+                >{{ getDirectionLabel(record.direction) }}</a-descriptions-item
+              >
+              <a-descriptions-item label="Trạng thái bài viết">
+                <div>
+                  <a-tag
+                    :bordered="false"
+                    :color="statusColor(record.status_id)"
+                  >
+                    <template #icon>
+                      <check-circle-outlined v-if="record.status_id === 4" />
+                      <close-circle-outlined
+                        v-else-if="record.status_id === 5"
+                      />
+                    </template>
+                    {{ statusLabel(record.status_id) }}
+                  </a-tag>
+                </div></a-descriptions-item
+              >
+              <a-descriptions-item label="Ngày đăng">{{
+                record.created_at
+              }}</a-descriptions-item>
             </a-descriptions>
           </p>
         </template>
@@ -193,14 +213,15 @@
             <div style="display: flex; align-items: center">
               <router-link
                 :to="{
-                  name: 'admin-client-detail',
+                  name: 'admin-post-detail',
                   params: { id: record.id },
                 }"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </router-link>
+
               <div
-                style="display: flex; margin-left: 15px"
+                style="text-align: center; display: flex; margin-left: 15px"
                 @click="showConfirmDelete(record.id)"
               >
                 <i class="fa-solid fa-trash"></i>
@@ -210,17 +231,17 @@
 							<a-dropdown trigger="click">
 								<template #overlay>
 									<a-menu>
-										<a-menu-item key="1">
-											<router-link
+										<a-menu-item key="1" style="text-align: center">
+											<router-link 
 												:to="{
 													name: 'admin-post-detail',
 													params: { id: record.id },
 												}"
 											>
-												Sửa
+												<i class="fa-solid fa-pen-to-square"></i>
 											</router-link>
 										</a-menu-item>
-										<a-menu-item key="2" >
+										<a-menu-item key="2">
 											<div style="text-align: center"
 												@click="
 													showConfirmDelete(record.id)
@@ -235,14 +256,12 @@
 									Chức năng
 									<DownOutlined />
 								</a-button>
-								
 							</a-dropdown>
 						</div> -->
           </template>
           <template v-else-if="column.dataIndex === 'sold_status'">
             <div class="flex">
               <a-tag
-                style="width: 70px"
                 :color="
                   record.sold_status === 1
                     ? '#87d068'
@@ -251,9 +270,9 @@
                     : ''
                 "
               >
-                {{ record.sold_status == 1 ? "đã bán" : "chưa bán" }}
+                {{ record.sold_status == 1 ? "Đã thuê" : "Chưa thuê" }}
               </a-tag>
-              <a-tag>
+              <a-tag :color="getColorPriorityStatus(record.priority_status)">
                 {{ record.priority_status }}
               </a-tag>
             </div>
@@ -286,7 +305,6 @@ import {
 } from "vue";
 import messageAnt from "../../../scripts/message";
 import listPostsAPI from "../../../api/posts/index";
-import listCLientAPI from "../../../api/client/index";
 import deletePostAPI from "../../../api/posts/delete";
 import viewedPostsAPI from "../../../api/posts/viewed/index";
 import { Modal } from "ant-design-vue";
@@ -298,7 +316,6 @@ import FilterOptions from "../../../components/base/filter/FilterOptions.vue";
 import FilterStatus from "../../../components/base/filter/FilterStatus.vue";
 import filterRange from "../../../stores/filterRange";
 import getTimeSincePostCreation from "../../../utils/getTimeSincePostCreation";
-import apiURL from "../../../api/constants.js";
 import router from "../../../router";
 
 const searchInput = ref();
@@ -332,23 +349,16 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
 
   // Define the desired order
   const desiredOrder = [
-    "id",
     "name",
-    "phone",
-    "cccd",
+    "title",
     "address",
-    "email",
-    "finance",
-    "searcharea",
+    "address_detail",
+    "price",
     "area",
-    "intendtime",
-    "business",
-    "personnumber",
-    "numbercars",
-    "numbermotor",
-    "note",
-    "birth_year",
-    "created_at",
+    "views_count",
+    "sold_status",
+    "priority_status",
+    "status_id",
   ];
 
   // Sort the search conditions based on the desired order
@@ -402,6 +412,10 @@ const handResetFilter = () => {
   });
 };
 
+const handaddpost = () => {
+  router.push({ name: "admin-post-create" });
+};
+
 const props = defineProps({
   rangeArea: String,
   rangePrice: String,
@@ -427,10 +441,10 @@ watch(props, (newVal) => {
     sold_status: newVal.sold_status,
     priority_status: newVal.priority_status,
   };
-  // fetchPostsList({
-  // 	...filter,
-  // 	searchConditions: state.searchConditions,
-  // });
+  fetchPostsList({
+    ...filter,
+    searchConditions: state.searchConditions,
+  });
 });
 
 // modal export
@@ -442,6 +456,41 @@ const handleOkModalExport = (e) => {
   openModalExport.value = false;
 };
 
+const direction = [
+  {
+    value: 1,
+    label: "Đông",
+  },
+  {
+    value: 2,
+    label: "Đông Nam",
+  },
+  {
+    value: 3,
+    label: "Nam",
+  },
+  {
+    value: 4,
+    label: "Tây Nam",
+  },
+  {
+    value: 5,
+    label: "Tây",
+  },
+  {
+    value: 6,
+    label: "Tây Bắc",
+  },
+  {
+    value: 7,
+    label: "Bắc",
+  },
+  {
+    value: 8,
+    label: "Đông Bắc",
+  },
+];
+
 const getDirectionLabel = (value) => {
   const directionObj = direction.find((item) => item.value === value);
   return directionObj ? directionObj.label : "";
@@ -450,7 +499,7 @@ const getDirectionLabel = (value) => {
 // table
 const columns = [
   {
-    title: "Họ tên",
+    title: "Người đăng",
     dataIndex: "name",
     key: "name",
     width: 120,
@@ -464,15 +513,16 @@ const columns = [
         }, 100);
       }
     },
+    className: "hide-on-mobile",
   },
   {
-    title: "Điện thoại",
-    dataIndex: "phone",
-    key: "phone",
-    width: 140,
+    title: "Tiêu đề",
+    dataIndex: "title",
+    key: "title",
+    width: 240,
     customFilterDropdown: true,
     onFilter: (value, record) =>
-      record.phone.toString().toLowerCase().includes(value.toLowerCase()),
+      record.title.toString().toLowerCase().includes(value.toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => {
@@ -480,105 +530,110 @@ const columns = [
         }, 100);
       }
     },
+    class: "title_width",
   },
 
   {
-    title: "Năm sinh",
-    dataIndex: "birth_year",
-    key: "birth_year",
+    title: "Lượt xem",
+    dataIndex: "views_count",
+    key: "views_count",
     width: 100,
-    sorter: (a, b) => {
-      // Chuyển đổi ngày sinh thành timestamp (giây từ Unix Epoch)
-      const timestampA = new Date(a.birth_year).getTime();
-      const timestampB = new Date(b.birth_year).getTime();
-
-      // So sánh timestamp
-      return timestampA - timestampB;
-    },
+    sorter: (a, b) => a.views_count - b.views_count,
+    class: "views_count_width",
   },
   {
-    title: "Lĩnh vực kinh doanh",
-    dataIndex: "business",
-    key: "business",
+    title: "Trạng thái",
+    dataIndex: "sold_status",
+    key: "sold_status",
     width: 150,
-    customFilterDropdown: true,
-    onFilter: (value, record) =>
-      record.business.toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => {
-          searchInput.value.focus();
-        }, 100);
-      }
-    },
+    class: "sold_status-width",
   },
   {
     title: "Chi tiết",
     key: "detail",
-    width: 20,
+    width: 90,
+    class: "detail-width",
   },
 ];
 
-const getPostsList = async (page = 1, pageSize = 10) => {
+/**
+ * Hàm lấy danh sách bài viết đã duyệt
+ * @param
+ * CreatedBy: youngbachhh (29/03/2024)
+ */
+const userid = localStorage.getItem("user_id");
+const fetchPostsList = async (filter, page = 1, pageSize = 10) => {
   data.value = [];
-   const params = {
-      page: pageFilter.value,
+
+  let res;
+
+  res = await listPostsAPI.getPostByFilterByUser(userid,{
+    ...filter,
+    page: pageFilter.value,
     pageSize: pageSizeFilter.value,
-    };
-  const clients = await listCLientAPI.getAllClient(params);
-  total.value = clients.total;
-   const listclient = [];
-   const listclients = clients.data || [];
-  for (const client of listclients) {
-    listclient.push({
-      id: client.id,
-      name: client.name,
-      phone: client.phone,
-      cccd: client.cccd,
-      address: client.address,
-      email: client.email,
-      finance: client.finance,
-      searcharea: client.searcharea,
-      area: client.area,
-      intendtime: client.intendtime,
-      business: client.business,
-      personnumber: client.personnumber,
-      numbercars: client.numbercars,
-      numbermotor: client.numbermotor,
-      note: client.note,
-      birth_year: client.birth_year,
-      created_at: client.birth_year,
-    });
+  });
+
+  let listPosts = res.data;
+  total.value = res.total;
+  const posts = [];
+  const ans = reactive({
+    id: "",
+    key: "",
+    title: "",
+    name: "",
+    description: "",
+    price: "",
+    direction: "",
+    area: "",
+    address: "",
+    created_at: "",
+    views_count: 0,
+    sold_status: "",
+    priority_status: "",
+    status_id: "",
+    user: "",
+    comment: [],
+    post_image: [],
+    user_info: "",
+    user_id: "",
+  });
+
+  if (listPosts.length === 0) return;
+
+  for (let i = 0; i < listPosts.length; i++) {
+    const post = listPosts[i];
+
+
+      // Kiểm tra nếu user_id của post bằng với userid
+      Object.keys(ans).forEach((key) => {
+        ans[key] = post[key];
+      });
+
+      ans.created_at = getTimeSincePostCreation(post.created_at, true);
+      ans.name = post.user_info.name;
+      ans.key = i + 1;
+      posts.push({ ...ans });
+
   }
-  data.value = listclient;
-  console.log(data.value);
+
+  data.value = posts;
 };
 
-onMounted(() => {
-  getPostsList();
+fetchPostsList({
+  ...filter,
+  searchConditions: state.searchConditions,
 });
-const exportCLient = async () => {
-  try {
-    const clients = await listCLientAPI.exportAllClient();
-    if (clients && clients.status === 200) {
-      const blob = new Blob([clients.data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      });
-      const link = document.createElement("a");
 
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "clients.xlsx";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(link.href);
-      messageAnt.success("Xuất file thành công");
-    } else {
-      messageAnt.error("Xuất file thất bại");
-    }
-  } catch (error) {
-    console.error(error);
-    messageAnt.error("Xuất file thất bại");
+const getColorPriorityStatus = (priority_status) => {
+  switch (priority_status) {
+    case "khách nhượng":
+      return "volcano";
+    case "quy hoạch":
+      return "cyan";
+    case "khong yêu cầu":
+      return "kyc";
+    default:
+      return "";
   }
 };
 
@@ -588,13 +643,15 @@ const pagination = reactive({
   current: currentPage.value,
   showLessItems: true,
   total: total.value,
-   onChange: (page, pageSize) => {
+  onChange: (page, pageSize) => {
     pageFilter.value = page;
     pageSizeFilter.value = pageSize;
-    getPostsList({
-       page: page,
+    fetchPostsList({
+      ...filter,
+      page: page,
       pageSize: pageSize,
-    }); 
+      searchConditions: state.searchConditions,
+    });
     scrollToTop();
   },
 });
@@ -630,12 +687,15 @@ const showConfirmDelete = async (id) => {
     okText: "Xóa",
     cancelText: "Hủy",
     onOk() {
-      const deletecClient = async () => {
-        await listCLientAPI.deleteClientAPI(id);
-        getPostsList();
+      const deletePost = async () => {
+        await deletePostAPI(id);
+        fetchPostsList({
+          ...filter,
+          searchConditions: state.searchConditions,
+        });
         messageAnt.success("Xóa bài viết thành công");
       };
-      deletecClient();
+      deletePost();
     },
     onCancel() {},
     maskClosable: true,
@@ -645,6 +705,7 @@ const showConfirmDelete = async (id) => {
 
 <script>
 import ThePageHeader from "../../../components/ThePageHeader.vue";
+import user from "../../../router/user";
 export default {
   components: {
     ThePageHeader,

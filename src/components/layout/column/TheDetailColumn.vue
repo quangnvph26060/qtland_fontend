@@ -15,8 +15,12 @@
                   @update:selected="handleInput('sold_status', $event)"
                 />
               </div> -->
-            
-              <div v-if="postId && (store.user.role_id != 2 && store.user.role_id != 5)">
+
+              <div
+                v-if="
+                  postId && store.user.role_id != 2 && store.user.role_id != 5
+                "
+              >
                 <InputSelect
                   :valueSelected="data.status_id?.toString()"
                   :options="status"
@@ -33,6 +37,21 @@
                   @update:selected="handleInput('priority_status', $event)"
                   placeholder="Không yêu cầu"
                 />
+
+                <div
+                  v-if="data.priority_status === 'trả phòng'"
+                  class="date-picker"
+                >
+                  <label>Ngày trả phòng </label>
+                  <input
+                    type="date"
+                    id="datetime-picker"
+                    v-model="formattedDate"
+                    @change="handleDateChange"
+                  
+                    class="datetime-input"
+                  />
+                </div>
               </div>
             </template>
           </Card>
@@ -127,7 +146,7 @@
               <!-- end::Input Group -->
 
               <!-- begin::Input Group -->
-              <div class="flex justify-between flex-wrap price_unit" >
+              <div class="flex justify-between flex-wrap price_unit">
                 <div class="col-12 col-xl-8">
                   <!-- begin::Input -->
                   <InputBasic
@@ -240,8 +259,8 @@
                   </div>
                   <div class="flex-fill me-2">
                     <InputBasic
-                      title="Số phòng"
-                      placeholder="Nhập số phòng"
+                      title="Chia phòng"
+                      placeholder="Nhập chia phòng"
                       :value="data.rooms?.toString()"
                       @input="handleInput('rooms', $event)"
                       inputType="number"
@@ -277,7 +296,7 @@
                     </h3>
                   </div>
                   <!-- Các input -->
-                  <div class="d-flex  flex-grow-1 align-items-center mobiinput">
+                  <div class="d-flex flex-grow-1 align-items-center mobiinput">
                     <!-- Phần trăm input -->
                     <div class="d-flex align-items-center">
                       <InputBasic
@@ -315,7 +334,7 @@
 
               <div class="col-12 col-xl-12 thanhtoan">
                 <!-- begin::Header and Inputs -->
-                <div class="d-flex align-items-center justify-content-start ">
+                <div class="d-flex align-items-center justify-content-start">
                   <!-- Tiêu đề bao quanh -->
                   <div class="me-4 flex-shrink-0 title">
                     <h3 class="mb-0" style="font-size: 14px; color: black">
@@ -636,7 +655,7 @@
 </template>
   
   <script setup>
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, watch } from "vue";
 import { InboxOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import { useRoute } from "vue-router";
 import { message } from "ant-design-vue";
@@ -668,11 +687,15 @@ const unit = [
 const unit1 = [
   {
     value: "1",
-    label: "Vnd/m2",
+    label: "Vnd/tháng",
   },
   {
     value: "2",
-    label: "Thỏa thuận",
+    label: "Vnd/m2",
+  },
+  {
+    value: "3",
+    label: "Miễn phí",
   },
 ];
 const unit2 = [
@@ -682,18 +705,18 @@ const unit2 = [
   },
   {
     value: "2",
-    label: "Thỏa thuận",
+    label: "Miễn phí",
   },
 ];
 
 const unit3 = [
   {
     value: "1",
-    label: "Vnd/Số",
+    label: "Vnd/m3",
   },
   {
     value: "2",
-    label: "Thỏa thuận",
+    label: "Miễn phí",
   },
 ];
 
@@ -732,7 +755,18 @@ const priorityStatus = [
     value: "khách nhượng",
     label: "Khách nhượng",
   },
+  {
+    value: "trả phòng",
+    label: "Trả phòng",
+  },
 ];
+
+const priorityStatusSelected = ref("");
+const returnDate = ref("");
+
+const handleInput1 = (value) => {
+  priorityStatusSelected.value = value;
+};
 
 const direction = [
   {
@@ -827,6 +861,23 @@ const data = reactive({
   post_image: [],
   gop: "",
   pay: "",
+  traphong: "",
+});
+
+const formattedDate = ref("");
+const handleDateChange = (event) => {
+  const date = event.target.value; // Giá trị từ input kiểu "YYYY-MM-DD"
+  if (date) {
+    data.traphong = date; // Cập nhật giá trị ngày không có giờ vào data.traphong
+  } else {
+    // Nếu không có giá trị, thiết lập data.traphong là rỗng
+    data.traphong = "";
+  }
+};
+
+// Theo dõi sự thay đổi của data.traphong và cập nhật formattedDate
+watch(() => data.traphong, (newVal) => {
+  formattedDate.value = newVal; // Cập nhật formattedDate khi data.traphong thay đổi
 });
 
 const disabledSubmit = computed(() => {
@@ -843,7 +894,7 @@ const disabledSubmit = computed(() => {
     data.floors &&
     data.rooms &&
     data.bathrooms &&
-    (data.bonus || data.bonusmonthly) && 
+    (data.bonus || data.bonusmonthly) &&
     data.direction &&
     data.directionBalcony &&
     data.wayin &&
@@ -853,9 +904,9 @@ const disabledSubmit = computed(() => {
     // data.address &&
     data.address_detail &&
     data.unit &&
-    data.unit1 &&
-    data.unit2 &&
-    data.unit3 &&
+    // data.unit1 &&
+    // data.unit2 &&
+    // data.unit3 &&
     data.gop &&
     data.pay
   );
@@ -908,6 +959,9 @@ const handleInput = (key, value) => {
   if (key === "province" || key === "district" || key === "ward") {
     selectorAddress[key] = value;
     return;
+  }
+  if (key === "priority_status") {
+    priorityStatusSelected.value = value;
   }
   data[key] = value;
 };
@@ -1015,11 +1069,11 @@ const onSubmit = async () => {
         formData.append("post_id", response.data.id);
         try {
           const res = await createImageAPI.updatePostImage(formData);
-          
-          const role = localStorage.getItem('role_id');
-          if(role == 6 || role == 1){
-               router.push({ name: "admin-post-list" });
-          }else{
+
+          const role = localStorage.getItem("role_id");
+          if (role == 6 || role == 1) {
+            router.push({ name: "admin-post-list" });
+          } else {
             router.push({ name: "post-manage" });
           }
           fileList.value = [];
@@ -1036,7 +1090,7 @@ const onSubmit = async () => {
       data.sold_status = 0;
       data.status_id = 3;
       data.user_id = store.user.id;
-
+      
       const response = await createPostAPI(data);
       if (response && response.status === 201) {
         message.success("Tạo bài viết thành công");
@@ -1055,15 +1109,14 @@ const onSubmit = async () => {
           if (!response.ok) {
             message.error("Tải ảnh lên không thành công");
           }
-          const role = localStorage.getItem('role_id');
-          if(role == 6 || role == 1){
-               router.push({ name: "admin-post-list" });
-          }else{
+          const role = localStorage.getItem("role_id");
+          if (role == 6 || role == 1) {
+            router.push({ name: "admin-post-list" });
+          } else {
             router.push({ name: "post-manage" });
           }
           fileList.value = [];
           uploading.value = false;
-          
         } catch (error) {
           uploading.value = false;
           console.log(error);
@@ -1097,5 +1150,19 @@ export default {
   },
 };
 </script>
-  <style lang=""></style>
+  <style >
+.date-picker {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.date-picker label {
+  font-weight: 600 !important;
+  padding: 10px 0px !important;
+}
+.date-picker input {
+  border: 1px solid rgb(187, 184, 184);
+  border-radius: 5px;
+  padding: 3px 6px;
+}
+</style>
   

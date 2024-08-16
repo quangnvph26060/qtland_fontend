@@ -70,7 +70,7 @@
                     v-if="item.priority_status !== 'không yêu cầu'"
                     class="absolute top-2 left-2 px-2 py-1 text-white bg-red-500 rounded"
                   >
-                    {{ item.priority_status }}
+                    {{ item.priority_status }}  <span> {{item.traphong ? formatDate(item.traphong) : ""  }}</span>
                   </div>
                 </div>
                 <div style="padding: 5px 11px 6px 12px">
@@ -205,6 +205,7 @@ import filterRange from "../../../stores/filterRange";
 import { gsap } from "gsap";
 import apiURL from "../../../api/constants";
 import { message } from "ant-design-vue";
+import formatDate from "../../../scripts/formatDate";
 
 const text5 = ref(null);
 
@@ -344,6 +345,7 @@ const fetchPostsFilter = async (
     post_image: [],
     user_info: "",
     user_id: "",
+    traphong: ""
   });
 
   const posts = [];

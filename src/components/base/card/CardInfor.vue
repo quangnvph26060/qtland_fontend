@@ -18,6 +18,14 @@
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
+      <div class="flex checkbox_delet_edit">
+        <div>
+          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+        </div>
+        <div>
+          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+        </div>
+      </div>
       
     </div>
     <!-- end::Card Infor For List -->
@@ -54,6 +62,14 @@
           {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
         </p>
       </div>
+       <div class="flex checkbox_delet_edit">
+        <div>
+          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+        </div>
+        <div>
+          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+        </div>
+      </div>
     </div>
 
     <div class="flex flex-wrap space-x-10" v-else-if="type === 'cht'">
@@ -72,6 +88,14 @@
       <div class="flex flex-col">
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
+      </div>
+       <div class="flex checkbox_delet_edit">
+        <div>
+          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+        </div>
+        <div>
+          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+        </div>
       </div>
       
     </div>
@@ -106,6 +130,14 @@
         <p style="font-weight: 600">
           {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
         </p>
+      </div>
+       <div class="flex checkbox_delet_edit">
+        <div>
+          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+        </div>
+        <div>
+          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+        </div>
       </div>
       
     </div>

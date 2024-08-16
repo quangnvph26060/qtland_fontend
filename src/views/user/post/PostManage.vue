@@ -225,6 +225,50 @@
           </div>
           <!-- end::Post Items -->
         </a-tab-pane>
+        	<a-tab-pane key="6" class="space-y-5">
+          <template #tab> Danh sách </template>
+          <!-- begin::Post Items -->
+          <!-- <div
+            class="flex n:flex-col sm:flex-row border-[1px] cursor-pointer"
+            v-for="item in dataKD"
+          >
+            <div
+              class="relative flex align-items-center justify-center col-sm-3 w-full"
+            >
+              <div
+                v-if="item.priority_status !== 'không yêu cầu'"
+                class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
+                :class="getColorTagByPriorityStatus(item.priority_status)"
+              >
+                {{ item.priority_status }}
+              </div>
+              <a-image
+                @click="redirectPostDetail(item.id)"
+                :src="item.post_image?.[0]?.image_path"
+                class="object-cover"
+                :preview="false"
+                :height="150"
+                :width="300"
+              />
+            </div>
+            <div class="col-sm-9">
+              <Card :title="item.title">
+                <template #content>
+                  <span class="text-sm" @click="redirectPostDetail(item.id)">
+                    {{ item.description }}
+                  </span>
+                  <CardInfor
+                    @statusUpdated="handleStatusUpdated"
+                    type="kd"
+                    :post="item"
+                  />
+                </template>
+              </Card>
+            </div>
+          </div> -->
+          <CardinforDetail />
+          <!-- end::Post Items -->
+        </a-tab-pane>
       </a-tabs>
     </div>
     <!-- end::Main Content -->
@@ -247,7 +291,7 @@ import messageAnt from "../../../scripts/message";
 import auth from "../../../stores/auth";
 import listPostsAPI from "../../../api/posts/index";
 import getTimeSincePostCreation from "../../../utils/getTimeSincePostCreation";
-
+import { useRouter } from 'vue-router';
 const authStore = auth();
 const userId = ref(authStore.getUser.id);
 watch(
@@ -256,9 +300,9 @@ watch(
     fetchPostByUser(authStore.getUser.id);
   }
 );
-
+const router1 = useRouter();
 const redirectPostDetail = (postId) => {
-  router.push({ name: "post-edit", params: { id: postId } });
+  router1.push({ name: "post-detail", params: { id: postId } });
 };
 
 const activeKey = ref("1");
@@ -505,6 +549,7 @@ handleStatusUpdated();
 import ThePageHeader from "../../../components/ThePageHeader.vue";
 import Card from "../../../components/base/card/Card.vue";
 import CardInfor from "../../../components/base/card/CardInfor.vue";
+import CardinforDetail from "../../../components/base/card/CardnforDetail.vue";
 import SidebarFilter from "../../../components/base/sidebar/SidebarFilter.vue";
 
 export default {

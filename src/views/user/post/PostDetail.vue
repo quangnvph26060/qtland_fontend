@@ -260,35 +260,35 @@
               >
               {{ data.elevator == 1 ? "Có" : "Không" }}
             </a-descriptions-item>
-            <a-descriptions-item
+            <a-descriptions-item 
               v-if="data.bonus !== null && data.bonus !== undefined"
               :span="1"
-              class="description-item-infor"
+              class="description-item-infor bonus" 
             >
               <template #label
-                ><i class="fas fa-percentage icon"></i>Hoa hồng</template
+                ><i class="fas fa-percentage icon" style="color: red;"></i><span style="color: red;">Hoa hồng</span></template
               >
-              {{ data.bonus }}%
+             <span style="color: red;"> {{ data.bonus }}%</span>
             </a-descriptions-item>
             <a-descriptions-item
               v-if="
                 data.bonusmonthly !== null && data.bonusmonthly !== undefined
               "
               :span="1"
-              class="description-item-infor"
+              class="description-item-infor bonus " 
             >
-              <template #label
-                ><i class="fas fa-percentage icon"></i>Hoa hồng</template
+              <template #label 
+                ><i class="fas fa-percentage icon" style="color: red;"></i><span style="color: red;">Hoa hồng</span></template
               >
-              {{ formatMoney(data.bonusmonthly) }} Vnd/tháng
+              <span style="color: red;">{{ formatMoney(data.bonusmonthly) }} Vnd/tháng</span>
             </a-descriptions-item>
             <a-descriptions-item
               v-if="data.rooms !== null && data.rooms !== undefined"
               :span="1"
-              class="description-item-infor"
+              class="description-item-infor" 
             >
               <template #label>
-                <i class="fas fa-door-closed icon"></i>Số phòng</template
+                <i class="fas fa-door-closed icon"></i>Chia phòng</template
               >
               {{ data.rooms }}
             </a-descriptions-item>
@@ -1357,5 +1357,11 @@ div.ant-descriptions-title {
 div[style*="position: absolute;"] {
   display: none !important;
   z-index: -100;
+}
+/* .bonus div span {
+  color: red !im';
+} */
+.bonus  .ant-descriptions-item-label{
+  color:red !important;
 }
 </style>
