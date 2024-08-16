@@ -25,6 +25,7 @@
         <a-table
           :data-source="data"
           :columns="columns"
+          :dataSource="data"
           :scroll="{ x: 600 }"
           :expand-column-width="50"
           :pagination="pagination"
@@ -408,7 +409,11 @@ const pagination = reactive({
   showSizeChanger: true,
   responsive: true,
   showLessItems: true,
-  onChange: (page, pageSize) => {},
+  onChange: (page, pageSize) => {
+    pagination.current = page;
+    pagination.pageSize = pageSize;
+    fetchUsersList(); 
+  },
 });
 
 /**
@@ -424,38 +429,49 @@ onMounted(() => {
 });
 const id =  ref('');
 const fetchUsersList = async () => {
-  data.value = [];
-  const users = [];
-  let listUsers = [];
-  const role = localStorage.getItem('role_id');
-  if(role != 6){
-    listUsers = await listUsersAPI();
-  }else{
-    listUsers = await listUsersRoleAPI();
+  try {
+    data.value = [];
+    const users = [];
+    const params = {
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+    };
+    // Gọi API và kiểm tra kết quả
+    let response = [];
+     const role = localStorage.getItem('role_id');
+     if(role != 6){
+      response = await listUsersAPI(params);
+    }else{
+       response = await listUsersRoleAPI(params);
+    }
+  
+    const listUsers = response.data || [];
+
+    for (const user of listUsers) {
+      users.push({
+        id: user.id,
+        key: user.id,
+        name: user.name,
+        email: user.email,
+        created_at: formatDate(user.created_at),
+        updated_at: formatDate(user.updated_at),
+        role_id: user.role_id,
+        is_active: user.is_active,
+        post_count: user.post_count,
+        cccd: user.cccd,
+        password: user.password,
+        phone: user.phone,
+        address: user.address,
+        workunit: user.workunit,
+        birthday: user.birthday
+      });
+    }
+    data.value = users;
+  } catch (error) {
+    console.error("Error fetching users list:", error);
   }
- 
- 
-  for (const user of listUsers) {
-    users.push({
-      id: user.id,
-      key: user.id,
-      name: user.name,
-      email: user.email,
-      created_at: formatDate(user.created_at),
-      updated_at: formatDate(user.updated_at),
-      role_id: user.role_id,
-      is_active: user.is_active,
-      post_count: user.post_count,
-      cccd: user.cccd,
-      password: user.password,
-      phone: user.phone,
-      address: user.address,
-      workunit: user.workunit,
-      birthday: user.birthday
-    });
-  }
-  data.value = users;
 };
+
 
 onMounted(() => {
   fetchUsersList();

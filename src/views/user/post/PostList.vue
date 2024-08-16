@@ -16,9 +16,9 @@
       <div
         v-else
         class="flex w-full justify-between align-items-center"
-        style="padding: 0px 20px"
+        style="padding: 0px 20px 0px 0px"
       >
-        <span>Hiện có {{ total }} bất động sản </span>
+        <span>Hiện có {{ data? total: 0 }} bất động sản </span>
         <div>
           <a-select
             ref="select"
@@ -367,9 +367,9 @@ const fetchPostsFilter = async (
       ans[key] = post[key];
     });
     ans.created_at = getTimeSincePostCreation(post.created_at);
-
+    const user_id = localStorage.getItem('user_id');
     if (role == 2 ) {
-      if (post.user_id === store.user.id) {
+      if (post.user_id == user_id) {
         posts.push({ ...ans });
       }
     } else {
