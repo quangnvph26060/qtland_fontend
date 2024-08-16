@@ -381,7 +381,7 @@
                         </div>
                       </a-modal>
                     </div>
-                    <div>
+                    <div style="margin-top:0px">
                       <router-link
                         :to="{
                           name:
@@ -398,7 +398,7 @@
                           :icon="h(ScheduleOutlined)"
                           @click="onClose"
                         >
-                          Danh sách tin
+                          Danh sách tin 
                         </a-button>
                       </router-link>
                       <a-button
@@ -474,12 +474,13 @@
                           </a-row>
                         </div>
                       </a-drawer>
-                    </div>
+                    </div >
 
-                    <a-button
+                    <a-button style="margin-top:0px"
                       class="h-[36px] w-100 flex align-items-center border-none"
                       @click="onLogout"
                     >
+                    <LogoutOutlined/>
                       Đăng xuất
                     </a-button>
                   </div>
