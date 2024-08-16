@@ -1016,7 +1016,12 @@ const onSubmit = async () => {
         try {
           const res = await createImageAPI.updatePostImage(formData);
           
-          router.push({ name: "post-manage" });
+          const role = localStorage.getItem('role_id');
+          if(role == 6 || role == 1){
+               router.push({ name: "admin-post-list" });
+          }else{
+            router.push({ name: "post-manage" });
+          }
           fileList.value = [];
           uploading.value = false;
           // router.go(0);
@@ -1050,10 +1055,15 @@ const onSubmit = async () => {
           if (!response.ok) {
             message.error("Tải ảnh lên không thành công");
           }
+          const role = localStorage.getItem('role_id');
+          if(role == 6 || role == 1){
+               router.push({ name: "admin-post-list" });
+          }else{
+            router.push({ name: "post-manage" });
+          }
           fileList.value = [];
           uploading.value = false;
           
-          router.push({ name: "post-manage" });
         } catch (error) {
           uploading.value = false;
           console.log(error);

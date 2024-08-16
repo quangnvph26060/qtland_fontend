@@ -317,7 +317,7 @@ const fetchPostsFilter = async (
   let listPosts;
   let res;
 
-  res = await listPostsAPI.getPostByFilter({
+  res = await listPostsAPI.getPostBySoldFilter({
     ...filter,
     page: pageFilter.value,
     pageSize: pageSizeFilter.value,
@@ -439,9 +439,11 @@ const fallbackCopyTextToClipboard = (text) => {
 const getColorTagByPriorityStatus = (priority_status) => {
   switch (priority_status) {
     case "khách nhượng":
-      return "hot-priority";
+      return "volcano";
     case "quy hoạch":
-      return "medium-priority";
+      return "cyan";
+    case "khong yêu cầu":
+      return "kyc";
     default:
       return "";
   }
@@ -484,6 +486,7 @@ watch(props, () => {
 
 watch(total, (newVal) => {
   pagination.total = newVal;
+  total.value = newVal;
 });
 
 watch(pageFilter, (newVal) => {

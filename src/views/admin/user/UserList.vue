@@ -424,16 +424,14 @@ onMounted(() => {
 });
 const id =  ref('');
 const fetchUsersList = async () => {
-  
-
   data.value = [];
   const users = [];
   let listUsers = [];
   const role = localStorage.getItem('role_id');
   if(role != 6){
-      listUsers = await listUsersAPI();
+    listUsers = await listUsersAPI();
   }else{
-     listUsers = await listUsersRoleAPI();
+    listUsers = await listUsersRoleAPI();
   }
  
  

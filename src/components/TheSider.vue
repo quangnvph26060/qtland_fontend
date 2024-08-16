@@ -29,7 +29,7 @@
         </a-menu-item>
         <a-menu-item key="1">
           <div class="flex align-items-center">
-            <router-link :to="{ name: 'admin' }"> </router-link>
+            <router-link :to="{ name: 'manage-user' }"> </router-link>
             <PieChartOutlined />
             <span>Quản lý tài khoản</span>
           </div>
