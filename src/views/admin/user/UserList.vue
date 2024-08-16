@@ -259,7 +259,7 @@ import {
   DownOutlined,
   SearchOutlined,
 } from "@ant-design/icons-vue";
-import { ref, reactive, onMounted ,computed } from "vue";
+import { ref, reactive, onMounted ,computed, watch } from "vue";
 
 import { Modal } from "ant-design-vue";
 
@@ -403,17 +403,41 @@ const columns = [
 ];
 
 const data = ref([]);
+const pageFilter = ref(1);
+const pageSizeFilter = ref(10);
+const currentPage = ref(1);
+const total = ref(0);
 
 const pagination = reactive({
-  pageSize: 10,
   showSizeChanger: true,
   responsive: true,
+  current: currentPage.value,
   showLessItems: true,
+  total: total.value,
   onChange: (page, pageSize) => {
-    pagination.current = page;
-    pagination.pageSize = pageSize;
-    fetchUsersList(); 
+    pageFilter.value = page;
+    pageSizeFilter.value = pageSize;
+    fetchUsersList({
+       page: page,
+      pageSize: pageSize,
+    }); 
+    scrollToTop();
   },
+});
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
+watch(total, (newVal) => {
+  pagination.total = newVal;
+  total.value = newVal;
+});
+
+watch(pageFilter, (newVal) => {
+  pagination.current = newVal;
 });
 
 /**
@@ -428,13 +452,13 @@ onMounted(() => {
   console.log(store.user);
 });
 const id =  ref('');
-const fetchUsersList = async () => {
+const fetchUsersList = async ( page = 1, pageSize = 10) => {
   try {
     data.value = [];
     const users = [];
     const params = {
-      page: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pageFilter.value,
+    pageSize: pageSizeFilter.value,
     };
     // Gọi API và kiểm tra kết quả
     let response = [];
@@ -446,7 +470,7 @@ const fetchUsersList = async () => {
     }
   
     const listUsers = response.data || [];
-
+    total.value = response.total;
     for (const user of listUsers) {
       users.push({
         id: user.id,

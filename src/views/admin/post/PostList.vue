@@ -577,7 +577,7 @@ const fetchPostsList = async (filter, page = 1, pageSize = 10) => {
   console.log(res);
   let listPosts = res.data;
   total.value = res.total;
-  const posts = [];
+  const posts = []
   const ans = reactive({
     id: "",
     key: "",

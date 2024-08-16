@@ -150,9 +150,7 @@
         </a-tab-pane>
       </a-tabs>
     </div>
-    <!-- <div class="my-5 ml-auto mr-auto">
-            <a-pagination :total="10" show-less-items> </a-pagination>
-          </div> -->
+   
   </div>
 </template>
 
@@ -166,7 +164,7 @@ import {
   ExclamationCircleOutlined,
   SearchOutlined,
 } from "@ant-design/icons-vue";
-import { ref, reactive, watch, createVNode } from "vue";
+import { ref, reactive, onMounted ,computed, watch } from "vue";
 import router from "../../../router";
 import { Modal } from "ant-design-vue";
 import messageAnt from "../../../scripts/message";
@@ -364,43 +362,86 @@ const showConfirmDelete = async (id) => {
 };
 
 const data = ref([]);
-const fetchPostByUser = async () => {
-  // isLoading.value = true;
-  data.value = [];
+const pageFilter = ref(1);
+const pageSizeFilter = ref(10);
+const currentPage = ref(1);
+const total = ref(0);
 
-  const listPosts = await listReportAPI.getAllReport();
-
-  const ans = reactive({
-    id: "",
-    name: "",
-    phone: "",
-    cccd: "",
-    address: "",
-    birthday: "",
-    time: "",
-    description: "",
-    created_at: "",
-    post_id: "",
-    user_id: "",
-    user: "",
-    post: "",
+const pagination = reactive({
+  showSizeChanger: true,
+  responsive: true,
+  current: currentPage.value,
+  showLessItems: true,
+  total: total.value,
+  onChange: (page, pageSize) => {
+    pageFilter.value = page;
+    pageSizeFilter.value = pageSize;
+    fetchPostByUser({
+       page: page,
+      pageSize: pageSize,
+    }); 
+    scrollToTop();
+  },
+});
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
   });
-  const posts = [];
-
-  for (let i = 0; i < listPosts.length; i++) {
-    const post = listPosts[i];
-    Object.keys(ans).forEach((key) => {
-      ans[key] = post[key];
-    });
-    posts.push({ ...ans });
-  }
-
-  data.value = posts;
-  totalLand.value = posts.length;
-  console.log(data.value);
 };
 
-fetchPostByUser();
+watch(total, (newVal) => {
+  pagination.total = newVal;
+  total.value = newVal;
+});
+
+watch(pageFilter, (newVal) => {
+  pagination.current = newVal;
+});
+
+const fetchPostByUser = async (page = 1, pageSize = 10) => {
+  try {
+    data.value = [];
+    const posts = [];
+    const params = {
+      page: pageFilter.value,
+      pageSize: pageSizeFilter.value,
+    };
+
+    // Gọi API và lấy danh sách báo cáo
+    const response = await listReportAPI.getAllReport(params);
+    const listPosts = response.data || [];
+    total.value = response.total;
+
+    for (const post of listPosts) {
+      posts.push({
+        id: post.id,
+        name: post.name,
+        phone: post.phone,
+        cccd: post.cccd,
+        address: post.address,
+        birthday: post.birthday,
+        time: post.time,
+        description: post.description,
+        created_at: post.created_at,
+        post_id: post.post_id,
+        user_id: post.user_id,
+        user: post.user,
+        post: post.post,
+      });
+    }
+
+    data.value = posts;
+  } catch (error) {
+    console.error("Error fetching posts by user:", error);
+  }
+};
+
+
+onMounted(() => {
+  fetchPostByUser();;
+});
+
 </script>
 
 <script>

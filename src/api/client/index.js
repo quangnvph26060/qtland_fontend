@@ -1,9 +1,14 @@
 import apiURL from "../constants";
 
 const listCLientAPI = {
-	getAllClient: async () => {
+	getAllClient: async (params = {}) => {
 		try {
-			const response = await axios.get(`${apiURL.baseURL}/client`);
+			const response = await axios.get(`${apiURL.baseURL}/client`, {
+				params: {
+					page: params.page || 1,
+					pageSize: params.pageSize || 10,
+				}
+			});
 			return response.data;
 		} catch (error) {
 			console.log(error);
