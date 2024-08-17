@@ -322,7 +322,7 @@ const fetchPostsFilter = async (
   let listPosts;
   let res;
 
-if(role == 2 || role == 5 ){
+if(store.user.role_id == 2 || store.user.role_id == 5 ){
    res = await listPostsAPI.getPostBySoldFilterByUser(useid,{
     ...filter,
     page: pageFilter.value,
@@ -340,7 +340,7 @@ if(role == 2 || role == 5 ){
 }
 
   listPosts = res.data;
-
+  console.log(listPosts);
   const ans = reactive({
     id: "",
     title: "",

@@ -9,6 +9,19 @@ const listPostsAPI = {
 			console.log(error);
 		}
 	},
+	getPostsByUser: async (id, params = {}) => {
+		try {
+			const response = await axios.get(`${apiURL.baseURL}/posts/postsold/user/${id}`, {
+				params: {
+					page: params.page || 1,
+					pageSize: params.pageSize || 10,
+				}
+			});
+			return response.data;
+		} catch (error) {
+			console.log(error);
+		}
+	},
 	getPostPending: async () => {
 		try {
 			const response = await axios.get(`${apiURL.baseURL}/pending`);

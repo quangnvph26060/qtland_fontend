@@ -232,7 +232,7 @@ const showConfirmDelete = (id) => {
 const deleteUserById = async (id) => {
   await deletePostAPI(id);
   messageAnt.success("Xóa bài viết thành công!");
-  router.push({ name: "post-edit", params: { id: id } });
+  router.push({ name: "post-manage"});
 };
 
 const emit = defineEmits(["statusUpdated"]);
