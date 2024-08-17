@@ -258,7 +258,7 @@ const props = defineProps({
 
 const store = auth();
 const role = localStorage.getItem("role_id");
-const role_id = store.user.role_id;
+const useid = localStorage.getItem('user_id');
 
 const total = ref(0);
 const data = ref([]);
@@ -283,6 +283,10 @@ const options1 = ref([
   {
     value: "không yêu cầu",
     label: "Không yêu cầu",
+  },
+   {
+    value: "trả phòng",
+    label: "Trả phòng",
   },
 ]);
 
@@ -318,12 +322,23 @@ const fetchPostsFilter = async (
   let listPosts;
   let res;
 
-  res = await listPostsAPI.getPostBySoldFilter({
+if(role == 2 || role == 5 ){
+   res = await listPostsAPI.getPostBySoldFilterByUser(useid,{
     ...filter,
     page: pageFilter.value,
     pageSize: pageSizeFilter.value,
     priority_status: value1.value,
   });
+
+}else{
+   res = await listPostsAPI.getPostBySoldFilter({
+    ...filter,
+    page: pageFilter.value,
+    pageSize: pageSizeFilter.value,
+    priority_status: value1.value,
+  });
+}
+
   listPosts = res.data;
 
   const ans = reactive({
@@ -357,26 +372,17 @@ const fetchPostsFilter = async (
   for (let i = 0; i < listPosts.length; i++) {
     const post = listPosts[i];
 
-    // Nếu `post.user_info` tồn tại, cập nhật thông tin người dùng
     if (post && post.user_info) {
       datacall.value.user.phone = post.user_info.phone;
       datacall.value.user.name = post.user_info.name;
       datacall.value.user.email = post.user_info.email;
     }
 
-    // Sao chép thông tin bài viết vào `ans`
     Object.keys(ans).forEach((key) => {
       ans[key] = post[key];
     });
     ans.created_at = getTimeSincePostCreation(post.created_at);
-    const user_id = localStorage.getItem('user_id');
-    if (role == 2 ) {
-      if (post.user_id == user_id) {
-        posts.push({ ...ans });
-      }
-    } else {
       posts.push({ ...ans });
-    }
   }
 
   data.value = posts;
@@ -385,6 +391,46 @@ const fetchPostsFilter = async (
 };
 
 fetchPostsFilter(filter);
+const pagination = reactive({
+  showSizeChanger: true,
+  responsive: true,
+  current: currentPage.value,
+  showLessItems: true,
+  total: total.value,
+  onChange: (page, pageSize) => {
+    pageFilter.value = page;
+    pageSizeFilter.value = pageSize;
+    fetchPostsFilter({
+      ...filter,
+      page: page,
+      pageSize: pageSize,
+      priority: value1.value,
+    });
+    scrollToTop();
+  },
+});
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
+watch(total, (newVal) => {
+  pagination.total = newVal;
+});
+
+watch(pageFilter, (newVal) => {
+  pagination.current = newVal;
+});
+
+watch([currentPage, total], ([newPage, newTotal]) => {
+  pagination.current = newPage;
+  pagination.total = newTotal;
+  pagination.pageSize = pageSizeFilter.value;
+});
+
 const isPhoneVisible = ref({});
 
 const maskedPhone = computed(() => {
@@ -442,7 +488,7 @@ const getColorTagByPriorityStatus = (priority_status) => {
   switch (priority_status) {
     case "khách nhượng":
       return "volcano";
-    case "quy hoạch":
+    case "traphong":
       return "cyan";
     case "khong yêu cầu":
       return "kyc";
@@ -451,49 +497,6 @@ const getColorTagByPriorityStatus = (priority_status) => {
   }
 };
 
-const pagination = reactive({
-  showSizeChanger: true,
-  responsive: true,
-  current: currentPage.value,
-  showLessItems: true,
-  total: total.value,
-  onChange: (page, pageSize) => {
-    pageFilter.value = page;
-    pageSizeFilter.value = pageSize;
-    fetchPostsFilter({
-      ...filter,
-      page: page,
-      pageSize: pageSize,
-      priority: value1.value,
-    });
-    scrollToTop();
-  },
-});
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-};
-
-watch(props, () => {
-  filter = filterStore.getAll;
-  fetchPostsFilter({
-    ...filter,
-    page: pageFilter.value,
-    pageSize: pageSizeFilter.value,
-  });
-});
-
-watch(total, (newVal) => {
-  pagination.total = newVal;
-  total.value = newVal;
-});
-
-watch(pageFilter, (newVal) => {
-  pagination.current = newVal;
-});
 </script>
 
 <script>

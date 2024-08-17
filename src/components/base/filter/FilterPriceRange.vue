@@ -65,7 +65,7 @@
       </div>
       <a-divider />
       <div class="flex justify-between">
-        <a-button @click="setPrice(0, 60000)">Đặt lại</a-button>
+        <a-button @click="setPrice(0, 1000)">Đặt lại</a-button>
         <a-button type="primary"
           ><div @click="setPrice(price[0], price[1])">Tìm kiếm</div></a-button
         >

@@ -22,7 +22,7 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }}
+                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -65,7 +65,7 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }}
+                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -109,7 +109,7 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }}
+                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -153,7 +153,7 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }}
+                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -197,7 +197,7 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }}
+                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -274,9 +274,9 @@
     <!-- end::Main Content -->
 
     <!-- begin::Pagination -->
-    <div class="my-5 ml-auto mr-auto">
+    <!-- <div class="my-5 ml-auto mr-auto">
       <a-pagination :total="10" show-less-items> </a-pagination>
-    </div>
+    </div> -->
     <!-- end::Pagination -->
   </div>
   <!-- begin::Sidebar -->
@@ -292,6 +292,7 @@ import auth from "../../../stores/auth";
 import listPostsAPI from "../../../api/posts/index";
 import getTimeSincePostCreation from "../../../utils/getTimeSincePostCreation";
 import { useRouter } from 'vue-router';
+import formatDate from "../../../scripts/formatDate";
 const authStore = auth();
 const userId = ref(authStore.getUser.id);
 watch(
@@ -358,6 +359,7 @@ const fetchPostByUser = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
+    traphong: ""
   });
   const posts = [];
 
@@ -394,6 +396,7 @@ const fetchPostByUserHT = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
+    traphong: ""
   });
   const posts = [];
 
@@ -431,6 +434,7 @@ const fetchPostByUserCHT = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
+    traphong: ""
   });
   const posts = [];
 
@@ -470,6 +474,7 @@ const fetchPostByUserKD = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
+    traphong: ""
   });
   const posts = [];
 
@@ -508,6 +513,7 @@ const fetchPostByUserSold = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
+    traphong: ""
   });
   const posts = [];
 
@@ -528,6 +534,8 @@ const getColorTagByPriorityStatus = (priority_status) => {
     case "khách nhượng":
       return "hot-priority";
     case "quy hoạch":
+      return "medium-priority";
+      case "trả phòng":
       return "medium-priority";
     default:
       return "";
