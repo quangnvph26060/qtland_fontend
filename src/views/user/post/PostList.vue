@@ -417,18 +417,23 @@ const scrollToTop = () => {
   });
 };
 
+watch(props, () => {
+  filter = filterStore.getAll;
+  fetchPostsFilter({
+    ...filter,
+    page: pageFilter.value,
+    pageSize: pageSizeFilter.value,
+  });
+});
+
+
 watch(total, (newVal) => {
   pagination.total = newVal;
+  total.value = newVal;
 });
 
 watch(pageFilter, (newVal) => {
   pagination.current = newVal;
-});
-
-watch([currentPage, total], ([newPage, newTotal]) => {
-  pagination.current = newPage;
-  pagination.total = newTotal;
-  pagination.pageSize = pageSizeFilter.value;
 });
 
 const isPhoneVisible = ref({});
