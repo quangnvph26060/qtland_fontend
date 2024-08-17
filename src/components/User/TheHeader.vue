@@ -57,7 +57,7 @@
               </div>
 
               <div class="n:px-2 md:px-4 hidden sm:block">
-                <a-dropdown :placement="'bottomLeft'" trigger="click">
+                <a-dropdown :placement="'bottomLeft'" >
                   <template #overlay>
                     <a-menu>
                       <a-menu-item
@@ -79,13 +79,13 @@
                       <a-menu-item key="4"  
                        
                         >
-                        <a-button
+                        <!-- <a-button
                           class="h-[36px] w-100 flex align-items-center border-none p-0"
                           :icon="h(AccountBookOutlined)"
-                          @click="showAvatarModal"
+                         
                         >
                           Thay đổi ảnh đại diện
-                        </a-button>
+                        </a-button> -->
                         <a-modal
                           v-model:open="isAvatarModalVisible"
                           title="Ảnh đại diện"
@@ -215,12 +215,13 @@
                         verticalAlign: 'middle',
                       }"
                     >
-                      <!-- Hiển thị ảnh avatar nếu có -->
+                      <!-- Hiển thị ảnh avatar nếu có  12345-->
                       <template v-if="store.user.avatar">
                         <img
                           :src="store.user.avatar"
                           alt="avatar"
                           class="avatar-img"
+                          @click="showAvatarModal"
                         />
                       </template>
                       <!-- Hiển thị chữ cái đầu tiên của tên người dùng nếu không có avatar -->
@@ -286,7 +287,7 @@
                           verticalAlign: 'middle',
                         }"
                       >
-                        <!-- Hiển thị ảnh avatar nếu có -->
+                        <!-- Hiển thị ảnh avatar nếu có-->
                         <template v-if="store.user.avatar">
                           <img
                             :src="store.user.avatar"
