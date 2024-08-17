@@ -2,85 +2,10 @@
   <div class="card border-x-0">
     <!-- begin::Card Header -->
     <div
-      class="card-header flex flex-row-reverse justify-between mb-3 md:mb-0 mt-5"
+      class="card-header flex flex-row-reverse justify-between "
     >
       <!-- begin::Card Toolbar -->
-      <div class="card-toolbar flex justify-start md:justify-end">
-        <div class="mr-3">
-          <a-button @click="handaddpost"> Đăng tin </a-button>
-        </div>
-        <!-- begin::Filter -->
-        <a-dropdown trigger="click" class="w-[100px]">
-          <template #overlay>
-            <a-menu class="w-[150px]">
-              <a-menu-item key="1">
-                <FilterAddress type="admin" />
-              </a-menu-item>
-              <a-menu-item key="2">
-                <FilterPriceRange type="admin" />
-              </a-menu-item>
-              <a-menu-item key="3">
-                <FilterAreaRange type="admin" />
-              </a-menu-item>
-              <a-menu-item key="4">
-                <FilterOptions type="admin" />
-              </a-menu-item>
-              <a-menu-item key="5">
-                <FilterStatus type="admin" />
-              </a-menu-item>
-            </a-menu>
-          </template>
-          <a-button class="me-3">
-            <template #icon>
-              <FilterOutlined />
-            </template>
-            Lọc
-          </a-button>
-        </a-dropdown>
 
-        <!-- end::Filter -->
-
-        <!-- begin::Reset Filter -->
-        <div class="mr-3">
-          <a-button @click="handResetFilter"> Đặt lại </a-button>
-        </div>
-        <!-- end::Reset Filter -->
-
-        <!-- begin::Export -->
-        <!-- <a-button @click="showModalExport">
-					<template #icon>
-						<ExportOutlined />
-					</template>
-					Xuất file
-				</a-button> -->
-        <a-modal
-          v-model:open="openModalExport"
-          title="Xuất file"
-          cancelText="Huỷ"
-          okText="Xuất file"
-          class="top-[20%]"
-          :onOk="
-            () => {
-              handleOkModalExport();
-              messageAnt.success();
-            }
-          "
-        >
-          <a-form layout="horizontal" style="max-width: 600px">
-            <a-form-item label="Loại file">
-              <a-select>
-                <a-select-option value="excel">Excel</a-select-option>
-                <a-select-option value="admin">PDF</a-select-option>
-                <a-select-option value="admin">Zip</a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="Khoảng thời gian">
-              <a-range-picker />
-            </a-form-item>
-          </a-form>
-        </a-modal>
-        <!-- end::Export -->
-      </div>
       <!-- end::Card Toolbar -->
     </div>
     <!-- end::Card Header -->
@@ -562,18 +487,18 @@ const columns = [
  * CreatedBy: youngbachhh (29/03/2024)
  */
 const userid = localStorage.getItem("user_id");
-const fetchPostsList = async (filter, page = 1, pageSize = 10) => {
+const fetchPostsList = async (page = 1, pageSize = 10) => {
   data.value = [];
 
   let res;
-
-  res = await listPostsAPI.getPostByFilterByUser(userid,{
-    ...filter,
+  const params = {
     page: pageFilter.value,
     pageSize: pageSizeFilter.value,
-  });
+  };
+  res = await listPostsAPI.getPostsByUser(userid, params);
 
   let listPosts = res.data;
+  console.log(listPosts);
   total.value = res.total;
   const posts = [];
   const ans = reactive({
@@ -603,25 +528,26 @@ const fetchPostsList = async (filter, page = 1, pageSize = 10) => {
   for (let i = 0; i < listPosts.length; i++) {
     const post = listPosts[i];
 
+    // Kiểm tra nếu user_id của post bằng với userid
+    Object.keys(ans).forEach((key) => {
+      ans[key] = post[key];
+    });
 
-      // Kiểm tra nếu user_id của post bằng với userid
-      Object.keys(ans).forEach((key) => {
-        ans[key] = post[key];
-      });
-
-      ans.created_at = getTimeSincePostCreation(post.created_at, true);
-      ans.name = post.user_info.name;
-      ans.key = i + 1;
-      posts.push({ ...ans });
-
+    ans.created_at = getTimeSincePostCreation(post.created_at, true);
+    ans.name = post.user_info.name;
+    ans.key = i + 1;
+    posts.push({ ...ans });
   }
 
   data.value = posts;
 };
 
-fetchPostsList({
-  ...filter,
-  searchConditions: state.searchConditions,
+// fetchPostsList({
+//   ...filter,
+//   searchConditions: state.searchConditions,
+// });
+onMounted(() => {
+  fetchPostsList();
 });
 
 const getColorPriorityStatus = (priority_status) => {
@@ -646,12 +572,10 @@ const pagination = reactive({
   onChange: (page, pageSize) => {
     pageFilter.value = page;
     pageSizeFilter.value = pageSize;
-    fetchPostsList({
-      ...filter,
-      page: page,
+     fetchPostsList({
+       page: page,
       pageSize: pageSize,
-      searchConditions: state.searchConditions,
-    });
+    }); 
     scrollToTop();
   },
 });
@@ -706,6 +630,8 @@ const showConfirmDelete = async (id) => {
 <script>
 import ThePageHeader from "../../../components/ThePageHeader.vue";
 import user from "../../../router/user";
+// import { useRouter } from 'vue-router';
+// const router = useRouter();
 export default {
   components: {
     ThePageHeader,
@@ -730,4 +656,8 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.card-header{
+  display: none;
+}
+</style>
