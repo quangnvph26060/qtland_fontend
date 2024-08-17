@@ -213,7 +213,7 @@
             <div style="display: flex; align-items: center">
               <router-link
                 :to="{
-                  name: 'admin-post-detail',
+                  name: 'post-edit',
                   params: { id: record.id },
                 }"
               >
@@ -533,14 +533,14 @@ const columns = [
     class: "title_width",
   },
 
-  {
-    title: "Lượt xem",
-    dataIndex: "views_count",
-    key: "views_count",
-    width: 100,
-    sorter: (a, b) => a.views_count - b.views_count,
-    class: "views_count_width",
-  },
+  // {
+  //   title: "Lượt xem",
+  //   dataIndex: "views_count",
+  //   key: "views_count",
+  //   width: 100,
+  //   sorter: (a, b) => a.views_count - b.views_count,
+  //   class: "views_count_width",
+  // },
   {
     title: "Trạng thái",
     dataIndex: "sold_status",

@@ -48,7 +48,6 @@
                     id="datetime-picker"
                     v-model="formattedDate"
                     @change="handleDateChange"
-                  
                     class="datetime-input"
                   />
                 </div>
@@ -876,9 +875,12 @@ const handleDateChange = (event) => {
 };
 
 // Theo dõi sự thay đổi của data.traphong và cập nhật formattedDate
-watch(() => data.traphong, (newVal) => {
-  formattedDate.value = newVal; // Cập nhật formattedDate khi data.traphong thay đổi
-});
+watch(
+  () => data.traphong,
+  (newVal) => {
+    formattedDate.value = newVal; // Cập nhật formattedDate khi data.traphong thay đổi
+  }
+);
 
 const disabledSubmit = computed(() => {
   return !(
@@ -888,9 +890,10 @@ const disabledSubmit = computed(() => {
     data.area &&
     data.areausable &&
     data.price &&
-    data.priceservice &&
-    data.priceElectricity &&
-    data.pricewater &&
+    data.unit &&
+    // data.priceservice &&
+    // data.priceElectricity &&
+    // data.pricewater &&
     data.floors &&
     data.rooms &&
     data.bathrooms &&
@@ -1040,6 +1043,8 @@ const handleChange = (info) => {
 function handleDrop(e) {
   console.log(e);
 }
+const role = localStorage.getItem('role_id');
+
 
 // Xử lý submit form
 const onSubmit = async () => {
@@ -1052,6 +1057,9 @@ const onSubmit = async () => {
     }
 
     if (postId) {
+      if (role !== 1 && role !== 6) {
+        data.status_id = 3;
+      }
       const response = await updatePostAPI.update(postId, data);
 
       console.log(response);
@@ -1090,7 +1098,7 @@ const onSubmit = async () => {
       data.sold_status = 0;
       data.status_id = 3;
       data.user_id = store.user.id;
-      
+
       const response = await createPostAPI(data);
       if (response && response.status === 201) {
         message.success("Tạo bài viết thành công");

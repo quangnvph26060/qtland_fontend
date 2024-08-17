@@ -4,7 +4,7 @@ export const filterRange = defineStore({
 	id: "filterRange",
 	state: () => ({
 		min_price: 0,
-		max_price: 60000,
+		max_price: 1000,
 		min_area: 0,
 		max_area: 1000,
 		dirs: [0, 1, 2, 3, 4, 5, 6, 7, 8],
@@ -89,7 +89,7 @@ export const filterRange = defineStore({
 		},
 		resetFilters() {
 			this.min_price = 0;
-			this.max_price = 60000;
+			this.max_price = 1000;
 			this.min_area = 0;
 			this.max_area = 1000;
 			this.dirs = [0, 1, 2, 3, 4, 5, 6, 7, 8];

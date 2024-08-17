@@ -20,13 +20,12 @@
       </div>
       <div class="flex checkbox_delet_edit">
         <div>
-          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+          <button @click="redirectPostDetail(data.id)">Sửa</button>
         </div>
         <div>
-          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+          <button @click="showConfirmDelete(data.id)">Xóa</button>
         </div>
       </div>
-      
     </div>
     <!-- end::Card Infor For List -->
 
@@ -62,12 +61,12 @@
           {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
         </p>
       </div>
-       <div class="flex checkbox_delet_edit">
+      <div class="flex checkbox_delet_edit">
         <div>
-          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+          <button @click="redirectPostDetail(data.id)">Sửa</button>
         </div>
         <div>
-          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+          <button @click="showConfirmDelete(data.id)">Xóa</button>
         </div>
       </div>
     </div>
@@ -89,18 +88,17 @@
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
-       <div class="flex checkbox_delet_edit">
+      <div class="flex checkbox_delet_edit">
         <div>
-          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+          <button @click="redirectPostDetail(data.id)">Sửa</button>
         </div>
         <div>
-          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+          <button @click="showConfirmDelete(data.id)">Xóa</button>
         </div>
       </div>
-      
     </div>
 
-     <div class="flex flex-wrap space-x-10" v-else-if="type === 'sold'">
+    <div class="flex flex-wrap space-x-10" v-else-if="type === 'sold'">
       <div class="flex flex-col">
         <span class="text-slate-400">Trạng thái</span>
         <div class="news-status">
@@ -117,7 +115,7 @@
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
-        <div class="flex flex-col checkbox_sold">
+      <div class="flex flex-col checkbox_sold">
         <label class="switch">
           <input
             type="checkbox"
@@ -131,18 +129,17 @@
           {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
         </p>
       </div>
-       <div class="flex checkbox_delet_edit">
+      <div class="flex checkbox_delet_edit">
         <div>
-          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+          <button @click="redirectPostDetail(data.id)">Sửa</button>
         </div>
         <div>
-          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+          <button @click="showConfirmDelete(data.id)">Xóa</button>
         </div>
       </div>
-      
     </div>
 
-     <div class="flex flex-wrap space-x-10" v-else-if="type === 'kd'">
+    <div class="flex flex-wrap space-x-10" v-else-if="type === 'kd'">
       <div class="flex flex-col">
         <span class="text-slate-400">Trạng thái</span>
         <div class="news-status">
@@ -161,10 +158,10 @@
       </div>
       <div class="flex checkbox_delet_edit">
         <div>
-          <button  @click="redirectPostDetail(data.id)">Sửa</button>
+          <button @click="redirectPostDetail(data.id)">Sửa</button>
         </div>
         <div>
-          <button  @click="showConfirmDelete(data.id)">Xóa</button>
+          <button @click="showConfirmDelete(data.id)">Xóa</button>
         </div>
       </div>
     </div>
@@ -178,11 +175,11 @@ import formatMoney from "../../../utils/formatMoney";
 import formatDate from "../../../scripts/formatDate";
 import updatePostAPI from "../../../api/posts/update";
 import { message } from "ant-design-vue";
-import { useRouter } from 'vue-router';
-import { Modal, message as messageAnt } from 'ant-design-vue';
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-import { createVNode } from 'vue';
-import deletePostAPI from "../../../api/posts/delete"
+import { useRouter } from "vue-router";
+import { Modal, message as messageAnt } from "ant-design-vue";
+import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
+import { createVNode } from "vue";
+import deletePostAPI from "../../../api/posts/delete";
 const router = useRouter();
 const props = defineProps({
   type: {
@@ -209,7 +206,6 @@ watch(
   }
 );
 
-
 const showConfirmDelete = (id) => {
   Modal.confirm({
     title: "Cảnh báo",
@@ -234,23 +230,30 @@ const showConfirmDelete = (id) => {
 };
 
 const deleteUserById = async (id) => {
-    await deletePostAPI(id);
-    messageAnt.success('Xóa bài viết thành công!');
-    router.push({ name: "post-edit", params: { id: id } });
+  await deletePostAPI(id);
+  messageAnt.success("Xóa bài viết thành công!");
+  router.push({ name: "post-edit", params: { id: id } });
 };
 
-const emit = defineEmits(['statusUpdated'])
+const emit = defineEmits(["statusUpdated"]);
 watch(
   () => data.value.sold_status,
   async (newStatus) => {
     try {
-      // Gửi yêu cầu PUT hoặc PATCH đến API để cập nhật status
-      const response = await updatePostAPI.updateSold(props.post.id, {
+      const data = {
         sold_status: newStatus,
+      };
 
-      });
+      // Nếu newStatus == 0, thêm status_id: 3, nếu khác 1 thì thêm status_id: 4
+      if (newStatus === 0) {
+        data.status_id = 3;
+      } else {
+        data.status_id = 4;
+      }
+      // Gửi yêu cầu PUT hoặc PATCH đến API để cập nhật status
+      const response = await updatePostAPI.updateSold(props.post.id, data);
       if (response && response.status == 200) {
-      emit('statusUpdated', newStatus);
+        emit("statusUpdated", newStatus);
         message.success("Cập nhật trạng thái cho thuê thành công");
       }
     } catch (error) {
