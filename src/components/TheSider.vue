@@ -55,7 +55,7 @@
             Duyệt tin</a-menu-item
           >
         </a-sub-menu>
-        <a-sub-menu v-if="store.user.role_id == 6" key="sub2">
+        <a-sub-menu  key="sub2">
           <template #title>
             <div class="flex align-items-center">
               <UserOutlined   />

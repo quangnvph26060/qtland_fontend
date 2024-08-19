@@ -10,7 +10,9 @@
         class="flex flex-wrap align-items-center border-t-[1px] ml-auto mr-auto w-[100%]"
       >
         <!-- begin::Search Bar Item Wrapper -->
-        <div class="search-box col-12 col-md-8 col-xl-3 xl:pe-3 search-address-post" >
+        <div
+          class="search-box col-12 col-md-8 col-xl-3 xl:pe-3 search-address-post"
+        >
           <a-input-search
             v-model:value="value"
             placeholder="Đường Nguyễn Thị Minh Khai"
@@ -48,11 +50,16 @@
           </div>
           <div
             class="filter-item col-4 col-sm-3 col-xl-2"
-            style="padding: 5px 0px !important"
-            id="filterrank"
+           
             v-if="store.user.role_id == 3 || store.user.role_id == 4"
           >
             <FilterRank />
+          </div>
+          <div
+            class="filter-item col-4 col-sm-3 col-xl-2" 
+            v-if="store.user.role_id == 3 || store.user.role_id == 4"
+          >
+            <FilterFront />
           </div>
           <!-- end::Filter Item -->
 
@@ -114,6 +121,7 @@ import FilterPriceRange from "../base/filter/FilterPriceRange.vue";
 import FilterAreaRange from "../base/filter/FilterAreaRange.vue";
 import FilterOptions from "../base/filter/FilterOptions.vue";
 import FilterRank from "../base/filter/FilterRank.vue";
+import FilterFront from "../base/filter/FilterFront.vue";
 import auth from "../../stores/auth";
 const store = auth();
 export default {

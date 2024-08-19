@@ -99,6 +99,8 @@ const listPostsAPI = {
 					max_price: arr.max_price,
 					min_area: arr.min_area,
 					max_area: arr.max_area,
+					min_front: arr.min_front,
+					max_front: arr.max_front,
 					dirs: arr.dirs,
 					address: arr.address === "" ? null : arr.address,
 					page: arr.page,
@@ -119,7 +121,7 @@ const listPostsAPI = {
 	getPostBySoldFilterByUser: async (id, arr) => {
 		
 		try {
-			const response = await axios.get(`${apiURL.baseURL}/posts/filtersold/user/${id}`, {
+			const response = await axios.get(`${apiURL.baseURL}/posts/filterSoldUser/user/${id}`, {
 				params: {
 					min_price: arr.min_price,
 					max_price: arr.max_price,

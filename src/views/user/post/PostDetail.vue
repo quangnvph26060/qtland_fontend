@@ -302,9 +302,7 @@
             </a-descriptions-item>
 
             <a-descriptions-item
-              v-if="
-                data.priceservice !== null && data.priceservice !== undefined
-              "
+              
               :span="1"
               class="description-item-infor"
             >
@@ -315,11 +313,7 @@
               {{ getUnitLabel1(data.unit1) }}
             </a-descriptions-item>
 
-            <a-descriptions-item
-              v-if="
-                data.priceElectricity !== null &&
-                data.priceElectricity !== undefined
-              "
+            <a-descriptions-item         
               :span="1"
               class="description-item-infor"
             >
@@ -329,7 +323,6 @@
             </a-descriptions-item>
 
             <a-descriptions-item
-              v-if="data.pricewater !== null && data.pricewater !== undefined"
               :span="1"
               class="description-item-infor"
             >
@@ -344,7 +337,7 @@
               <template #label
                 ><i class="fas fa-money-bill-wave"></i>Cọc</template
               >
-              {{ formatPrice(data.gop) }} Tháng
+              {{ data.gop }} Tháng
             </a-descriptions-item>
             <a-descriptions-item
               v-if="data.pay !== null && data.pay !== undefined"
@@ -354,7 +347,7 @@
               <template #label
                 ><i class="fas fa-credit-card"></i>Thanh toán</template
               >
-              {{ formatPrice(data.pay) }} Tháng
+              {{ data.pay }} Tháng
             </a-descriptions-item>
           </a-descriptions>
         </div>
@@ -654,7 +647,9 @@ const copyCurrentPageUrl = () => {
 };
 
 function formatPrice(value) {
-  // return value.toLocaleString('vi-VN');
+   if (value == null) {
+    return ""; // Hoặc bạn có thể trả về một giá trị mặc định nào đó, như "0"
+  }
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 import auth from "../../../stores/auth";
@@ -937,11 +932,15 @@ const unit = [
 const unit1 = [
   {
     value: "1",
-    label: "Vnd/m2",
+    label: "Vnd/tháng",
   },
   {
     value: "2",
-    label: "Vnd/tháng",
+    label: "Vnd/m2",
+  },
+  {
+    value: "3",
+    label: "Miễn phí",
   },
 ];
 const unit2 = [
@@ -951,18 +950,18 @@ const unit2 = [
   },
   {
     value: "2",
-    label: "Thỏa thuận",
+    label: "Miễn phí",
   },
 ];
 
 const unit3 = [
   {
     value: "1",
-    label: "Vnd/Số",
+    label: "Vnd/m3",
   },
   {
     value: "2",
-    label: "Thỏa thuận",
+    label: "Miễn phí",
   },
 ];
 const getUnitLabel = (value) => {
