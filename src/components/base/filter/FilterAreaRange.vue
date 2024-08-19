@@ -35,7 +35,8 @@
     <div class="filter-list">
         <a-button class="filter-list-item" v-for="item in filterList">
             <div class="w-100" @click="setArea(item.min, item.max)">
-                {{ item.min }} - {{ item.max }} m&sup2
+                <span v-if="item.max === null"> Trên {{ item.min }} m&sup2; </span>
+            <span v-else> {{ item.min }} - {{ item.max }} m&sup2; </span>
             </div>
         </a-button>
     </div>
@@ -116,16 +117,14 @@ const setArea = (min, max) => {
 };
 
 const filterList = [
-    { min: 0, max: 30 },
-    { min: 30, max: 50 },
-    { min: 50, max: 80 },
-    { min: 80, max: 100 },
-    { min: 100, max: 150 },
-    { min: 150, max: 200 },
-    { min: 200, max: 250 },
-    { min: 250, max: 300 },
-    { min: 300, max: 500 },
-    { min: 500, max: 1000 },
+   { min: 0, max: 30 },
+  { min: 30, max: 50 },
+  { min: 50, max: 80 },
+  { min: 80, max: 100 },
+  { min: 100, max: 150 },
+  { min: 150, max: 200 },
+  { min: 200, max: 500 },
+  { min: 500, max: null },
 ];
 watch(
     area,

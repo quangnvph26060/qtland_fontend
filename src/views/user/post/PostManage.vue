@@ -9,11 +9,8 @@
       <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" force-render class="space-y-5">
           <template #tab> Tất cả ({{ totalLand }}) </template>
-          <!-- begin::Post Items -->
-          <div
-            class="flex n:flex-col sm:flex-row border-[1px] cursor-pointer"
-            v-for="item in data"
-          >
+          <button @click="toggleDiv" class="btn border border-primary text-primary"> {{ showAllPost1 ? 'Dạng excel' : 'Dạng danh sách' }}</button>
+          <div  v-if="showAllPost1" class="flex n:flex-col sm:flex-row border-[1px] cursor-pointer" id="allpost1" v-for="item in data"  >
             <div
               class="relative flex align-items-center justify-center col-sm-3 w-full"
             >
@@ -22,7 +19,12 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
+                {{ item.priority_status }}
+                {{
+                  item.priority_status == "trả phòng"
+                    ? formatDate(item.traphong)
+                    : ""
+                }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -48,7 +50,9 @@
               </Card>
             </div>
           </div>
-          <!-- end::Post Items -->
+          <div  v-else id="allpost2">
+            <CardinforDetail />
+          </div>
         </a-tab-pane>
         <a-tab-pane key="2" class="space-y-5">
           <template #tab> Đang hiển thị ({{ totalLandHT }}) </template>
@@ -65,7 +69,12 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
+                {{ item.priority_status }}
+                {{
+                  item.priority_status == "trả phòng"
+                    ? formatDate(item.traphong)
+                    : ""
+                }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -109,7 +118,12 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
+                {{ item.priority_status }}
+                {{
+                  item.priority_status == "trả phòng"
+                    ? formatDate(item.traphong)
+                    : ""
+                }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -153,7 +167,12 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
+                {{ item.priority_status }}
+                {{
+                  item.priority_status == "trả phòng"
+                    ? formatDate(item.traphong)
+                    : ""
+                }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -182,7 +201,7 @@
           <!-- end::Post Items -->
         </a-tab-pane>
 
-		<a-tab-pane key="5" class="space-y-5">
+        <a-tab-pane key="5" class="space-y-5">
           <template #tab> Không duyệt ({{ totalLandKD }}) </template>
           <!-- begin::Post Items -->
           <div
@@ -197,7 +216,12 @@
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
-                {{ item.priority_status }} {{  item.priority_status == 'trả phòng' ? formatDate(item.traphong) : '' }}
+                {{ item.priority_status }}
+                {{
+                  item.priority_status == "trả phòng"
+                    ? formatDate(item.traphong)
+                    : ""
+                }}
               </div>
               <a-image
                 @click="redirectPostDetail(item.id)"
@@ -225,59 +249,12 @@
           </div>
           <!-- end::Post Items -->
         </a-tab-pane>
-        	<a-tab-pane key="6" class="space-y-5">
+        <!-- <a-tab-pane key="6" class="space-y-5">
           <template #tab> Danh sách </template>
-          <!-- begin::Post Items -->
-          <!-- <div
-            class="flex n:flex-col sm:flex-row border-[1px] cursor-pointer"
-            v-for="item in dataKD"
-          >
-            <div
-              class="relative flex align-items-center justify-center col-sm-3 w-full"
-            >
-              <div
-                v-if="item.priority_status !== 'không yêu cầu'"
-                class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
-                :class="getColorTagByPriorityStatus(item.priority_status)"
-              >
-                {{ item.priority_status }}
-              </div>
-              <a-image
-                @click="redirectPostDetail(item.id)"
-                :src="item.post_image?.[0]?.image_path"
-                class="object-cover"
-                :preview="false"
-                :height="150"
-                :width="300"
-              />
-            </div>
-            <div class="col-sm-9">
-              <Card :title="item.title">
-                <template #content>
-                  <span class="text-sm" @click="redirectPostDetail(item.id)">
-                    {{ item.description }}
-                  </span>
-                  <CardInfor
-                    @statusUpdated="handleStatusUpdated"
-                    type="kd"
-                    :post="item"
-                  />
-                </template>
-              </Card>
-            </div>
-          </div> -->
           <CardinforDetail />
-          <!-- end::Post Items -->
-        </a-tab-pane>
+        </a-tab-pane> -->
       </a-tabs>
     </div>
-    <!-- end::Main Content -->
-
-    <!-- begin::Pagination -->
-    <!-- <div class="my-5 ml-auto mr-auto">
-      <a-pagination :total="10" show-less-items> </a-pagination>
-    </div> -->
-    <!-- end::Pagination -->
   </div>
   <!-- begin::Sidebar -->
   <SidebarFilter />
@@ -291,7 +268,7 @@ import messageAnt from "../../../scripts/message";
 import auth from "../../../stores/auth";
 import listPostsAPI from "../../../api/posts/index";
 import getTimeSincePostCreation from "../../../utils/getTimeSincePostCreation";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import formatDate from "../../../scripts/formatDate";
 const authStore = auth();
 const userId = ref(authStore.getUser.id);
@@ -305,6 +282,13 @@ const router1 = useRouter();
 const redirectPostDetail = (postId) => {
   router1.push({ name: "post-detail", params: { id: postId } });
 };
+
+
+const showAllPost1 = ref(true);
+
+function toggleDiv() {
+  showAllPost1.value = !showAllPost1.value;
+}
 
 const activeKey = ref("1");
 
@@ -359,7 +343,7 @@ const fetchPostByUser = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
-    traphong: ""
+    traphong: "",
   });
   const posts = [];
 
@@ -396,7 +380,7 @@ const fetchPostByUserHT = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
-    traphong: ""
+    traphong: "",
   });
   const posts = [];
 
@@ -434,7 +418,7 @@ const fetchPostByUserCHT = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
-    traphong: ""
+    traphong: "",
   });
   const posts = [];
 
@@ -474,7 +458,7 @@ const fetchPostByUserKD = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
-    traphong: ""
+    traphong: "",
   });
   const posts = [];
 
@@ -513,7 +497,7 @@ const fetchPostByUserSold = async (userId) => {
     user: "",
     comment: [],
     post_image: [],
-    traphong: ""
+    traphong: "",
   });
   const posts = [];
 
@@ -535,7 +519,7 @@ const getColorTagByPriorityStatus = (priority_status) => {
       return "hot-priority";
     case "quy hoạch":
       return "medium-priority";
-      case "trả phòng":
+    case "trả phòng":
       return "medium-priority";
     default:
       return "";
@@ -543,13 +527,13 @@ const getColorTagByPriorityStatus = (priority_status) => {
 };
 const userid = localStorage.getItem("user_id");
 
-const  handleStatusUpdated = () => {
+const handleStatusUpdated = () => {
   fetchPostByUser(userid);
   fetchPostByUserHT(userid);
   fetchPostByUserCHT(userid);
   fetchPostByUserSold(userid);
   fetchPostByUserKD(userid);
-}
+};
 handleStatusUpdated();
 </script>
 

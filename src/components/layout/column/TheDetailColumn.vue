@@ -638,7 +638,7 @@
   </a-tabs>
   <!-- end::Tabs -->
   <div class="flex justify-end mb-4">
-    <a-button type="default">Hủy</a-button>
+    <a-button type="default" @click="goBack">Hủy</a-button>
 
     <a-button
       type="primary"
@@ -890,7 +890,6 @@ const disabledSubmit = computed(() => {
     data.area &&
     data.areausable &&
     data.price &&
-    data.unit &&
     // data.priceservice &&
     // data.priceElectricity &&
     // data.pricewater &&
@@ -907,9 +906,9 @@ const disabledSubmit = computed(() => {
     // data.address &&
     data.address_detail &&
     data.unit &&
-    // data.unit1 &&
-    // data.unit2 &&
-    // data.unit3 &&
+    data.unit1 &&
+    data.unit2 &&
+    data.unit3 &&
     data.gop &&
     data.pay
   );
@@ -1043,8 +1042,7 @@ const handleChange = (info) => {
 function handleDrop(e) {
   console.log(e);
 }
-const role = localStorage.getItem('role_id');
-
+const role = localStorage.getItem("role_id");
 
 // Xử lý submit form
 const onSubmit = async () => {
@@ -1135,6 +1133,16 @@ const onSubmit = async () => {
     }
   } catch (error) {
     console.error(error);
+  }
+};
+
+const goBack = async () => {
+  const role = localStorage.getItem("role_id");
+
+  if (role == 6 || role == 1) {
+    router.push({ name: "admin-post-list" });
+  } else {
+    router.push({ name: "post-manage" });
   }
 };
 </script>

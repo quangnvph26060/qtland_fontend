@@ -61,7 +61,8 @@
       <div class="filter-list">
         <a-button class="filter-list-item px-0" v-for="item in filterAreaList">
           <div class="w-100" @click="setArea(item.min, item.max)">
-            {{ item.min }} - {{ item.max }} m&sup2
+            <span v-if="item.max === null"> Trên {{ item.min }} m&sup2; </span>
+            <span v-else> {{ item.min }} - {{ item.max }} m&sup2; </span>
           </div>
         </a-button>
       </div>
@@ -111,6 +112,7 @@ const filterAreaList = [
   { min: 100, max: 150 },
   { min: 150, max: 200 },
   { min: 200, max: 500 },
+  { min: 500, max: null },
 ];
 
 const { getMinArea, getMaxArea } = filterRangeStore;
@@ -118,7 +120,11 @@ const { getMinArea, getMaxArea } = filterRangeStore;
 const area = ref([getMinArea, getMaxArea]);
 
 const rangeArea = (min, max) => {
-  return "dien-tich-tu-" + min + "m2-den-" + max + "m2";
+  if (max === null) {
+    return "dien-tich-tren-" + min + "m2";
+  } else {
+    return "dien-tich-tu-" + min + "m2-den-" + max + "m2";
+  }
 };
 
 const setArea = (min, max) => {

@@ -198,7 +198,7 @@
                 {{ record.sold_status == 1 ? "Đã thuê" : "Chưa thuê" }}
               </a-tag>
               <a-tag :color="getColorPriorityStatus(record.priority_status)">
-                {{ record.priority_status }}
+                {{ record.priority_status }} {{ record.priority_status == 'trả phòng' ? formatDate(record.traphong) : '' }}
               </a-tag>
             </div>
           </template>
@@ -242,6 +242,7 @@ import FilterStatus from "../../../components/base/filter/FilterStatus.vue";
 import filterRange from "../../../stores/filterRange";
 import getTimeSincePostCreation from "../../../utils/getTimeSincePostCreation";
 import router from "../../../router";
+import formatDate from "../../../scripts/formatDate";
 
 const searchInput = ref();
 const state = reactive({
@@ -284,6 +285,7 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
     "sold_status",
     "priority_status",
     "status_id",
+    "traphong",
   ];
 
   // Sort the search conditions based on the desired order
@@ -423,28 +425,12 @@ const getDirectionLabel = (value) => {
 
 // table
 const columns = [
-  {
-    title: "Người đăng",
-    dataIndex: "name",
-    key: "name",
-    width: 120,
-    customFilterDropdown: true,
-    onFilter: (value, record) =>
-      record.name.toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => {
-          searchInput.value.focus();
-        }, 100);
-      }
-    },
-    className: "hide-on-mobile",
-  },
+
   {
     title: "Tiêu đề",
     dataIndex: "title",
     key: "title",
-    width: 240,
+    width: 160,
     customFilterDropdown: true,
     onFilter: (value, record) =>
       record.title.toString().toLowerCase().includes(value.toLowerCase()),
@@ -457,21 +443,20 @@ const columns = [
     },
     class: "title_width",
   },
-
-  // {
-  //   title: "Lượt xem",
-  //   dataIndex: "views_count",
-  //   key: "views_count",
-  //   width: 100,
-  //   sorter: (a, b) => a.views_count - b.views_count,
-  //   class: "views_count_width",
-  // },
   {
     title: "Trạng thái",
     dataIndex: "sold_status",
     key: "sold_status",
     width: 150,
     class: "sold_status-width",
+  },
+    {
+    title: "Ngày đăng",
+    dataIndex: "created_at",
+    key: "created_at",
+    width: 100,
+    // sorter: (a, b) => a.views_count - b.views_count,
+    // class: "views_count_width",
   },
   {
     title: "Chi tiết",
@@ -521,6 +506,7 @@ const fetchPostsList = async (page = 1, pageSize = 10) => {
     post_image: [],
     user_info: "",
     user_id: "",
+    traphong: "",
   });
 
   if (listPosts.length === 0) return;
@@ -554,7 +540,7 @@ const getColorPriorityStatus = (priority_status) => {
   switch (priority_status) {
     case "khách nhượng":
       return "volcano";
-    case "quy hoạch":
+    case "trả phòng":
       return "cyan";
     case "khong yêu cầu":
       return "kyc";

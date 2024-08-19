@@ -322,7 +322,7 @@ const fetchPostsFilter = async (
   let listPosts;
   let res;
 
-if(store.user.role_id == 2 || store.user.role_id == 5 ){
+if(role == 2 || role == 5 ){
    res = await listPostsAPI.getPostBySoldFilterByUser(useid,{
     ...filter,
     page: pageFilter.value,
