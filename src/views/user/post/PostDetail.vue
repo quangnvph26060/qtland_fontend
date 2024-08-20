@@ -515,9 +515,10 @@
         Chat Zalo
       </a>
       <div style="position: relative; flex: 1">
+                  <!-- @click.prevent="showOptions = true" -->
         <a
           class="user_button-item mobile"
-          @click.prevent="showOptions = true"
+          :href="'tel:' + data.user.phone"
           style="
             margin-bottom: 10px;
             font-weight: 600 !important;

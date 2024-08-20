@@ -38,14 +38,14 @@
     <!-- begin::Main Content -->
     <div class="space-y-10 mb-5 main-flex">
       <!-- begin::Content Item -->
-      <a-skeleton v-if="isLoading" :active="true" />
+      <!-- <a-skeleton v-if="isLoading" :active="true" /> -->
       <a-list
         item-layout="vertical"
         size="large"
         class="demo"
         :data-source="data"
         :pagination="pagination"
-        v-else
+       
       >
         <template #header>
           <div class="text-xl font-semibold">Danh sách bài viết</div>
@@ -336,7 +336,7 @@ if(role == 2 || role == 5 ){
 }
 
   listPosts = res.data;
-  console.log(listPosts);
+  total.value = res.total;
   const ans = reactive({
     id: "",
     title: "",
@@ -382,7 +382,6 @@ if(role == 2 || role == 5 ){
   }
 
   data.value = posts;
-  total.value = posts.length;
   isLoading.value = false;
 };
 
@@ -400,7 +399,7 @@ const pagination = reactive({
       ...filter,
       page: page,
       pageSize: pageSize,
-      priority: value1.value,
+      priority_status: value1.value,
     });
     scrollToTop();
   },
