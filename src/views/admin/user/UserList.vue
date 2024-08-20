@@ -501,6 +501,7 @@ const fetchUsersList = async ( page = 1, pageSize = 10) => {
         access_permission_2: user.permissions[0]?.access_permission_2,
         access_permission_3: user.permissions[0]?.access_permission_3,
         access_permission_4: user.permissions[0]?.access_permission_4,
+        access_permission_5: user.permissions[0]?.access_permission_5,
       });
     }
     data.value = users;
@@ -532,6 +533,7 @@ const userSelected = ref({
   access_permission_2:"",
   access_permission_3:"",
   access_permission_4:"",
+  access_permission_5:"",
 });
 
 const showDetail = (value) => {
