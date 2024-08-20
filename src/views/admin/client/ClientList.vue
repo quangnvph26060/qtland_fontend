@@ -450,6 +450,22 @@ const getDirectionLabel = (value) => {
 // table
 const columns = [
   {
+    title: "Người tạo",
+    dataIndex: "user_name",
+    key: "user_name",
+    width: 120,
+    customFilterDropdown: true,
+    onFilter: (value, record) =>
+      record.user_name.toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
+  },
+  {
     title: "Họ tên",
     dataIndex: "name",
     key: "name",
@@ -548,6 +564,9 @@ const getPostsList = async (page = 1, pageSize = 10) => {
       note: client.note,
       birth_year: client.birth_year,
       created_at: client.birth_year,
+      user_id : client.user_id,
+      user : client.user,
+      user_name : client.user.name ?? ''
     });
   }
   data.value = listclient;

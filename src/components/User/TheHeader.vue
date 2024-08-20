@@ -51,13 +51,13 @@
               <!-- begin::Drawer -->
               <div
                 class="n:px-2 md:px-4 block sm:hidden"
-                v-if="store.user.role_id == 1 || store.user.role_id == 6 "
+                v-if="store.user.role_id == 1 || store.user.role_id == 6"
               >
                 <TheMenu />
               </div>
 
               <div class="n:px-2 md:px-4 hidden sm:block">
-                <a-dropdown :placement="'bottomLeft'" >
+                <a-dropdown :placement="'bottomLeft'">
                   <template #overlay>
                     <a-menu>
                       <a-menu-item
@@ -75,62 +75,56 @@
                           :to="{ name: 'post-manage' }"
                         ></router-link>
                       </a-menu-item>
-                     
-                      <a-menu-item key="4"  
-                       
-                        >
-                        <!-- <a-button
+
+                      <!-- <a-button
                           class="h-[36px] w-100 flex align-items-center border-none p-0"
                           :icon="h(AccountBookOutlined)"
                          
                         >
                           Thay đổi ảnh đại diện
                         </a-button> -->
-                        <a-modal
-                          v-model:open="isAvatarModalVisible"
-                          title="Ảnh đại diện"
-                          @ok="handleAvatarOk"
-                          @cancel="handleAvatarCancel"
-                        >
-                          <div id="info_user" style="display: flex; j">
-                            <!-- Chọn ảnh mới -->
+                      <a-modal
+                        v-model:open="isAvatarModalVisible"
+                        title="Ảnh đại diện"
+                        @ok="handleAvatarOk"
+                        @cancel="handleAvatarCancel"
+                      >
+                        <div id="info_user" style="display: flex; j">
+                          <!-- Chọn ảnh mới -->
 
-                            <a-upload
-                              style="text-align: center"
-                              list-type="picture-card"
-                              :show-upload-list="false"
-                              :before-upload="beforeUpload"
-                            >
-                              <img
-                                v-if="store.user.avatar"
-                                :src="store.user.avatar"
-                                alt="avatar"
-                                style="width: 100%; height: 100%"
-                              />
-                            </a-upload>
-                            <a-upload
-                              style="text-align: center"
-                              name="avatar"
-                              list-type="picture-card"
-                              :show-upload-list="false"
-                              :before-upload="beforeUpload"
-                            >
-                              <img
-                                v-if="avatarUrl"
-                                :src="avatarUrl"
-                                alt="avatar"
-                                style="width: 100%; height: 100%"
-                              />
-                              <div v-else>
-                                <a-icon
-                                  :type="uploading ? 'loading' : 'plus'"
-                                />
-                                <div style="margin-top: 8px">Upload</div>
-                              </div>
-                            </a-upload>
-                          </div>
-                        </a-modal>
-                      </a-menu-item>
+                          <a-upload
+                            style="text-align: center"
+                            list-type="picture-card"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                          >
+                            <img
+                              v-if="store.user.avatar"
+                              :src="store.user.avatar"
+                              alt="avatar"
+                              style="width: 100%; height: 100%"
+                            />
+                          </a-upload>
+                          <a-upload
+                            style="text-align: center"
+                            name="avatar"
+                            list-type="picture-card"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                          >
+                            <img
+                              v-if="avatarUrl"
+                              :src="avatarUrl"
+                              alt="avatar"
+                              style="width: 100%; height: 100%"
+                            />
+                            <div v-else>
+                              <a-icon :type="uploading ? 'loading' : 'plus'" />
+                              <div style="margin-top: 8px">Upload</div>
+                            </div>
+                          </a-upload>
+                        </div>
+                      </a-modal>
 
                       <a-menu-item key="2">
                         <a-button
@@ -149,13 +143,20 @@
                           <div id="info_user">
                             <p>Tên người dùng: {{ store.user.name }}</p>
                             <p>Email: {{ store.user.email }}</p>
-                            <div class="d-flex justify-content-between ">
-                              <p>Mật khẩu: ******** </p>
-                              <span class="main_password" @click="handleFormToggle">Thay đổi mật khẩu</span>
+                            <div class="d-flex justify-content-between">
+                              <p>Mật khẩu: ********</p>
+                              <span
+                                class="main_password"
+                                @click="handleFormToggle"
+                                >Thay đổi mật khẩu</span
+                              >
                             </div>
                             <div v-if="isFlag">
                               <p v-html="error" class="alert alert-success"></p>
-                              <form action="" @submit.prevent="submitFormPassWord">
+                              <form
+                                action=""
+                                @submit.prevent="submitFormPassWord"
+                              >
                                 <input
                                   type="password"
                                   class="form-control"
@@ -168,8 +169,9 @@
                                   placeholder="Mật khẩu mới"
                                   v-model="newPassword"
                                 />
-                                <button type="submit" class="main-btn">Lưu</button>
-                               
+                                <button type="submit" class="main-btn">
+                                  Lưu
+                                </button>
                               </form>
                             </div>
                             <p>Số điện thoại: {{ store.user.phone }}</p>
@@ -185,7 +187,7 @@
                                   ? "Sale"
                                   : store.user.role_id === 4
                                   ? "Sale VIP"
-                                   : store.user.role_id === 5
+                                  : store.user.role_id === 5
                                   ? "Đàu chỉ VIP"
                                   : "Quản trị viên thường"
                               }}
@@ -251,16 +253,23 @@
                 </router-link>
               </div>
               <div
-                class="n:px-2 md:px-4 hidden sm:block"
+                class="n:px-2 md:px-4 hidden sm:block report"
                 v-if="store.user.role_id == 3 || store.user.role_id == 4"
               >
                 <router-link :to="{ name: 'client-report' }">
                   <a-button class=""> Báo cáo dẫn khách </a-button>
                 </router-link>
+                <router-link :to="{ name: 'client-list' }">
+                  <a-button class=""> khách hàng </a-button>
+                </router-link>
               </div>
               <div
                 class="n:px-2 md:px-4"
-                :class="store.user.role_id == 1 || store.user.role_id == 6   ? 'hidden' : 'sm:hidden'"
+                :class="
+                  store.user.role_id == 1 || store.user.role_id == 6
+                    ? 'hidden'
+                    : 'sm:hidden'
+                "
               >
                 <a-button
                   @click="showDrawer"
@@ -360,7 +369,7 @@
                               style="width: 100%; height: 100%"
                             />
                           </a-upload>
-                          
+
                           <a-upload
                             style="text-align: center"
                             name="avatar"
@@ -382,7 +391,7 @@
                         </div>
                       </a-modal>
                     </div>
-                    <div style="margin-top:0px">
+                    <div style="margin-top: 0px">
                       <router-link
                         :to="{
                           name:
@@ -399,7 +408,7 @@
                           :icon="h(ScheduleOutlined)"
                           @click="onClose"
                         >
-                          Danh sách tin 
+                          Danh sách tin
                         </a-button>
                       </router-link>
                       <a-button
@@ -430,31 +439,45 @@
                                 <a-descriptions-item label="Đơn vị công tác">
                                   {{ store.user.workunit }}
                                 </a-descriptions-item>
-                                <a-descriptions-item label="Mật khẩu" class="description-item">
-								<span class="password-mask">********</span>
-								<span class="change-password" @click="handleFormToggle">Thay đổi</span>
-							</a-descriptions-item>	
-							<a-descriptions-item v-if="isFlag">
-								<div class="">
-									<p v-html="error" class="alert alert-success "></p>
-									<form action="" @submit.prevent="submitFormPassWord">
-										<input
-										type="password"
-										class="form-control"
-										placeholder="Mật khẩu hiện tại"
-										v-model="currentPassword"
-										/>
-										<input
-										type="password"
-										class="form-control"
-										placeholder="Mật khẩu mới"
-										v-model="newPassword"
-										/>
-										<button type="submit" class="main-btn">Lưu</button>
-									
-									</form>
-								</div>
-							</a-descriptions-item>
+                                <a-descriptions-item
+                                  label="Mật khẩu"
+                                  class="description-item"
+                                >
+                                  <span class="password-mask">********</span>
+                                  <span
+                                    class="change-password"
+                                    @click="handleFormToggle"
+                                    >Thay đổi</span
+                                  >
+                                </a-descriptions-item>
+                                <a-descriptions-item v-if="isFlag">
+                                  <div class="">
+                                    <p
+                                      v-html="error"
+                                      class="alert alert-success"
+                                    ></p>
+                                    <form
+                                      action=""
+                                      @submit.prevent="submitFormPassWord"
+                                    >
+                                      <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Mật khẩu hiện tại"
+                                        v-model="currentPassword"
+                                      />
+                                      <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Mật khẩu mới"
+                                        v-model="newPassword"
+                                      />
+                                      <button type="submit" class="main-btn">
+                                        Lưu
+                                      </button>
+                                    </form>
+                                  </div>
+                                </a-descriptions-item>
                                 <a-descriptions-item label="Chức vụ">
                                   {{
                                     store.user.role_id === 1
@@ -475,13 +498,14 @@
                           </a-row>
                         </div>
                       </a-drawer>
-                    </div >
+                    </div>
 
-                    <a-button style="margin-top:0px"
+                    <a-button
+                      style="margin-top: 0px"
                       class="h-[36px] w-100 flex align-items-center border-none"
                       @click="onLogout"
                     >
-                    <LogoutOutlined/>
+                      <LogoutOutlined />
                       Đăng xuất
                     </a-button>
                   </div>
@@ -552,15 +576,13 @@ const showAvatarModal = () => {
 // Tạo biến trạng thái
 const isFlag = ref(false);
 
-
 const handleFormToggle = () => {
   isFlag.value = !isFlag.value;
 };
 
-
-const currentPassword = ref('');
-const newPassword = ref('');
-const error = ref('');
+const currentPassword = ref("");
+const newPassword = ref("");
+const error = ref("");
 // Hàm xử lý khi người dùng nhấn nút lưu
 const submitFormPassWord = async () => {
   const formData = {
@@ -568,16 +590,16 @@ const submitFormPassWord = async () => {
     current_password: currentPassword.value,
     new_password: newPassword.value,
   };
-  
+
   try {
-    const response = await changePasswordAPI.changePassword(formData); 
+    const response = await changePasswordAPI.changePassword(formData);
     if (response && response.status === 200) {
-       error.value = 'Mật khẩu đã được thay đổi thành công';
+      error.value = "Mật khẩu đã được thay đổi thành công";
     } else {
-      error.value = 'Đã xảy ra lỗi khi thay đổi mật khẩu';
+      error.value = "Đã xảy ra lỗi khi thay đổi mật khẩu";
     }
   } catch (error) {
-    console.error('Lỗi khi gọi API:', error);
+    console.error("Lỗi khi gọi API:", error);
   }
 };
 const handleAvatarOk = async () => {
@@ -826,19 +848,24 @@ export default {};
   text-align: center;
   line-height: 64px;
 }
-.main_password{
+.main_password {
   font-size: 10px;
   cursor: pointer;
 }
-.main-btn{
-  float:right;
-  background: #8b3035 ;
-  color:#fff;
+.main-btn {
+  float: right;
+  background: #8b3035;
+  color: #fff;
   font-size: 14px;
   height: 32px;
   padding: 4px 15px;
   border-radius: 6px;
 }
-
+.report a{
+  display: flex;
+}
+.report a:first-child{
+  margin-bottom: 13px;
+}
 </style>
   

@@ -8,9 +8,9 @@
       <div class="card-toolbar">
         <div class="flex justify-start md:justify-end">
           <!-- begin::Add New -->
-          <a-button type="primary" @click="showModalAdd" class="w-[120px]">
+          <!-- <a-button type="primary" @click="showModalAdd" class="w-[120px]">
             Thêm mới
-          </a-button>
+          </a-button> -->
           <!-- end::Add New -->
         </div>
       </div>
@@ -20,6 +20,13 @@
 
     <!-- begin::Card Body -->
     <div class="card-body">
+      <div class="flex justify-start  my-3">
+          <!-- begin::Add New -->
+          <a-button type="primary" @click="showModalAdd" class="w-[120px]">
+            Thêm mới
+          </a-button>
+          <!-- end::Add New -->
+        </div>
       <!-- begin::Table -->
       <div>
         <a-table

@@ -30,13 +30,14 @@
                     />
                   </div>
                   <div class="flex-fill me-2">
-                     <label class="required form-label">Năm sinh</label>
-                    <input  style="padding:3px 11px"
+                    <label class="required form-label">Năm sinh</label>
+                    <input
+                      style="padding: 3px 11px"
                       type="date"
                       :placeholder="placeholder"
-                      :value="data.birth_year ??''"
+                      :value="data.birth_year ?? ''"
                       v-model="data.birth_year"
-                      class="form-control "
+                      class="form-control"
                     />
                   </div>
                 </div>
@@ -79,7 +80,7 @@
             </template>
           </Card>
 
-          <Card title="Yêu cầu cho bát động sản" class="p-0 border-0">
+          <Card title="Yêu cầu cho bất động sản" class="p-0 border-0">
             <template #content>
               <!-- begin::Input Group -->
               <InputBasic
@@ -91,7 +92,7 @@
               <!-- end::Input Group -->
 
               <!-- begin::Input Group -->
-             <div class="col-12 col-xl-12">
+              <div class="col-12 col-xl-12">
                 <!-- begin::Input -->
                 <div class="d-flex flex-wrap justify-content-between">
                   <div class="flex-fill me-2">
@@ -115,7 +116,7 @@
                 </div>
                 <!-- end::Input -->
               </div>
-               <div class="col-12 col-xl-12">
+              <div class="col-12 col-xl-12">
                 <!-- begin::Input -->
                 <div class="d-flex flex-wrap justify-content-between">
                   <div class="flex-fill me-2">
@@ -128,13 +129,16 @@
                     />
                   </div>
                   <div class="flex-fill me-2">
-                     <label class="required form-label">Thòi gian dự kiến chuyển đến </label>
-                    <input  style="padding:3px 11px"
+                    <label class="required form-label"
+                      >Thòi gian dự kiến chuyển đến
+                    </label>
+                    <input
+                      style="padding: 3px 11px"
                       type="date"
                       :placeholder="placeholder"
-                      :value="data.intendtime ??''"
-                     v-model="data.intendtime"
-                      class="form-control "
+                      :value="data.intendtime ?? ''"
+                      v-model="data.intendtime"
+                      class="form-control"
                     />
                   </div>
                 </div>
@@ -181,7 +185,7 @@
           <!-- end::Post Info Option -->
 
           <!-- begin::Land Info Option -->
-         
+
           <!-- end::Land Info Option -->
 
           <!-- begin::Media Option -->
@@ -192,13 +196,10 @@
   </a-tabs>
   <!-- end::Tabs -->
   <div class="flex justify-center mb-4">
-
-    <a-button  style="display: flex;padding: 20px 35px; align-items:center"
-      type="primary" 
+    <a-button
+      style="display: flex; padding: 20px 35px; align-items: center"
+      type="primary"
       @click="onSubmit"
-      :disabled="
-        clientId ? disabledSubmit : fileList.length < 1 || disabledSubmit
-      "
       :loading="uploading"
       >Lưu</a-button
     >
@@ -207,26 +208,28 @@
   
   <script setup>
 import { reactive, ref, computed } from "vue";
-import { InboxOutlined, PlusOutlined } from "@ant-design/icons-vue";
+import {
+  AlertTwoTone,
+  InboxOutlined,
+  PlusOutlined,
+} from "@ant-design/icons-vue";
 import { useRoute } from "vue-router";
 import { message } from "ant-design-vue";
 import getClientAPI from "../../../api/client/getDetail";
 import getImageDetailAPI from "../../../api/images/getDetail";
 import createImageAPI from "../../../api/images/create";
-import createPostAPI from "../../../api/posts/create";
+import createClientAPI from "../../../api/client/create";
 import getCommentDetailsAPI from "../../../api/comment/getDetails";
 import apiURL from "../../../api/constants";
 import router from "../../../router";
 import auth from "../../../stores/auth";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 const routerclient = useRouter();
 const store = auth();
 const visible = ref(false);
 
 const route = useRoute();
 const disabledCommentTab = ref(false);
-
-
 
 const data = reactive({
   id: "",
@@ -239,22 +242,17 @@ const data = reactive({
   searcharea: "",
   area: "",
   intendtime: "",
-  business : "",
+  business: "",
   personnumber: "",
   numbercars: "",
-  numbermotor: "" ,
-  note : "",
-  birth_year : ""
-
+  numbermotor: "",
+  note: "",
+  birth_year: "",
+  user_id: "",
 });
 
 const disabledSubmit = computed(() => {
-  return !(
-    data.name &&
-    data.phone &&
-    data.address &&
-    data.email
-  );
+  return !(data.name && data.phone && data.address && data.email);
 });
 
 const comments = ref([]);
@@ -294,18 +292,17 @@ let selectorAddress = {
   province: null,
   district: null,
   ward: null,
- 
 };
-
+const role = localStorage.getItem("role_id");
+const user = localStorage.getItem("user_id");
 const handleInput = (key, value) => {
   if (key === "province" || key === "district" || key === "ward") {
     selectorAddress[key] = value;
     return;
   }
-   console.log(value);
+  console.log(value);
   data[key] = value;
 };
-
 
 if (clientId) {
   disabledCommentTab.value = false;
@@ -346,28 +343,43 @@ const onSubmit = async () => {
       data.address = `${ward}, ${district}, ${province}`;
     }
 
-
     if (clientId) {
-        console.log(data);
-        console.log(clientId);
-        const response = await updateClientAPI.update(clientId, data);
-        
+      const response = await updateClientAPI.update(clientId, data);
       console.log(response);
       if (response && response.status == 200) {
         message.success("Cập nhật bài viết thành công");
-         setTimeout(() => {
-          routerclient.push({ name: 'admin-client-list' });
+        setTimeout(() => {
+          if (role == 1 || role == 6) {
+            routerclient.push({ name: "admin-client-list" });
+          } else {
+            routerclient.push({ name: "client-list" });
+          }
         }, 1000);
       } else {
         message.error("Cập nhật bài viết thất bại");
       }
+    } else {
+      data.user_id = user;
+      alert(data.user_id);
+      const response = await createClientAPI(data);
+       console.log(response);
+       if (response && response.status == 200) {
+        message.success("Thêm bài viết thành công");
+        setTimeout(() => {
+          if (role == 1 || role == 6) {
+            routerclient.push({ name: "admin-client-list" });
+          } else {
+            routerclient.push({ name: "client-list" });
+          }
+        }, 1000);
+      } else {
+        message.error("Thêm bài viết thất bại");
+      }
     }
-   
   } catch (error) {
     console.error(error);
   }
 };
-
 </script>
   
   <script>

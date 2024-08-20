@@ -309,7 +309,7 @@
               <template #label
                 ><i class="fas fa-toilet"></i>Phí dịch vụ</template
               >
-              {{ formatPrice(data.priceservice) }}
+              {{ data.unit1 != 3 ? formatPrice(data.priceservice) : '' }}
               {{ getUnitLabel1(data.unit1) }}
             </a-descriptions-item>
 
@@ -318,7 +318,7 @@
               class="description-item-infor"
             >
               <template #label><i class="fas fa-toilet"></i>Giá điện</template>
-              {{ formatPrice(data.priceElectricity) }}
+              {{ data.unit2 != 2 ? formatPrice(data.priceElectricity) : '' }}
               {{ getUnitLabel2(data.unit2) }}
             </a-descriptions-item>
 
@@ -327,7 +327,7 @@
               class="description-item-infor"
             >
               <template #label><i class="fas fa-toilet"></i>Giá nước</template>
-              {{ formatPrice(data.pricewater) }} {{ getUnitLabel3(data.unit3) }}
+              {{ data.unit3 != 2 ? formatPrice(data.pricewater) : '' }} {{ getUnitLabel3(data.unit3) }}
             </a-descriptions-item>
             <a-descriptions-item
               v-if="data.gop !== null && data.gop !== undefined"

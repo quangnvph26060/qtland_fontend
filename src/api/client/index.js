@@ -14,6 +14,19 @@ const listCLientAPI = {
 			console.log(error);
 		}
 	},
+	getAllClientByUser: async (id, params = {}) => {
+		try {
+			const response = await axios.get(`${apiURL.baseURL}/client/user/${id}`, {
+				params: {
+					page: params.page || 1,
+					pageSize: params.pageSize || 10,
+				}
+			});
+			return response.data;
+		} catch (error) {
+			console.log(error);
+		}
+	},
 	deleteClientAPI : async (id) => {
 		try {
 			const response = await axios.delete(`${apiURL.baseURL}/client/${id}`);
