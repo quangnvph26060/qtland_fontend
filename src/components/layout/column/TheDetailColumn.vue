@@ -980,7 +980,6 @@ if (postId) {
   const fetchPost = async () => {
     isLoading.value = true;
     const post = await getPostAPI.getById(postId);
-    console.log(post);
     Object.keys(data).forEach((key) => {
       data[key] = post[key];
     });
@@ -1056,7 +1055,10 @@ const onSubmit = async () => {
 
     if (postId) {
       if (role !== 1 && role !== 6) {
-        // data.status_id = 3;
+         const post = await getPostAPI.getById(postId);
+          if(post.status_id == 2){
+             data.status_id = 3;
+          }
       }
       const response = await updatePostAPI.update(postId, data);
 

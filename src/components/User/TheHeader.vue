@@ -204,7 +204,7 @@
                     </a-menu>
                   </template>
                   <div
-                    class="flex justify-center items-center cursor-pointer"
+                    class="flex justify-end items-center cursor-pointer"
                     style="min-width: 300px"
                   >
                     <a-avatar
@@ -248,19 +248,20 @@
                 class="n:px-2 md:px-4 hidden sm:block"
                 v-if="store.user.role_id == 2 || store.user.role_id == 5"
               >
-                <router-link :to="{ name: 'post-create' }">
-                  <a-button class=""> Đăng tin </a-button>
-                </router-link>
+               
               </div>
               <div
                 class="n:px-2 md:px-4 hidden sm:block report"
-                v-if="store.user.role_id == 3 || store.user.role_id == 4"
+               
               >
-                <router-link :to="{ name: 'client-report' }">
-                  <a-button class=""> Báo cáo dẫn khách </a-button>
+               <router-link  v-if="store.user.role_id == 2 || store.user.role_id == 5" :to="{ name: 'post-create' }">
+                  <a-button class=""> Đăng tin </a-button>
                 </router-link>
-                <router-link :to="{ name: 'client-list' }">
-                  <a-button class=""> khách hàng </a-button>
+                <router-link  v-if="store.user.role_id == 3 || store.user.role_id == 4" :to="{ name: 'client-list' }">
+                  <a-button class=""> Khách hàng </a-button>
+                </router-link>
+                <router-link v-if="store.user.role_id != 1 && store.user.role_id != 6" :to="{ name: 'client-report' }">
+                  <a-button class=""> Báo cáo dẫn khách </a-button>
                 </router-link>
               </div>
               <div
@@ -328,10 +329,19 @@
                         </a-button>
                       </router-link>
                     </div>
-                    <div v-if="store.user.role_id == 3">
-                      <router-link :to="{ name: 'client-report' }">
+                    <div >
+                       <router-link v-if="store.user.role_id == 3 ||  store.user.role_id == 4" :to="{ name: 'client-list' }">
                         <a-button
                           class="w-100 h-[40px]"
+                          type="primary"
+                          @click="onClose"
+                        >
+                          Khách hàng
+                        </a-button>
+                      </router-link>
+                      <router-link v-if="store.user.role_id == 3 ||  store.user.role_id == 4 || store.user.role_id == 2 ||  store.user.role_id == 5" :to="{ name: 'client-report' }">
+                        <a-button
+                          class="w-100 h-[40px] mt-3"
                           type="primary"
                           @click="onClose"
                         >

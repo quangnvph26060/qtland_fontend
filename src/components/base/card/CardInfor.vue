@@ -18,6 +18,20 @@
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
+      <div class="flex flex-col checkbox_sold">
+        <label class="switch">
+          <input
+            type="checkbox"
+            v-model="data.sold_status"
+            :true-value="1"
+            :false-value="0"
+          />
+          <span class="slider"></span>
+        </label>
+        <p style="font-weight: 600">
+          {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
+        </p>
+      </div>
       <div class="flex checkbox_delet_edit">
         <div>
           <button @click="redirectPostDetail(data.id)">Sửa</button>
@@ -88,6 +102,20 @@
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
+      <div class="flex flex-col checkbox_sold">
+        <label class="switch">
+          <input
+            type="checkbox"
+            v-model="data.sold_status"
+            :true-value="1"
+            :false-value="0"
+          />
+          <span class="slider"></span>
+        </label>
+        <p style="font-weight: 600">
+          {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
+        </p>
+      </div>
       <div class="flex checkbox_delet_edit">
         <div>
           <button @click="redirectPostDetail(data.id)">Sửa</button>
@@ -155,6 +183,20 @@
       <div class="flex flex-col">
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
+      </div>
+      <div class="flex flex-col checkbox_sold">
+        <label class="switch">
+          <input
+            type="checkbox"
+            v-model="data.sold_status"
+            :true-value="1"
+            :false-value="0"
+          />
+          <span class="slider"></span>
+        </label>
+        <p style="font-weight: 600">
+          {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
+        </p>
       </div>
       <div class="flex checkbox_delet_edit">
         <div>
@@ -232,7 +274,7 @@ const showConfirmDelete = (id) => {
 const deleteUserById = async (id) => {
   await deletePostAPI(id);
   messageAnt.success("Xóa bài viết thành công!");
-  router.push({ name: "post-manage"});
+  router.push({ name: "post-manage" });
 };
 
 const emit = defineEmits(["statusUpdated"]);
@@ -271,8 +313,8 @@ export default {};
 .switch {
   position: relative;
   display: inline-block;
-  width: 40px; 
-  height: 20px; 
+  width: 40px;
+  height: 20px;
 }
 
 .switch input {
@@ -290,16 +332,16 @@ export default {};
   bottom: 0;
   background-color: #ccc;
   transition: 0.4s;
-  border-radius: 20px; 
+  border-radius: 20px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 16px; 
+  height: 16px;
   width: 16px;
   left: 2px;
-  bottom: 2px; 
+  bottom: 2px;
   background-color: white;
   transition: 0.4s;
   border-radius: 50%;
@@ -310,12 +352,12 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px); 
+  transform: translateX(20px);
 }
-.checkbox_sold p{
+.checkbox_sold p {
   font-size: 12px;
 }
-.checkbox_sold{
+.checkbox_sold {
   padding-right: 15px;
 }
 </style>
