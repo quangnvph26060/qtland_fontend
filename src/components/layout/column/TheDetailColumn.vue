@@ -819,6 +819,10 @@ const classrank = [
     value: "4",
     label: "Hạng Cowking",
   },
+  {
+    value: "5",
+    label: "Mặt bằng kinh doanh",
+  },
 ];
 
 const data = reactive({

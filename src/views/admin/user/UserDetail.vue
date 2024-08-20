@@ -114,7 +114,10 @@
       <input type="checkbox" value="4" v-model="user.access_permission_4"> 
       <span>Văn phòng hạng Coworking</span>
     </span>
-
+    <span class="d-flex gap-5">
+      <input type="checkbox" value="5" v-model="user.access_permission_5"> 
+      <span>Mặt bằng kinh doanh</span>
+    </span>
         </div>
       </a-form-item>
       <a-form-item label="Trạng thái">
@@ -166,6 +169,7 @@ const user = reactive({
   access_permission_2: "",
   access_permission_3: "",
   access_permission_4: "",
+  access_permission_5: "",
 });
 const errors = ref({});
 
@@ -200,15 +204,12 @@ watch(
       user.access_permission_2 = +newValue.access_permission_2 === 2 ? true : false;
       user.access_permission_3 = +newValue.access_permission_3 === 3 ? true : false;
       user.access_permission_4 = +newValue.access_permission_4 === 4 ? true : false;
+      user.access_permission_5 = +newValue.access_permission_5 === 5 ? true : false;
     }
   }
 );
 
 const handleOkModal = async () => {
-  console.log(user.access_permission_1);
-  console.log(user.access_permission_2);
-  console.log(user.access_permission_3);
-  console.log(user.access_permission_4);
   loading.value = true;
   if (
     user.name === "" ||
@@ -236,6 +237,7 @@ const handleOkModal = async () => {
       access_permission_2: user.access_permission_2 === true ? 2 : 0,
       access_permission_3: user.access_permission_3 === true ? 3 : 0,
       access_permission_4: user.access_permission_4 === true ? 4 : 0,
+      access_permission_5: user.access_permission_5 === true ? 5 : 0,
     };
     /**
      * Hàm thêm mới người dùng
@@ -279,6 +281,7 @@ const handleOkModal = async () => {
       access_permission_2: user.access_permission_2 === true ? 2 : 0,
       access_permission_3: user.access_permission_3 === true ? 3 : 0,
       access_permission_4: user.access_permission_4 === true ? 4 : 0,
+      access_permission_5: user.access_permission_5 === true ? 5 : 0,
     };
     /**
      * Hàm cập nhật dữ liệu người dùng
