@@ -477,6 +477,8 @@ const fetchUsersList = async ( page = 1, pageSize = 10) => {
     }
   
     const listUsers = response.data || [];
+   
+    
     total.value = response.total;
     for (const user of listUsers) {
       users.push({
@@ -494,7 +496,11 @@ const fetchUsersList = async ( page = 1, pageSize = 10) => {
         phone: user.phone,
         address: user.address,
         workunit: user.workunit,
-        birthday: user.birthday
+        birthday: user.birthday,
+        access_permission_1: user.permissions[0]?.access_permission_1,
+        access_permission_2: user.permissions[0]?.access_permission_2,
+        access_permission_3: user.permissions[0]?.access_permission_3,
+        access_permission_4: user.permissions[0]?.access_permission_4,
       });
     }
     data.value = users;
@@ -522,6 +528,10 @@ const userSelected = ref({
   address: "",
   workunit: "",
   birthday : "",
+  access_permission_1:"",
+  access_permission_2:"",
+  access_permission_3:"",
+  access_permission_4:"",
 });
 
 const showDetail = (value) => {

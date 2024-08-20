@@ -25,13 +25,11 @@
             v-if="store.user.role_id == 3 || store.user.role_id == 4"
           >
             <div id="header_rank">
-              <a
-                v-for="(item, index) in rankroom.filter(
-                  (item) =>
-                    store.user.role_id == 4 ||
-                    (store.user.role_id == 3 &&
-                      (item.value === 3 || item.value === 4))
-                )"
+              <a v-for="(item, index) in rankroom.filter(
+               
+                    (item) =>
+                      store.user.role_id == 4 || (store.user.role_id == 3 && (item.value === 3 || item.value === 4))
+                  )"
                 :key="index"
                 @click="selectClassRank(item.value)"
               >

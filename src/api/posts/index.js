@@ -93,6 +93,7 @@ const listPostsAPI = {
 	getPostBySoldFilter: async (arr) => {
 		
 		try {
+			const id = localStorage.getItem('user_id');
 			const response = await axios.get(`${apiURL.baseURL}/posts/filtersold`, {
 				params: {
 					min_price: arr.min_price,
@@ -110,7 +111,9 @@ const listPostsAPI = {
 					sold_status: arr.sold_status,
 					priority_status: arr.priority_status,
 					classrank: arr.classrank,
+					id: id
 				},
+				
 			});
 	
 			return response.data;
