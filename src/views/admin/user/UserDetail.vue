@@ -92,6 +92,31 @@
           <a-select-option :value="3">Sale</a-select-option>
         </a-select>
       </a-form-item>
+      <a-form-item v-if="user.role_id != ''"
+      label="Quyền truy cập"
+      ></a-form-item>
+      <a-form-item v-if="user.role_id != ''">
+        <div class="d-flex flex-column main-pressmison">
+
+          <span class="d-flex gap-5">
+      <input type="checkbox" value="1" v-model="user.access_permission_1"> 
+      <span>Văn phòng hạng A</span>
+    </span>
+    <span class="d-flex gap-5">
+      <input type="checkbox" value="2" v-model="user.access_permission_2"> 
+      <span>Văn phòng hạng B</span>
+    </span>
+    <span class="d-flex gap-5">
+      <input type="checkbox" value="3" v-model="user.access_permission_3"> 
+      <span>Văn phòng hạng C</span>
+    </span>
+    <span class="d-flex gap-5">
+      <input type="checkbox" value="4" v-model="user.access_permission_4"> 
+      <span>Văn phòng hạng Coworking</span>
+    </span>
+
+        </div>
+      </a-form-item>
       <a-form-item label="Trạng thái">
         <a-select v-model:value="user.is_active">
           <a-select-option :value="1">Hoạt động</a-select-option>
@@ -137,6 +162,10 @@ const user = reactive({
   address: "",
   workunit: "",
   birthday: "",
+  access_permission_1: "",
+  access_permission_2: "",
+  access_permission_3: "",
+  access_permission_4: "",
 });
 const errors = ref({});
 
@@ -153,6 +182,8 @@ function onChangePassword(modalClose = false) {
 watch(
   () => props.userSelected,
   (newValue, oldValue) => {
+    console.log(newValue);
+    
     if (newValue) {
       user.id = newValue.id;
       user.name = newValue.name;
@@ -165,11 +196,19 @@ watch(
       user.address = newValue.address;
       user.workunit = newValue.workunit;
       user.is_active = newValue.is_active;
+      user.access_permission_1 = +newValue.access_permission_1 === 1 ? true : false;
+      user.access_permission_2 = +newValue.access_permission_2 === 2 ? true : false;
+      user.access_permission_3 = +newValue.access_permission_3 === 3 ? true : false;
+      user.access_permission_4 = +newValue.access_permission_4 === 4 ? true : false;
     }
   }
 );
 
 const handleOkModal = async () => {
+  console.log(user.access_permission_1);
+  console.log(user.access_permission_2);
+  console.log(user.access_permission_3);
+  console.log(user.access_permission_4);
   loading.value = true;
   if (
     user.name === "" ||
@@ -193,6 +232,10 @@ const handleOkModal = async () => {
       address: user.address,
       workunit: user.workunit,
       birthday: user.birthday,
+      access_permission_1: user.access_permission_1 === true ? 1 : 0,
+      access_permission_2: user.access_permission_2 === true ? 2 : 0,
+      access_permission_3: user.access_permission_3 === true ? 3 : 0,
+      access_permission_4: user.access_permission_4 === true ? 4 : 0,
     };
     /**
      * Hàm thêm mới người dùng
@@ -232,6 +275,10 @@ const handleOkModal = async () => {
       address: user.address,
       workunit: user.workunit,
       birthday: user.birthday,
+      access_permission_1: user.access_permission_1 === true ? 1 : 0,
+      access_permission_2: user.access_permission_2 === true ? 2 : 0,
+      access_permission_3: user.access_permission_3 === true ? 3 : 0,
+      access_permission_4: user.access_permission_4 === true ? 4 : 0,
     };
     /**
      * Hàm cập nhật dữ liệu người dùng
@@ -263,3 +310,9 @@ const handleOkModal = async () => {
   }
 };
 </script>
+<style scoped>
+.main-pressmison{
+  position: relative;
+    left: 51%;
+}
+</style>
