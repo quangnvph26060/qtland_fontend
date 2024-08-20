@@ -185,7 +185,8 @@
               </a-tag>
               <a-tag style="height: 22px">
                 <span>
-                  {{ getStatusLabel(record.status_id) }}
+                  {{ record.sold_status == 1 ? 'chờ hiển thị' :  getStatusLabel(record.status_id) }}
+                  <!-- {{ record.status_id == 2 ?? 'chờ duyệt' }} -->
                 </span>
               </a-tag>
             </div>
@@ -247,14 +248,25 @@ const getStatusLabel = (statusId) => {
 const user_id = localStorage.getItem("user_id");
 
 const handleCheckboxChange = async (id, sold_status) => {
+   let status;
+    if(sold_status == 0){
+      status  = 3;
+    }else{
+      status = 1
+    }
   const response = await updatePostAPI.updateSoldStatus(
     id,
     sold_status,
-    user_id
+    user_id,
+    status
   );
-   fetchPostsList();
+    fetchPostsList();
   if (response && response.status == 200) {
     message.success("Cập nhật trạng thái cho thuê thành công");
+    // record.status_id = status;
+    // record.sold_status = sold_status;
+    // Vue.set(record, 'status_id', status);
+    //  Vue.set(record, 'sold_status', sold_status);
   }
 };
 

@@ -5,9 +5,14 @@
       <div class="flex flex-col">
         <span class="text-slate-400">Trạng thái</span>
         <div class="news-status">
-          <a-tag color="warning" v-if="data?.status_id === 3">chờ duyệt</a-tag>
+          <a-tag color="warning" v-if="data?.sold_status === 1"
+            >chờ hiển thị</a-tag
+          >
+          <a-tag color="warning" v-else-if="data?.status_id === 3"
+            >chờ duyệt</a-tag
+          >
           <a-tag color="success" v-else-if="data?.status_id === 4"
-            >công khai</a-tag
+            >đang hiển thị</a-tag
           >
           <a-tag color="error" v-else-if="data?.status_id === 2"
             >không duyệt</a-tag
@@ -50,7 +55,7 @@
         <div class="news-status">
           <a-tag color="warning" v-if="data?.status_id === 3">chờ duyệt</a-tag>
           <a-tag color="success" v-else-if="data?.status_id === 4"
-            >công khai</a-tag
+            >đang hiển thị</a-tag
           >
           <a-tag color="error" v-else-if="data?.status_id === 2"
             >không duyệt</a-tag
@@ -91,7 +96,7 @@
         <div class="news-status">
           <a-tag color="warning" v-if="data?.status_id === 3">chờ duyệt</a-tag>
           <a-tag color="success" v-else-if="data?.status_id === 4"
-            >công khai</a-tag
+            >đang hiển thị</a-tag
           >
           <a-tag color="error" v-else-if="data?.status_id === 2"
             >không duyệt</a-tag
@@ -130,13 +135,13 @@
       <div class="flex flex-col">
         <span class="text-slate-400">Trạng thái</span>
         <div class="news-status">
-          <a-tag color="warning" v-if="data?.status_id === 3">chờ duyệt</a-tag>
-          <a-tag color="success" v-else-if="data?.status_id === 4"
-            >công khai</a-tag
+          <a-tag color="warning">chờ hiển thị</a-tag>
+          <!-- <a-tag color="success" v-else-if="data?.status_id === 4"
+            >đang hiển thị</a-tag
           >
           <a-tag color="error" v-else-if="data?.status_id === 2"
             >không duyệt</a-tag
-          >
+          > -->
         </div>
       </div>
       <div class="flex flex-col">
@@ -167,13 +172,62 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap space-x-10" v-else-if="type === 'kd'">
+    <div v-else-if="type === 'kd'">
+      <div class="flex flex-wrap space-x-10">
+        <div class="flex flex-col">
+          <span class="text-slate-400">Trạng thái </span>
+          <div class="news-status">
+            <a-tag color="warning" v-if="data?.status_id === 3"
+              >chờ duyệt</a-tag
+            >
+            <a-tag color="success" v-else-if="data?.status_id === 4"
+              >đang hiển thị</a-tag
+            >
+            <a-tag color="error" v-else-if="data?.status_id === 2"
+              >không duyệt</a-tag
+            >
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-slate-400">Ngày đăng </span>
+          <div class="news-date">{{ formatDate(data?.created_at) }}</div>
+        </div>
+        <div class="flex flex-col checkbox_sold">
+          <label class="switch">
+            <input
+              type="checkbox"
+              v-model="data.sold_status"
+              :true-value="1"
+              :false-value="0"
+            />
+            <span class="slider"></span>
+          </label>
+          <p style="font-weight: 600">
+            {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
+          </p>
+        </div>
+        <div class="flex checkbox_delet_edit">
+          <div>
+            <button @click="redirectPostDetail(data.id)">Sửa</button>
+          </div>
+          <div>
+            <button @click="showConfirmDelete(data.id)">Xóa</button>
+          </div>
+        </div>
+       
+      </div>
+       <div class="note">
+          <p style="margin: 0px; color: red"><i class="fas fa-exclamation-triangle"></i> {{ data.note }}</p>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap space-x-10" v-else-if="type === 'pending'">
       <div class="flex flex-col">
         <span class="text-slate-400">Trạng thái</span>
         <div class="news-status">
           <a-tag color="warning" v-if="data?.status_id === 3">chờ duyệt</a-tag>
           <a-tag color="success" v-else-if="data?.status_id === 4"
-            >công khai</a-tag
+            >đang hiển thị</a-tag
           >
           <a-tag color="error" v-else-if="data?.status_id === 2"
             >không duyệt</a-tag
@@ -184,28 +238,15 @@
         <span class="text-slate-400">Ngày đăng </span>
         <div class="news-date">{{ formatDate(data?.created_at) }}</div>
       </div>
-      <div class="flex flex-col checkbox_sold">
-        <label class="switch">
-          <input
-            type="checkbox"
-            v-model="data.sold_status"
-            :true-value="1"
-            :false-value="0"
-          />
-          <span class="slider"></span>
-        </label>
-        <p style="font-weight: 600">
-          {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
-        </p>
-      </div>
-      <div class="flex checkbox_delet_edit">
+
+      <!-- <div class="flex checkbox_delet_edit">
         <div>
-          <button @click="redirectPostDetail(data.id)">Sửa</button>
+          <button @click="redirectPostDetail(data.id)">Duyệt</button>
         </div>
         <div>
-          <button @click="showConfirmDelete(data.id)">Xóa</button>
+          <button @click="showConfirmDelete(data.id)" style="padding-right: 35px; padding-left: 35px">Không duyệt</button>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- end::Card Infor For Manage -->
   </div>

@@ -34,6 +34,12 @@ const admin = [
 				component: () => import("../views/admin/post/PostDetail.vue"),
 			},
 			{
+				path: "admin-pending-post-detail/:id(\\d+)?",
+				name: "admin-pending-post-detail",
+				component: () => import("../views/admin/post/PostDetailPending.vue"),
+				props: true,
+			},
+			{
 				path: "post_id=:id(\\d+)?",
 				name: "admin-post-by-id",
 				component: () => import("../views/admin/post/PostById.vue"),
@@ -41,7 +47,7 @@ const admin = [
 			{
 				path: "browse",
 				name: "admin-post-browse",
-				component: () => import("../views/admin/post/PostBrowse.vue"),
+				component: () => import("../views/admin/post/PostBrownsePhone.vue"),
 			},
 			{
 				path: "client",

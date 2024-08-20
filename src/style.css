@@ -326,6 +326,20 @@ a:focus {
     background: #8b3035;
     color: #fff;
 }
+
+.allpost1{
+    margin-bottom: 20px !important;
+}
+#pendingw760{
+    margin: 20px 0px;
+}
+#pendingw760 .checkbox_delet_edit{
+    justify-content: space-around;
+    
+}
+#pendingw760 .checkbox_delet_edit button:first-child{
+    padding: 5px 60px;
+}
 @media (min-width: 769px) {
     .gop{
         display: flex;
@@ -610,8 +624,16 @@ a:focus {
     .price_unit>div:last-child{
         flex: 2;
     }
+    .checkbox_sold {
+        margin-left: 30px !important;
+    }
+    .allpost1{
+        margin-bottom: 30px !important;
+    }
     
-   
+    #pendingw760 .checkbox_delet_edit button:first-child{
+        padding: 5px 50px !important;
+    }
 
 
 }

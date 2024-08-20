@@ -344,6 +344,7 @@ const fetchPostByUser = async (userId) => {
     comment: [],
     post_image: [],
     traphong: "",
+    note : "",
   });
   const posts = [];
 
@@ -381,6 +382,7 @@ const fetchPostByUserHT = async (userId) => {
     comment: [],
     post_image: [],
     traphong: "",
+    note: "",
   });
   const posts = [];
 
@@ -419,6 +421,7 @@ const fetchPostByUserCHT = async (userId) => {
     comment: [],
     post_image: [],
     traphong: "",
+    note: "",
   });
   const posts = [];
 
@@ -459,6 +462,7 @@ const fetchPostByUserKD = async (userId) => {
     comment: [],
     post_image: [],
     traphong: "",
+    note: "",
   });
   const posts = [];
 
@@ -498,6 +502,7 @@ const fetchPostByUserSold = async (userId) => {
     comment: [],
     post_image: [],
     traphong: "",
+    note: "",
   });
   const posts = [];
 
