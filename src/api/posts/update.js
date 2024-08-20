@@ -38,17 +38,31 @@ const updatePostAPI = {
 			console.error(error);
 		}
 	},
-	updateSoldStatus: async (id, value, user_id) => {
+	updateSoldStatus: async (id, value, user_id, status) => {
 		try {
 			const response = await axios.post(
 				`${apiURL.baseURL}/posts/soldstatus/${id}`, {
-					sold_status: value
+					sold_status: value,
+					status_id : status
 				}
 			);
 			if(response.status == 200){
 				window.handleStatusUpdated();
 				
 			}
+			return response;
+		} catch (error) {
+			console.error(error);
+		}
+	},
+	updatepending: async (id, value, note) => {
+		try {
+			const response = await axios.post(
+				`${apiURL.baseURL}/posts/pending/${id}`,{
+					status_id : value,
+					note : note,
+				}
+			);
 			return response;
 		} catch (error) {
 			console.error(error);
