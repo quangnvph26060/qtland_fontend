@@ -1056,7 +1056,7 @@ const onSubmit = async () => {
 
     if (postId) {
       if (role !== 1 && role !== 6) {
-        data.status_id = 3;
+        // data.status_id = 3;
       }
       const response = await updatePostAPI.update(postId, data);
 

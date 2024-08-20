@@ -1,5 +1,5 @@
 import apiURL from "../constants";
-
+import listPostsAPI from "./index.js";
 const updatePostAPI = {
 	updateStatus: async (id) => {
 		try {
@@ -33,6 +33,22 @@ const updatePostAPI = {
 			const response = await axios.post(
 				`${apiURL.baseURL}/posts/sold_status/${id}`, value
 			);
+			return response;
+		} catch (error) {
+			console.error(error);
+		}
+	},
+	updateSoldStatus: async (id, value, user_id) => {
+		try {
+			const response = await axios.post(
+				`${apiURL.baseURL}/posts/soldstatus/${id}`, {
+					sold_status: value
+				}
+			);
+			if(response.status == 200){
+				window.handleStatusUpdated();
+				
+			}
 			return response;
 		} catch (error) {
 			console.error(error);

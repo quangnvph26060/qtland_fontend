@@ -122,8 +122,7 @@
                       v-if="!isPhoneVisible[item.id]"
                       style="display: flex; align-items: center; margin: 0px"
                     >
-                      <div
-                        @click="copyPhoneNumber(item.user_info.phone)"
+                      <div                    
                         style="
                           display: flex;
                           background: #009ba1;
@@ -132,19 +131,16 @@
                           border-radius: 5px;
                         "
                       >
-                        <i
+                        <a  :href="'tel:' + item.user_info.phone"
+                        style=" color: inherit;"
+                        >
+                          <i
                           style="padding: 0px 10px 0px 0px"
                           class="fa-solid fa-phone"
                         ></i
                         >{{ item.user_info.phone }}
-                        <!-- {{
-                          item.user_info.phone.replace(/(\d{7})\d{3}/, "$1***")
-                        }} -->
-                        <!-- <span
-                          @click="togglePhoneVisibility(item.id)"
-                          class="show-link"
-                          >.Hiện</span
-                        > -->
+                        </a>
+                        
                       </div>
                     </div>
                     <div

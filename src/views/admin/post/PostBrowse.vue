@@ -201,16 +201,17 @@
           </p>
           <p>
             <strong>Phí dịch vụ:</strong>
-            {{ formatPrice(postDetail.priceservice) }}
+            {{ postDetail.unit1 != 3 ? formatPrice(postDetail.priceservice) : '' }}
             {{ getUnitLabel(postDetail.unit1) }}
           </p>
           <p>
             <strong>Giá điện:</strong>
-            {{ formatPrice(postDetail.priceElectricity) }}
+            {{  postDetail.unit2 != 2 ? formatPrice(postDetail.priceElectricity) : '' }}
             {{ getUnitLabel(postDetail.unit2) }}
           </p>
           <p>
-            <strong>Giá nước:</strong> {{ formatPrice(postDetail.pricewater) }}
+            <strong>Giá nước:</strong> 
+            {{  postDetail.unit3 != 2 ?  formatPrice(postDetail.pricewater) : '' }}
             {{ getUnitLabel(postDetail.unit3) }}
           </p>
           <p><strong>Diện tích:</strong> {{ postDetail.area }} m<sup>2</sup></p>
@@ -349,11 +350,15 @@ const unit = [
 const unit1 = [
   {
     value: "1",
-    label: "Vnd/m2",
+    label: "Vnd/tháng",
   },
   {
     value: "2",
-    label: "Thỏa thuận",
+    label: "Vnd/m2",
+  },
+  {
+    value: "3",
+    label: "Miễn phí",
   },
 ];
 const unit2 = [
@@ -363,18 +368,18 @@ const unit2 = [
   },
   {
     value: "2",
-    label: "Thỏa thuận",
+    label: "Miễn phí",
   },
 ];
 
 const unit3 = [
   {
     value: "1",
-    label: "Vnd/Số",
+    label: "Vnd/m3",
   },
   {
     value: "2",
-    label: "Thỏa thuận",
+    label: "Miễn phí",
   },
 ];
 
@@ -405,6 +410,9 @@ const handleCancel = () => {
 
 function formatPrice(value) {
   // return value.toLocaleString('vi-VN');
+  if(value == null){
+    return 0;
+  }
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 const state2 = reactive({

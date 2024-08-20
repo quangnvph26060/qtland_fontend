@@ -63,6 +63,21 @@ const user = [
 				name: "client-report-detail",
 				component: () => import("../views/user/report/ReportDetail.vue"),
 			},
+			{
+				path: "client-list",
+				name: "client-list",
+				component: () => import("../views/user/client/ClientList.vue"),
+			},
+			{
+				path: "add-client",
+				name: "add-client",
+				component: () => import("../views/user/client/ClientDetail.vue"),
+			},
+			{
+				path: "edit/client=:id(\\d+)?",
+				name: "client-detail",
+				component: () => import("../views/user/client/ClientDetail.vue"),
+			}
 		],
 		beforeEnter(to, from, next) {
 			// ...

@@ -535,6 +535,7 @@ const handleStatusUpdated = () => {
   fetchPostByUserKD(userid);
 };
 handleStatusUpdated();
+window.handleStatusUpdated = handleStatusUpdated;
 </script>
 
 <script>

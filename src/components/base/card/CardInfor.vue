@@ -271,8 +271,8 @@ export default {};
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 40px; 
+  height: 20px; 
 }
 
 .switch input {
@@ -290,16 +290,16 @@ export default {};
   bottom: 0;
   background-color: #ccc;
   transition: 0.4s;
-  border-radius: 34px;
+  border-radius: 20px; 
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 16px; 
+  width: 16px;
+  left: 2px;
+  bottom: 2px; 
   background-color: white;
   transition: 0.4s;
   border-radius: 50%;
@@ -310,6 +310,12 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(26px);
+  transform: translateX(20px); 
+}
+.checkbox_sold p{
+  font-size: 12px;
+}
+.checkbox_sold{
+  padding-right: 15px;
 }
 </style>
