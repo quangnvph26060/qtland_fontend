@@ -747,8 +747,8 @@ const status = [
 
 const priorityStatus = [
   {
-    value: "không yêu cầu",
-    label: "Không yêu cầu",
+    value: "mới",
+    label: "Mới",
   },
   {
     value: "khách nhượng",

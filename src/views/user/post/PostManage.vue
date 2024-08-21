@@ -15,7 +15,7 @@
               class="relative flex align-items-center justify-center col-sm-3 w-full"
             >
               <div
-                v-if="item.priority_status !== 'không yêu cầu'"
+              
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
@@ -65,7 +65,7 @@
               class="relative flex align-items-center justify-center col-sm-3 w-full"
             >
               <div
-                v-if="item.priority_status !== 'không yêu cầu'"
+               
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
@@ -114,7 +114,7 @@
               class="relative flex align-items-center justify-center col-sm-3 w-full"
             >
               <div
-                v-if="item.priority_status !== 'không yêu cầu'"
+               
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
@@ -163,7 +163,7 @@
               class="relative flex align-items-center justify-center col-sm-3 w-full"
             >
               <div
-                v-if="item.priority_status !== 'không yêu cầu'"
+                
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >
@@ -212,7 +212,7 @@
               class="relative flex align-items-center justify-center col-sm-3 w-full"
             >
               <div
-                v-if="item.priority_status !== 'không yêu cầu'"
+                
                 class="absolute z-2 top-1 sm:top-4 w-auto px-2 h-6 leading-6 -left-1 text-white text-center rounded"
                 :class="getColorTagByPriorityStatus(item.priority_status)"
               >

@@ -340,6 +340,10 @@ a:focus {
 #pendingw760 .checkbox_delet_edit button:first-child{
     padding: 5px 60px;
 }
+
+.note_phone{
+    display: none;
+}
 @media (min-width: 769px) {
     .gop{
         display: flex;
@@ -634,6 +638,19 @@ a:focus {
     #pendingw760 .checkbox_delet_edit button:first-child{
         padding: 5px 50px !important;
     }
+
+    .note {
+        display: none !important;
+    }
+
+    .note_phone{   
+        display: block;
+        margin-left: 0px !important;
+    }
+    .client-list{
+        margin-top: 50px ;
+    }
+  
 
 
 }
