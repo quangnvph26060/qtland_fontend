@@ -78,48 +78,74 @@
           </a-button>
         </div>
       </a-form-item>
-     
+
       <a-form-item
         label="Vai trò"
         :rules="[{ required: true, message: 'Hãy nhập vai trò !' }]"
       >
         <a-select v-model:value="user.role_id">
-          <a-select-option :value="1" v-if="store.user.role_id === 1">Supper Admin</a-select-option>
-          <a-select-option :value="6" v-if="store.user.role_id === 1">Admin</a-select-option>
+          <a-select-option :value="1" v-if="store.user.role_id === 1"
+            >Supper Admin</a-select-option
+          >
+          <a-select-option :value="6" v-if="store.user.role_id === 1"
+            >Admin</a-select-option
+          >
           <a-select-option :value="5">Đầu chủ VIP</a-select-option>
           <a-select-option :value="2">Đầu chủ</a-select-option>
           <a-select-option :value="4">Sale VIP</a-select-option>
           <a-select-option :value="3">Sale</a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item v-if="user.role_id != ''"
-      label="Quyền truy cập"
+      <a-form-item class="permission_label"
+        v-if="user.role_id != ''"
+        label="Quyền truy cập"
       ></a-form-item>
-      <a-form-item v-if="user.role_id != ''">
-        <div class="d-flex flex-column main-pressmison">
-
-          <span class="d-flex gap-5">
-      <input type="checkbox" value="1" v-model="user.access_permission_1"> 
-      <span>Văn phòng hạng A</span>
-    </span>
-    <span class="d-flex gap-5">
-      <input type="checkbox" value="2" v-model="user.access_permission_2"> 
-      <span>Văn phòng hạng B</span>
-    </span>
-    <span class="d-flex gap-5">
-      <input type="checkbox" value="3" v-model="user.access_permission_3"> 
-      <span>Văn phòng hạng C</span>
-    </span>
-    <span class="d-flex gap-5">
-      <input type="checkbox" value="4" v-model="user.access_permission_4"> 
-      <span>Văn phòng hạng Coworking</span>
-    </span>
-    <span class="d-flex gap-5">
-      <input type="checkbox" value="5" v-model="user.access_permission_5"> 
-      <span>Mặt bằng kinh doanh</span>
-    </span>
-        </div>
-      </a-form-item>
+      <div class="pressmison_mobi">
+        <a-form-item v-if="user.role_id != ''">
+          <div class="d-flex flex-column main-pressmison">
+            <span class="d-flex gap-5">
+              <input
+                type="checkbox"
+                value="1"
+                v-model="user.access_permission_1"
+              />
+              <span>Văn phòng hạng A</span>
+            </span>
+            <span class="d-flex gap-5">
+              <input
+                type="checkbox"
+                value="2"
+                v-model="user.access_permission_2"
+              />
+              <span>Văn phòng hạng B</span>
+            </span>
+            <span class="d-flex gap-5">
+              <input
+                type="checkbox"
+                value="3"
+                v-model="user.access_permission_3"
+              />
+              <span>Văn phòng hạng C</span>
+            </span>
+            <span class="d-flex gap-5">
+              <input
+                type="checkbox"
+                value="4"
+                v-model="user.access_permission_4"
+              />
+              <span>Văn phòng hạng Coworking</span>
+            </span>
+            <span class="d-flex gap-5">
+              <input
+                type="checkbox"
+                value="5"
+                v-model="user.access_permission_5"
+              />
+              <span>Mặt bằng kinh doanh</span>
+            </span>
+          </div>
+        </a-form-item>
+      </div>
       <a-form-item label="Trạng thái">
         <a-select v-model:value="user.is_active">
           <a-select-option :value="1">Hoạt động</a-select-option>
@@ -137,7 +163,7 @@ import sendEmailAPI from "../../../api/users/email";
 import messageAnt from "../../../scripts/message";
 import { message } from "ant-design-vue";
 import auth from "../../../stores/auth";
- const store = auth();
+const store = auth();
 const props = defineProps({
   title: String,
   userSelected: Object,
@@ -187,7 +213,7 @@ watch(
   () => props.userSelected,
   (newValue, oldValue) => {
     console.log(newValue);
-    
+
     if (newValue) {
       user.id = newValue.id;
       user.name = newValue.name;
@@ -200,11 +226,16 @@ watch(
       user.address = newValue.address;
       user.workunit = newValue.workunit;
       user.is_active = newValue.is_active;
-      user.access_permission_1 = +newValue.access_permission_1 === 1 ? true : false;
-      user.access_permission_2 = +newValue.access_permission_2 === 2 ? true : false;
-      user.access_permission_3 = +newValue.access_permission_3 === 3 ? true : false;
-      user.access_permission_4 = +newValue.access_permission_4 === 4 ? true : false;
-      user.access_permission_5 = +newValue.access_permission_5 === 5 ? true : false;
+      user.access_permission_1 =
+        +newValue.access_permission_1 === 1 ? true : false;
+      user.access_permission_2 =
+        +newValue.access_permission_2 === 2 ? true : false;
+      user.access_permission_3 =
+        +newValue.access_permission_3 === 3 ? true : false;
+      user.access_permission_4 =
+        +newValue.access_permission_4 === 4 ? true : false;
+      user.access_permission_5 =
+        +newValue.access_permission_5 === 5 ? true : false;
     }
   }
 );
@@ -314,8 +345,8 @@ const handleOkModal = async () => {
 };
 </script>
 <style scoped>
-.main-pressmison{
+.main-pressmison {
   position: relative;
-    left: 51%;
+  left: 51%;
 }
 </style>
