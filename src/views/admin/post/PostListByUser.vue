@@ -802,7 +802,7 @@ export default {
   /* border-radius: 8px; */
   padding: 16px;
   max-width: 600px;
-  margin: auto;
+  margin: 0px 60px;
   flex: 2;
 }
 
