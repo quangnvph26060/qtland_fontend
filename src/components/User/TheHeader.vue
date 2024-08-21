@@ -277,7 +277,7 @@
                       </template>
                       <!-- Hiển thị chữ cái đầu tiên của tên người dùng nếu không có avatar -->
                       <template v-else>
-                        <span class="avatar-text">{{
+                        <span @click="showAvatarModal" class="avatar-text">{{
                           store.user.name[0]
                         }}</span>
                       </template>
