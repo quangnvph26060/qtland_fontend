@@ -113,7 +113,7 @@
                     <div class="flex flex-col">
                       <div>{{ item.user_info.name }}</div>
                       <div style="font-size: 13px; color: gray">
-                        {{ item.created_at }}
+                        {{ item.updated_at }}
                       </div>
                     </div>
                   </div>
@@ -346,6 +346,7 @@ if(role == 2 || role == 5 ){
     areausable: "",
     address: "",
     created_at: "",
+    updated_at: "",
     views_count: 0,
     sold_status: "",
     status_id: "",
@@ -378,6 +379,7 @@ if(role == 2 || role == 5 ){
       ans[key] = post[key];
     });
     ans.created_at = getTimeSincePostCreation(post.created_at);
+    ans.updated_at = getTimeSincePostCreation(post.updated_at);
       posts.push({ ...ans });
   }
 

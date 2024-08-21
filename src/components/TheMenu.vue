@@ -46,7 +46,7 @@
             </router-link>
           </a-menu-item>
         </a-sub-menu>
-        <a-sub-menu  key="sub2">
+        <a-sub-menu key="sub2">
           <template #title>
             <div class="flex align-items-center">
               <UserOutlined />
@@ -147,6 +147,51 @@
                     : "Quản trị viên thường"
                 }}
               </a-descriptions-item>
+              {{ store.user }}
+              <div v-if="store.user.permissions[0]">
+                <p>Quyền truy cập:</p>
+                <select name="" id="">
+                  <option value="" class="main-option-permission">
+                    {{
+                      +store.user?.permissions[0].access_permission_1 === 1
+                        ? "Văn phòng hạng A"
+                        : ""
+                    }}
+                  </option>
+
+                  <option value="" class="main-option-permission">
+                    {{
+                      +store.user?.permissions[0].access_permission_2 === 2
+                        ? "Văn phòng hạng B"
+                        : ""
+                    }}
+                  </option>
+
+                  <option value="" class="main-option-permission">
+                    {{
+                      +store.user?.permissions[0].access_permission_3 === 3
+                        ? "Văn phòng hạng C"
+                        : ""
+                    }}
+                  </option>
+
+                  <option value="" class="main-option-permission">
+                    {{
+                      +store.user?.permissions[0].access_permission_4 === 4
+                        ? "Văn phòng Coworking"
+                        : ""
+                    }}
+                  </option>
+
+                  <option value="" class="main-option-permission">
+                    {{
+                      +store.user?.permissions[0].access_permission_5 === 5
+                        ? "Mặt bằng kinh doanh"
+                        : ""
+                    }}
+                  </option>
+                </select>
+              </div>
             </a-descriptions>
           </a-col>
         </a-row>

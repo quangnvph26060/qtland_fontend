@@ -20,13 +20,13 @@
 
     <!-- begin::Card Body -->
     <div class="card-body">
-      <div class="flex justify-start  my-3">
-          <!-- begin::Add New -->
-          <a-button type="primary" @click="showModalAdd" class="w-[120px]">
-            Thêm mới
-          </a-button>
-          <!-- end::Add New -->
-        </div>
+      <div class="flex justify-start my-3">
+        <!-- begin::Add New -->
+        <a-button type="primary" @click="showModalAdd" class="w-[120px]">
+          Thêm mới
+        </a-button>
+        <!-- end::Add New -->
+      </div>
       <!-- begin::Table -->
       <div>
         <a-table
@@ -144,57 +144,30 @@
               </template>
             </span>
             <template v-if="column.key === 'operation'">
-             <div style="display: flex; align-items : center">
-				 <div style="text-align: center">
-                <div @click="showModalUpdate(record)">
-                  <i class="fa-solid fa-pen-to-square"></i>
+              <div style="display: flex; align-items: center">
+                <div style="text-align: center">
+                  <div @click="showModalUpdate(record)">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </div>
+                </div>
+                <div
+                  style="text-align: center; margin-left: 15px"
+                  @click="showConfirmDelete(record.id)"
+                >
+                  <i class="fa-solid fa-trash"></i>
                 </div>
               </div>
-              <div
-                style="text-align: center ; margin-left : 15px"
-                @click="showConfirmDelete(record.id)"
-              >
-                <i class="fa-solid fa-trash"></i>
-              </div>
-			 </div>
-              <!-- <div>
-								<a-dropdown trigger="click">
-									<template #overlay>
-										<a-menu>
-											<a-menu-item key="1">
-												<div  style="text-align: center">
-													<div
-														@click="
-															showModalUpdate(
-																record
-															)
-														"
-													>
-														<i class="fa-solid fa-pen-to-square"></i>
-													</div>
-												</div>
-											</a-menu-item>
-											<a-menu-item key="2"  style="text-align: center">
-												<div style="text-align: center"
-													@click="
-														showConfirmDelete(
-															record.id
-														)
-													"
-												>
-													<i class="fa-solid fa-trash"></i>
-												</div>
-											</a-menu-item>
-										</a-menu>
-									</template>
-									<a-button>
-										Chức năng
-										<DownOutlined />
-									</a-button>
-								</a-dropdown>
-							</div> -->
             </template>
-
+            <template v-if="column.dataIndex === 'name'">
+              <router-link
+                  :to="{
+                    name: 'admin-post-user-list',
+                    params: { id: record.id },
+                  }"
+                >
+                  {{ text }}
+                </router-link>
+            </template>
             <!-- tag for role user -->
             <template v-if="column.dataIndex === 'role_id'">
               <a-tag
@@ -266,7 +239,7 @@ import {
   DownOutlined,
   SearchOutlined,
 } from "@ant-design/icons-vue";
-import { ref, reactive, onMounted ,computed, watch } from "vue";
+import { ref, reactive, onMounted, computed, watch } from "vue";
 
 import { Modal } from "ant-design-vue";
 
@@ -279,6 +252,7 @@ import formatDate from "../../../scripts/formatDate";
 import UserDetail from "./UserDetail.vue";
 import messageAnt from "../../../scripts/message";
 import auth from "../../../stores/auth";
+import { RouterLink } from "vue-router";
 const state = reactive({
   searchText: "",
   searchedColumn: "",
@@ -304,7 +278,7 @@ const columns = [
     dataIndex: "name",
     key: "name",
     width: 120,
-    class:"user_name",
+    class: "user_name",
     customFilterDropdown: true,
     onFilter: (value, record) =>
       record.name.toString().toLowerCase().includes(value.toLowerCase()),
@@ -405,7 +379,7 @@ const columns = [
     title: "Chi tiết",
     key: "operation",
     width: 100,
-    class:"user_detail"
+    class: "user_detail",
   },
 ];
 
@@ -425,9 +399,9 @@ const pagination = reactive({
     pageFilter.value = page;
     pageSizeFilter.value = pageSize;
     fetchUsersList({
-       page: page,
+      page: page,
       pageSize: pageSize,
-    }); 
+    });
     scrollToTop();
   },
 });
@@ -453,32 +427,31 @@ watch(pageFilter, (newVal) => {
  * CreatedBy: youngbachhh (28/03/2024)
  */
 const store = auth();
- const value = computed(() => store.user);
- console.log(value); 
+const value = computed(() => store.user);
+console.log(value);
 onMounted(() => {
   console.log(store.user);
 });
-const id =  ref('');
-const fetchUsersList = async ( page = 1, pageSize = 10) => {
+const id = ref("");
+const fetchUsersList = async (page = 1, pageSize = 10) => {
   try {
     data.value = [];
     const users = [];
     const params = {
       page: pageFilter.value,
-    pageSize: pageSizeFilter.value,
+      pageSize: pageSizeFilter.value,
     };
     // Gọi API và kiểm tra kết quả
     let response = [];
-     const role = localStorage.getItem('role_id');
-     if(role != 6){
+    const role = localStorage.getItem("role_id");
+    if (role != 6) {
       response = await listUsersAPI(params);
-    }else{
-       response = await listUsersRoleAPI(params);
+    } else {
+      response = await listUsersRoleAPI(params);
     }
-  
+
     const listUsers = response.data || [];
-   
-    
+
     total.value = response.total;
     for (const user of listUsers) {
       users.push({
@@ -510,7 +483,6 @@ const fetchUsersList = async ( page = 1, pageSize = 10) => {
   }
 };
 
-
 onMounted(() => {
   fetchUsersList();
 });
@@ -528,12 +500,12 @@ const userSelected = ref({
   phone: "",
   address: "",
   workunit: "",
-  birthday : "",
-  access_permission_1:"",
-  access_permission_2:"",
-  access_permission_3:"",
-  access_permission_4:"",
-  access_permission_5:"",
+  birthday: "",
+  access_permission_1: "",
+  access_permission_2: "",
+  access_permission_3: "",
+  access_permission_4: "",
+  access_permission_5: "",
 });
 
 const showDetail = (value) => {
@@ -546,7 +518,7 @@ const showModalAdd = () => {
     // password: "",
     role_id: "",
     is_active: "",
-    cccd: ""
+    cccd: "",
   };
   isShowDetail.value = true;
   title.value = "Thêm mới";

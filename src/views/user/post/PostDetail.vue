@@ -360,7 +360,7 @@
               <span class="title">Ngày đăng</span>
               <br />
               <span class="content">
-                {{ formatDateOnly(data.created_at) }}
+                {{ formatDateOnly(data.updated_at) }}
               </span>
             </div>
             <div class="post_infor">
@@ -691,6 +691,7 @@ const data = reactive({
   pricewater: "",
   gop: "",
   pay: "",
+  updated_at: ""
 });
 
 const authStore = auth();

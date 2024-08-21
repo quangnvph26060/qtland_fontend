@@ -52,15 +52,7 @@ const admin = [
 			{
 				path: "client",
 				name: "admin-client-list",
-				component: () => import("../views/admin/client/ClientList.vue"),
-				// props: (route) => ({
-				// 	rangeArea: route.query.rangeArea,
-				// 	rangePrice: route.query.rangePrice,
-				// 	dirs: route.query.dirs,
-				// 	address: route.query.address,
-				// 	sold_status: route.query.sold_status,
-				// 	priority_status: route.query.priority_status,
-				// }),
+				component: () => import("../views/admin/client/ClientList.vue"),				
 			},
 			{
 				path: "edit/client=:id(\\d+)?",
@@ -86,6 +78,19 @@ const admin = [
 				path: "admin/edit/report_id=:id(\\d+)?",
 				name: "admin-client-report-detail",
 				component: () => import("../views/admin/report/ReportDetail.vue"),
+			},
+			{
+				path: "post-user/user_id=:id(\\d+)?",
+				name: "admin-post-user-list",
+				component: () => import("../views/admin/post/PostListByUser.vue"),
+				props: (route) => ({
+					rangeArea: route.query.rangeArea,
+					rangePrice: route.query.rangePrice,
+					dirs: route.query.dirs,
+					address: route.query.address,
+					sold_status: route.query.sold_status,
+					priority_status: route.query.priority_status,
+				}),
 			},
 		],
 		beforeEnter(to, from, next) {

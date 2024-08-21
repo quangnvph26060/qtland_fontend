@@ -37,7 +37,7 @@
         <a-sub-menu key="sub1">
           <template #title>
             <div class="flex align-items-center">
-             <FormOutlined />
+              <FormOutlined />
 
               <span>Quản lý tin đăng</span>
             </div>
@@ -55,10 +55,10 @@
             Duyệt tin</a-menu-item
           >
         </a-sub-menu>
-        <a-sub-menu  key="sub2">
+        <a-sub-menu key="sub2">
           <template #title>
             <div class="flex align-items-center">
-              <UserOutlined   />
+              <UserOutlined />
               <span>Quản lý khách hàng</span>
             </div>
           </template>
@@ -68,117 +68,111 @@
 						Thêm mới</a-menu-item
 					> -->
 
-					<a-menu-item key="8" class="hover-text">
-						<router-link :to="{ name: 'admin-client-list' }">
-						</router-link>
-						Danh sách khách hàng</a-menu-item
-					>					
-				</a-sub-menu>
-				<a-menu-item key="10">
-					<div class="flex align-items-center">
-						<router-link :to="{ name: 'admin-client-report' }"> </router-link>
-						<FileSearchOutlined />
-						<span>Báo cáo dẫn khách </span>
-					</div>
-				</a-menu-item>
-				<a-menu-item v-if="store.user.role_id == 1" key="9">
-					<div class="flex align-items-center">
-						<router-link :to="{ name: 'admin-config' }"> </router-link>
-						<SettingOutlined />
-						<span>Cấu hình</span>
-					</div>
-				</a-menu-item>			
-				<a-menu-item key="5">
-					<div
-						class="flex align-items-center"
-						@click="showChildrenDrawer"
-					>
-						<AccountBookOutlined />
-						<span>Thông tin tài khoản</span>
-					</div>
-				</a-menu-item>
-				<a-menu-item key="6">
-					<div
-						class="flex align-items-center "
-						@click="onLogout"
-					>
-          <LogoutOutlined/>
-						<span>Đăng xuất</span>
-					</div>
-				</a-menu-item>
-			</a-menu>
-		</a-layout-sider>
-		<a-drawer
-			:open="childrenDrawer"
-			title="Thông tin tài khoản"
-			@close="onClose"
-			:closable="false"
-			placement="right"
-			width="280"
-		>
-			<div class="px-3">
-				<a-row>
-					<a-col :span="24">
-						<a-descriptions :column="1">
-							<a-descriptions-item label="Tên">
-                                  {{ store.user.name }}
-                                </a-descriptions-item>
-                                <a-descriptions-item label="Email">
-                                  {{ store.user.email }}
-                                </a-descriptions-item>
-                                <a-descriptions-item label="Số điện thoại">
-                                  {{ store.user.phone }}
-                                </a-descriptions-item>
-                                <a-descriptions-item label="Đơn vị công tác">
-                                  {{ store.user.workunit }}
-                                </a-descriptions-item>
-								<a-descriptions-item label="Mật khẩu" class="description-item">
-								<span class="password-mask">********</span>
-								<span class="change-password" @click="handleFormToggle">Thay đổi</span>
-							</a-descriptions-item>	
-							<a-descriptions-item v-if="isFlag">
-								<div class="">
-									<p v-html="error" class="alert alert-success "></p>
-									<form action="" @submit.prevent="submitFormPassWord">
-										<input
-										type="password"
-										class="form-control"
-										placeholder="Mật khẩu hiện tại"
-										v-model="currentPassword"
-										/>
-										<input
-										type="password"
-										class="form-control"
-										placeholder="Mật khẩu mới"
-										v-model="newPassword"
-										/>
-										<button type="submit" class="main-btn">Lưu</button>
-									
-									</form>
-								</div>
-							</a-descriptions-item>
-                                <a-descriptions-item label="Chức vụ">
-                                  {{
-                                    store.user.role_id === 1
-                                      ? "Quản trị viên"
-                                      : store.user.role_id === 2
-                                      ? "Đầu chủ"
-                                      : store.user.role_id === 3
-                                      ? "Sale"
-                                      : store.user.role_id === 4
-                                      ? "Sale VIP"
-                                      : store.user.role_id === 5
-                                      ? "Đầu chủ VIP"
-                                      : "Quản trị viên thường"
-                                  }}
-                                </a-descriptions-item>
-						</a-descriptions>
-					</a-col>
-				</a-row>
-			</div>
-		</a-drawer>
-	</div>
-
+          <a-menu-item key="8" class="hover-text">
+            <router-link :to="{ name: 'admin-client-list' }"> </router-link>
+            Danh sách khách hàng</a-menu-item
+          >
+        </a-sub-menu>
+        <a-menu-item key="10">
+          <div class="flex align-items-center">
+            <router-link :to="{ name: 'admin-client-report' }"> </router-link>
+            <FileSearchOutlined />
+            <span>Báo cáo dẫn khách </span>
+          </div>
+        </a-menu-item>
+        <a-menu-item v-if="store.user.role_id == 1" key="9">
+          <div class="flex align-items-center">
+            <router-link :to="{ name: 'admin-config' }"> </router-link>
+            <SettingOutlined />
+            <span>Cấu hình</span>
+          </div>
+        </a-menu-item>
+        <a-menu-item key="5">
+          <div class="flex align-items-center" @click="showChildrenDrawer">
+            <AccountBookOutlined />
+            <span>Thông tin tài khoản</span>
+          </div>
+        </a-menu-item>
+        <a-menu-item key="6">
+          <div class="flex align-items-center" @click="onLogout">
+            <LogoutOutlined />
+            <span>Đăng xuất</span>
+          </div>
+        </a-menu-item>
+      </a-menu>
+    </a-layout-sider>
+    <a-drawer
+      :open="childrenDrawer"
+      title="Thông tin tài khoản"
+      @close="onClose"
+      :closable="false"
+      placement="right"
+      width="280"
+    >
+      <div class="px-3">
+        <a-row>
+          <a-col :span="24">
+            <a-descriptions :column="1">
+              <a-descriptions-item label="Tên">
+                {{ store.user.name }}
+              </a-descriptions-item>
+              <a-descriptions-item label="Email">
+                {{ store.user.email }}
+              </a-descriptions-item>
+              <a-descriptions-item label="Số điện thoại">
+                {{ store.user.phone }}
+              </a-descriptions-item>
+              <a-descriptions-item label="Đơn vị công tác">
+                {{ store.user.workunit }}
+              </a-descriptions-item>
+              <a-descriptions-item label="Mật khẩu" class="description-item">
+                <span class="password-mask">********</span>
+                <span class="change-password" @click="handleFormToggle"
+                  >Thay đổi</span
+                >
+              </a-descriptions-item>
+              <a-descriptions-item v-if="isFlag">
+                <div class="">
+                  <p v-html="error" class="alert alert-success"></p>
+                  <form action="" @submit.prevent="submitFormPassWord">
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Mật khẩu hiện tại"
+                      v-model="currentPassword"
+                    />
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Mật khẩu mới"
+                      v-model="newPassword"
+                    />
+                    <button type="submit" class="main-btn">Lưu</button>
+                  </form>
+                </div>
+              </a-descriptions-item>
+              <a-descriptions-item label="Chức vụ">
+                {{
+                  store.user.role_id === 1
+                    ? "Quản trị viên"
+                    : store.user.role_id === 2
+                    ? "Đầu chủ"
+                    : store.user.role_id === 3
+                    ? "Sale"
+                    : store.user.role_id === 4
+                    ? "Sale VIP"
+                    : store.user.role_id === 5
+                    ? "Đầu chủ VIP"
+                    : "Quản trị viên thường"
+                }}
+              </a-descriptions-item>
+              
+            </a-descriptions>
+          </a-col>
+        </a-row>
+      </div>
+    </a-drawer>
+  </div>
 </template>
 
 <script setup>
@@ -190,13 +184,13 @@ import {
   PieChartOutlined,
   MenuFoldOutlined,
   AccountBookOutlined,
-  LogoutOutlined ,
-  BarChartOutlined ,
+  LogoutOutlined,
+  BarChartOutlined,
   PlusOutlined,
-  UserOutlined ,
+  UserOutlined,
   FormOutlined,
   FileSearchOutlined,
-  SettingOutlined
+  SettingOutlined,
 } from "@ant-design/icons-vue";
 import router from "../router";
 import logout from "../api/auth/logout";
@@ -295,13 +289,12 @@ const showChildrenDrawer = () => {
 };
 const isFlag = ref(false);
 
-
 const handleFormToggle = () => {
   isFlag.value = !isFlag.value;
 };
-const currentPassword = ref('');
-const newPassword = ref('');
-const error = ref('');
+const currentPassword = ref("");
+const newPassword = ref("");
+const error = ref("");
 // Hàm xử lý khi người dùng nhấn nút lưu
 const submitFormPassWord = async () => {
   const formData = {
@@ -309,16 +302,16 @@ const submitFormPassWord = async () => {
     current_password: currentPassword.value,
     new_password: newPassword.value,
   };
-  
+
   try {
-    const response = await changePasswordAPI.changePassword(formData); 
+    const response = await changePasswordAPI.changePassword(formData);
     if (response && response.status === 200) {
-       error.value = 'Mật khẩu đã được thay đổi thành công';
+      error.value = "Mật khẩu đã được thay đổi thành công";
     } else {
-      error.value = 'Đã xảy ra lỗi khi thay đổi mật khẩu';
+      error.value = "Đã xảy ra lỗi khi thay đổi mật khẩu";
     }
   } catch (error) {
-    console.error('Lỗi khi gọi API:', error);
+    console.error("Lỗi khi gọi API:", error);
   }
 };
 const onClose = () => {

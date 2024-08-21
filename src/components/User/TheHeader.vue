@@ -2,24 +2,39 @@
   <!-- begin::Header -->
   <div class="app-header">
     <!-- begin::Header Container -->
-    <div class="app-container fixed-top z-10 bg-primary-white-color mr-auto ml-auto">
+    <div
+      class="app-container fixed-top z-10 bg-primary-white-color mr-auto ml-auto"
+    >
       <!-- begin::Header Wrapper -->
       <div class="flex justify-between w-[100%] h-[100px]">
         <!-- begin::Logo -->
         <div class="app-header-logo flex align-items-center gap-2 w-100">
           <div @click="handleLogoClick" class="cursor-pointer">
             <!-- begin::Logo Image -->
-            <img style="width: 200px" :src="logo" alt="Logo" class="app-header-logo-image w-[100px] h-[64px]" />
+            <img
+              style="width: 200px"
+              :src="logo"
+              alt="Logo"
+              class="app-header-logo-image w-[100px] h-[64px]"
+            />
             <!-- end::Logo Image -->
           </div>
-          <div style="flex: 1" class="n:px-2 md:px-0 hidden sm:block"
-            v-if="store.user.role_id == 3 || store.user.role_id == 4">
+          <div
+            style="flex: 1"
+            class="n:px-2 md:px-0 hidden sm:block"
+            v-if="store.user.role_id == 3 || store.user.role_id == 4"
+          >
             <div id="header_rank">
-              <a v-for="(item, index) in rankroom.filter(
-
-                (item) =>
-                  store.user.role_id == 4 || (store.user.role_id == 3 && (item.value === 3 || item.value === 4))
-              )" :key="index" @click="selectClassRank(item.value)">
+              <a
+                v-for="(item, index) in rankroom.filter(
+                  (item) =>
+                    store.user.role_id == 4 ||
+                    (store.user.role_id == 3 &&
+                      (item.value === 3 || item.value === 4))
+                )"
+                :key="index"
+                @click="selectClassRank(item.value)"
+              >
                 {{ item.label }}
               </a>
             </div>
@@ -34,7 +49,10 @@
             <!-- begin::Authenticated -->
             <div class="flex align-items-center divide-x" v-if="store.token">
               <!-- begin::Drawer -->
-              <div class="n:px-2 md:px-4 block sm:hidden" v-if="store.user.role_id == 1 || store.user.role_id == 6">
+              <div
+                class="n:px-2 md:px-4 block sm:hidden"
+                v-if="store.user.role_id == 1 || store.user.role_id == 6"
+              >
                 <TheMenu />
               </div>
 
@@ -42,14 +60,20 @@
                 <a-dropdown :placement="'bottomLeft'">
                   <template #overlay>
                     <a-menu>
-                      <a-menu-item key="1" v-if="
-                        store.user.role_id == 2 || store.user.role_id == 5
-                      " class="py-2">
+                      <a-menu-item
+                        key="1"
+                        v-if="
+                          store.user.role_id == 2 || store.user.role_id == 5
+                        "
+                        class="py-2"
+                      >
                         <div class="inline-flex items-center mr-3">
                           <BarChartOutlined />
                         </div>
                         <div class="inline-flex">Quản lý tin đăng</div>
-                        <router-link :to="{ name: 'post-manage' }"></router-link>
+                        <router-link
+                          :to="{ name: 'post-manage' }"
+                        ></router-link>
                       </a-menu-item>
 
                       <!-- <a-button
@@ -59,19 +83,41 @@
                         >
                           Thay đổi ảnh đại diện
                         </a-button> -->
-                      <a-modal v-model:open="isAvatarModalVisible" title="Ảnh đại diện" @ok="handleAvatarOk"
-                        @cancel="handleAvatarCancel">
+                      <a-modal
+                        v-model:open="isAvatarModalVisible"
+                        title="Ảnh đại diện"
+                        @ok="handleAvatarOk"
+                        @cancel="handleAvatarCancel"
+                      >
                         <div id="info_user" style="display: flex; j">
                           <!-- Chọn ảnh mới -->
 
-                          <a-upload style="text-align: center" list-type="picture-card" :show-upload-list="false"
-                            :before-upload="beforeUpload">
-                            <img v-if="store.user.avatar" :src="store.user.avatar" alt="avatar"
-                              style="width: 100%; height: 100%" />
+                          <a-upload
+                            style="text-align: center"
+                            list-type="picture-card"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                          >
+                            <img
+                              v-if="store.user.avatar"
+                              :src="store.user.avatar"
+                              alt="avatar"
+                              style="width: 100%; height: 100%"
+                            />
                           </a-upload>
-                          <a-upload style="text-align: center" name="avatar" list-type="picture-card"
-                            :show-upload-list="false" :before-upload="beforeUpload">
-                            <img v-if="avatarUrl" :src="avatarUrl" alt="avatar" style="width: 100%; height: 100%" />
+                          <a-upload
+                            style="text-align: center"
+                            name="avatar"
+                            list-type="picture-card"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                          >
+                            <img
+                              v-if="avatarUrl"
+                              :src="avatarUrl"
+                              alt="avatar"
+                              style="width: 100%; height: 100%"
+                            />
                             <div v-else>
                               <a-icon :type="uploading ? 'loading' : 'plus'" />
                               <div style="margin-top: 8px">Upload</div>
@@ -81,26 +127,48 @@
                       </a-modal>
 
                       <a-menu-item key="2">
-                        <a-button class="h-[36px] w-100 flex align-items-center border-none p-0"
-                          :icon="h(AccountBookOutlined)" @click="showAccountModal">
+                        <a-button
+                          class="h-[36px] w-100 flex align-items-center border-none p-0"
+                          :icon="h(AccountBookOutlined)"
+                          @click="showAccountModal"
+                        >
                           Thông tin tài khoản
                         </a-button>
-                        <a-modal v-model:open="isAccountModalVisible" title="Thông tin người dùng" @ok="handleAccountOk"
-                          @cancel="handleAccountCancel">
+                        <a-modal
+                          v-model:open="isAccountModalVisible"
+                          title="Thông tin người dùng"
+                          @ok="handleAccountOk"
+                          @cancel="handleAccountCancel"
+                        >
                           <div id="info_user">
                             <p>Tên người dùng: {{ store.user.name }}</p>
                             <p>Email: {{ store.user.email }}</p>
                             <div class="d-flex justify-content-between">
                               <p>Mật khẩu: ********</p>
-                              <span class="main_password" @click="handleFormToggle">Thay đổi mật khẩu</span>
+                              <span
+                                class="main_password"
+                                @click="handleFormToggle"
+                                >Thay đổi mật khẩu</span
+                              >
                             </div>
                             <div v-if="isFlag">
                               <p v-html="error" class="alert alert-success"></p>
-                              <form action="" @submit.prevent="submitFormPassWord">
-                                <input type="password" class="form-control" placeholder="Mật khẩu hiện tại"
-                                  v-model="currentPassword" />
-                                <input type="password" class="form-control" placeholder="Mật khẩu mới"
-                                  v-model="newPassword" />
+                              <form
+                                action=""
+                                @submit.prevent="submitFormPassWord"
+                              >
+                                <input
+                                  type="password"
+                                  class="form-control"
+                                  placeholder="Mật khẩu hiện tại"
+                                  v-model="currentPassword"
+                                />
+                                <input
+                                  type="password"
+                                  class="form-control"
+                                  placeholder="Mật khẩu mới"
+                                  v-model="newPassword"
+                                />
                                 <button type="submit" class="main-btn">
                                   Lưu
                                 </button>
@@ -114,73 +182,65 @@
                                 store.user.role_id === 1
                                   ? "Quản trị viên"
                                   : store.user.role_id === 2
-                                    ? "Đầu chủ"
-                                    : store.user.role_id === 3
-                                      ? "Sale"
-                                      : store.user.role_id === 4
-                                        ? "Sale VIP"
-                                        : store.user.role_id === 5
-                                          ? "Đàu chỉ VIP"
-                                          : "Quản trị viên thường"
+                                  ? "Đầu chủ"
+                                  : store.user.role_id === 3
+                                  ? "Sale"
+                                  : store.user.role_id === 4
+                                  ? "Sale VIP"
+                                  : store.user.role_id === 5
+                                  ? "Đàu chỉ VIP"
+                                  : "Quản trị viên thường"
                               }}
                             </p>
-                            <p>  Quyền truy cập:</p>
-                            <!-- <span class="d-flex flex-column">
+                            <div v-if="store.user.permissions[0]">
+                              <p>Quyền truy cập:</p>
+                              <select name="" id="">
+                                <option value="" class="main-option-permission">
+                                  {{
+                                    +store.user?.permissions[0]
+                                      .access_permission_1 === 1
+                                      ? "Văn phòng hạng A"
+                                      : ""
+                                  }}
+                                </option>
 
-                              <li>
-                                {{
-                                +store.user?.permissions[0].access_permission_1 === 1 ? 'Văn phòng hạng A' : ""
-                              }}
-                              </li>
-                              <li>
-                                {{
-                                +store.user?.permissions[0].access_permission_2 === 2 ? 'Văn phòng hạng B' : ""
-                              }}
-                              </li>
-                              <li>
-                                {{
-                                +store.user?.permissions[0].access_permission_3 === 3 ? 'Văn phòng hạng C' : ""
-                              }}
-                              </li>
-                              <li>
-                                {{
-                                +store.user?.permissions[0].access_permission_4 === 4  ? 'Văn phòng cCoworking' : ""
-                              }}
-                              </li>
-                             
-                            </span> -->
-                            <select name="" id="">
-                              
-                              <option value="" class="main-option-permission">
-                                {{
-                                  +store.user?.permissions[0].access_permission_1 === 1 ? 'Văn phòng hạng A' : ""
-                                }}
-                              </option>
+                                <option value="" class="main-option-permission">
+                                  {{
+                                    +store.user?.permissions[0]
+                                      .access_permission_2 === 2
+                                      ? "Văn phòng hạng B"
+                                      : ""
+                                  }}
+                                </option>
 
-                              <option value="" class="main-option-permission">
-                                {{
-                                  +store.user?.permissions[0].access_permission_2 === 2 ? 'Văn phòng hạng B' : ""
-                                }}
-                              </option>
+                                <option value="" class="main-option-permission">
+                                  {{
+                                    +store.user?.permissions[0]
+                                      .access_permission_3 === 3
+                                      ? "Văn phòng hạng C"
+                                      : ""
+                                  }}
+                                </option>
 
-                              <option value="" class="main-option-permission">
-                                {{
-                                  +store.user?.permissions[0].access_permission_3 === 3 ? 'Văn phòng hạng C' : ""
-                                }}
-                              </option>
+                                <option value="" class="main-option-permission">
+                                  {{
+                                    +store.user?.permissions[0]
+                                      .access_permission_4 === 4
+                                      ? "Văn phòng Coworking"
+                                      : ""
+                                  }}
+                                </option>
 
-                              <option value="" class="main-option-permission">
-                                {{
-                                  +store.user?.permissions[0].access_permission_4 === 4 ? 'Văn phòng Coworking' : ""
-                                }}
-                              </option>
-
-                              <option value="" class="main-option-permission">
-                                {{
-                                  +store.user?.permissions[0].access_permission_5 === 5 ? 'Mặt bằng kinh doanh' : ""
-                                }}
-                              </option>
-                            </select>
+                                <option value="" class="main-option-permission">
+                                  {{
+                                    +store.user?.permissions[0]
+                                      .access_permission_5 === 5
+                                      ? "Mặt bằng kinh doanh"
+                                      : ""
+                                  }}
+                                </option>
+                              </select>
+                            </div>
                           </div>
                         </a-modal>
                       </a-menu-item>
@@ -192,16 +252,28 @@
                       </a-menu-item>
                     </a-menu>
                   </template>
-                  <div class="flex justify-end items-center cursor-pointer" style="min-width: 300px">
-                    <a-avatar size="large" class="me-2 avatar-container" :style="{
-                      backgroundColor: store.user.avatar
-                        ? 'transparent'
-                        : '#ADC178',
-                      verticalAlign: 'middle',
-                    }">
+                  <div
+                    class="flex justify-end items-center cursor-pointer"
+                    style="min-width: 300px"
+                  >
+                    <a-avatar
+                      size="large"
+                      class="me-2 avatar-container"
+                      :style="{
+                        backgroundColor: store.user.avatar
+                          ? 'transparent'
+                          : '#ADC178',
+                        verticalAlign: 'middle',
+                      }"
+                    >
                       <!-- Hiển thị ảnh avatar nếu có  12345-->
                       <template v-if="store.user.avatar">
-                        <img :src="store.user.avatar" alt="avatar" class="avatar-img" @click="showAvatarModal" />
+                        <img
+                          :src="store.user.avatar"
+                          alt="avatar"
+                          class="avatar-img"
+                          @click="showAvatarModal"
+                        />
                       </template>
                       <!-- Hiển thị chữ cái đầu tiên của tên người dùng nếu không có avatar -->
                       <template v-else>
@@ -221,38 +293,70 @@
               </div>
               <!-- end::User Feature -->
               <!-- begin::Create Post -->
-              <div class="n:px-2 md:px-4 hidden sm:block" v-if="store.user.role_id == 2 || store.user.role_id == 5">
-
-              </div>
+              <div
+                class="n:px-2 md:px-4 hidden sm:block"
+                v-if="store.user.role_id == 2 || store.user.role_id == 5"
+              ></div>
               <div class="n:px-2 md:px-4 hidden sm:block report">
-                <router-link v-if="store.user.role_id == 2 || store.user.role_id == 5" :to="{ name: 'post-create' }">
+                <router-link
+                  v-if="store.user.role_id == 2 || store.user.role_id == 5"
+                  :to="{ name: 'post-create' }"
+                >
                   <a-button class=""> Đăng tin </a-button>
                 </router-link>
-                <router-link v-if="store.user.role_id == 3 || store.user.role_id == 4" :to="{ name: 'client-list' }">
+                <router-link
+                  v-if="store.user.role_id == 3 || store.user.role_id == 4"
+                  :to="{ name: 'client-list' }"
+                >
                   <a-button class=""> Khách hàng </a-button>
                 </router-link>
-                <router-link v-if="store.user.role_id != 1 && store.user.role_id != 6" :to="{ name: 'client-report' }">
+                <router-link
+                  v-if="store.user.role_id != 1 && store.user.role_id != 6"
+                  :to="{ name: 'client-report' }"
+                >
                   <a-button class=""> Báo cáo dẫn khách </a-button>
                 </router-link>
               </div>
-              <div class="n:px-2 md:px-4" :class="store.user.role_id == 1 || store.user.role_id == 6
-                  ? 'hidden'
-                  : 'sm:hidden'
-                ">
-                <a-button @click="showDrawer" :icon="h(PicCenterOutlined)" size="large"
-                  class="flex justify-center align-items-center border-none"></a-button>
-                <a-drawer placement="right" :closable="false" :open="open" :width="240" @close="onClose">
+              <div
+                class="n:px-2 md:px-4"
+                :class="
+                  store.user.role_id == 1 || store.user.role_id == 6
+                    ? 'hidden'
+                    : 'sm:hidden'
+                "
+              >
+                <a-button
+                  @click="showDrawer"
+                  :icon="h(PicCenterOutlined)"
+                  size="large"
+                  class="flex justify-center align-items-center border-none"
+                ></a-button>
+                <a-drawer
+                  placement="right"
+                  :closable="false"
+                  :open="open"
+                  :width="240"
+                  @close="onClose"
+                >
                   <div class="flex flex-col space-y-4 p-4">
                     <div class="flex align-items-center cursor-pointer">
-                      <a-avatar size="large" class="me-2 avatar-container" :style="{
-                        backgroundColor: store.user.avatar
-                          ? 'transparent'
-                          : '#ADC178',
-                        verticalAlign: 'middle',
-                      }">
+                      <a-avatar
+                        size="large"
+                        class="me-2 avatar-container"
+                        :style="{
+                          backgroundColor: store.user.avatar
+                            ? 'transparent'
+                            : '#ADC178',
+                          verticalAlign: 'middle',
+                        }"
+                      >
                         <!-- Hiển thị ảnh avatar nếu có-->
                         <template v-if="store.user.avatar">
-                          <img :src="store.user.avatar" alt="avatar" class="avatar-img" />
+                          <img
+                            :src="store.user.avatar"
+                            alt="avatar"
+                            class="avatar-img"
+                          />
                         </template>
                         <!-- Hiển thị chữ cái đầu tiên của tên người dùng nếu không có avatar -->
                         <template v-else>
@@ -265,47 +369,96 @@
                         {{ store.user.name }}
                       </div>
                     </div>
-                    <div v-if="store.user.role_id == 2 || store.user.role_id == 5">
+                    <div
+                      v-if="store.user.role_id == 2 || store.user.role_id == 5"
+                    >
                       <router-link :to="{ name: 'post-create' }">
-                        <a-button class="w-100 h-[40px]" type="primary" @click="onClose">
+                        <a-button
+                          class="w-100 h-[40px]"
+                          type="primary"
+                          @click="onClose"
+                        >
                           Đăng tin
                         </a-button>
                       </router-link>
                     </div>
                     <div>
-                      <router-link v-if="store.user.role_id == 3 || store.user.role_id == 4"
-                        :to="{ name: 'client-list' }">
-                        <a-button class="w-100 h-[40px]" type="primary" @click="onClose">
+                      <router-link
+                        v-if="
+                          store.user.role_id == 3 || store.user.role_id == 4
+                        "
+                        :to="{ name: 'client-list' }"
+                      >
+                        <a-button
+                          class="w-100 h-[40px]"
+                          type="primary"
+                          @click="onClose"
+                        >
                           Khách hàng
                         </a-button>
                       </router-link>
                       <router-link
-                        v-if="store.user.role_id == 3 || store.user.role_id == 4 || store.user.role_id == 2 || store.user.role_id == 5"
-                        :to="{ name: 'client-report' }">
-                        <a-button class="w-100 h-[40px] mt-3" type="primary" @click="onClose">
+                        v-if="
+                          store.user.role_id == 3 ||
+                          store.user.role_id == 4 ||
+                          store.user.role_id == 2 ||
+                          store.user.role_id == 5
+                        "
+                        :to="{ name: 'client-report' }"
+                      >
+                        <a-button
+                          class="w-100 h-[40px] mt-3"
+                          type="primary"
+                          @click="onClose"
+                        >
                           Báo cáo dẫn khách
                         </a-button>
                       </router-link>
                     </div>
                     <div style="padding: 4px 15px">
-                      <a-button class="h-[36px] w-100 flex align-items-center border-none p-0"
-                        :icon="h(AccountBookOutlined)" @click="showAvatarModal">
+                      <a-button
+                        class="h-[36px] w-100 flex align-items-center border-none p-0"
+                        :icon="h(AccountBookOutlined)"
+                        @click="showAvatarModal"
+                      >
                         Thay đổi ảnh đại diện
                       </a-button>
-                      <a-modal v-model:open="isAvatarModalVisible" title="Ảnh đại diện" @ok="handleAvatarOk"
-                        @cancel="handleAvatarCancel">
+                      <a-modal
+                        v-model:open="isAvatarModalVisible"
+                        title="Ảnh đại diện"
+                        @ok="handleAvatarOk"
+                        @cancel="handleAvatarCancel"
+                      >
                         <div id="info_user" style="display: flex; j">
                           <!-- Chọn ảnh mới -->
 
-                          <a-upload style="text-align: center" list-type="picture-card" :show-upload-list="false"
-                            :before-upload="beforeUpload">
-                            <img v-if="store.user.avatar" :src="store.user.avatar" alt="avatar"
-                              style="width: 100%; height: 100%" />
+                          <a-upload
+                            style="text-align: center"
+                            list-type="picture-card"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                          >
+                            <img
+                              v-if="store.user.avatar"
+                              :src="store.user.avatar"
+                              alt="avatar"
+                              style="width: 100%; height: 100%"
+                            />
                           </a-upload>
 
-                          <a-upload style="text-align: center" name="avatar" list-type="picture-card"
-                            :show-upload-list="false" :before-upload="beforeUpload">
-                            <img v-if="avatarUrl" :src="avatarUrl" alt="avatar" style="width: 100%; height: 100%" />
+                          <a-upload
+                            style="text-align: center"
+                            name="avatar"
+                            list-type="picture-card"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                          >
+                            <img
+                              v-if="avatarUrl"
+                              :src="avatarUrl"
+                              alt="avatar"
+                              style="width: 100%; height: 100%"
+                            />
                             <div v-else>
                               <a-icon :type="uploading ? 'loading' : 'plus'" />
                               <div style="margin-top: 8px">Upload</div>
@@ -315,24 +468,37 @@
                       </a-modal>
                     </div>
                     <div style="margin-top: 0px">
-                      <router-link :to="{
-                        name:
-                          store.user.role_id === 1
-                            ? 'admin-post-list'
-                            : 'post-manage',
-                      }">
-                        <a-button v-if="
-                          store.user.role_id === 5 || store.user.role_id == 2
-                        " class="h-[36px] w-100 flex align-items-center border-none" :icon="h(ScheduleOutlined)"
-                          @click="onClose">
+                      <router-link
+                        :to="{
+                          name:
+                            store.user.role_id === 1
+                              ? 'admin-post-list'
+                              : 'post-manage',
+                        }"
+                      >
+                        <a-button
+                          v-if="
+                            store.user.role_id === 5 || store.user.role_id == 2
+                          "
+                          class="h-[36px] w-100 flex align-items-center border-none"
+                          :icon="h(ScheduleOutlined)"
+                          @click="onClose"
+                        >
                           Danh sách tin
                         </a-button>
                       </router-link>
-                      <a-button class="h-[36px] w-100 flex align-items-center border-none"
-                        :icon="h(AccountBookOutlined)" @click="showChildrenDrawer">
+                      <a-button
+                        class="h-[36px] w-100 flex align-items-center border-none"
+                        :icon="h(AccountBookOutlined)"
+                        @click="showChildrenDrawer"
+                      >
                         Thông tin tài khoản
                       </a-button>
-                      <a-drawer v-model:open="childrenDrawer" :closable="false" width="280">
+                      <a-drawer
+                        v-model:open="childrenDrawer"
+                        :closable="false"
+                        width="280"
+                      >
                         <div class="px-3" style="padding-top: 20px">
                           <a-row>
                             <a-col :span="24">
@@ -349,18 +515,39 @@
                                 <a-descriptions-item label="Đơn vị công tác">
                                   {{ store.user.workunit }}
                                 </a-descriptions-item>
-                                <a-descriptions-item label="Mật khẩu" class="description-item">
+                                <a-descriptions-item
+                                  label="Mật khẩu"
+                                  class="description-item"
+                                >
                                   <span class="password-mask">********</span>
-                                  <span class="change-password" @click="handleFormToggle">Thay đổi</span>
+                                  <span
+                                    class="change-password"
+                                    @click="handleFormToggle"
+                                    >Thay đổi</span
+                                  >
                                 </a-descriptions-item>
                                 <a-descriptions-item v-if="isFlag">
                                   <div class="">
-                                    <p v-html="error" class="alert alert-success"></p>
-                                    <form action="" @submit.prevent="submitFormPassWord">
-                                      <input type="password" class="form-control" placeholder="Mật khẩu hiện tại"
-                                        v-model="currentPassword" />
-                                      <input type="password" class="form-control" placeholder="Mật khẩu mới"
-                                        v-model="newPassword" />
+                                    <p
+                                      v-html="error"
+                                      class="alert alert-success"
+                                    ></p>
+                                    <form
+                                      action=""
+                                      @submit.prevent="submitFormPassWord"
+                                    >
+                                      <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Mật khẩu hiện tại"
+                                        v-model="currentPassword"
+                                      />
+                                      <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Mật khẩu mới"
+                                        v-model="newPassword"
+                                      />
                                       <button type="submit" class="main-btn">
                                         Lưu
                                       </button>
@@ -372,16 +559,80 @@
                                     store.user.role_id === 1
                                       ? "Quản trị viên"
                                       : store.user.role_id === 2
-                                        ? "Đầu chủ"
-                                        : store.user.role_id === 3
-                                          ? "Sale"
-                                          : store.user.role_id === 4
-                                            ? "Sale VIP"
-                                            : store.user.role_id === 5
-                                              ? "Đầu chủ VIP"
-                                              : "Quản trị viên thường"
+                                      ? "Đầu chủ"
+                                      : store.user.role_id === 3
+                                      ? "Sale"
+                                      : store.user.role_id === 4
+                                      ? "Sale VIP"
+                                      : store.user.role_id === 5
+                                      ? "Đầu chủ VIP"
+                                      : "Quản trị viên thường"
                                   }}
                                 </a-descriptions-item>
+                                 <a-descriptions-item label="Quyền truy cập">                             
+                                  <select name="" id="">
+                                    <option
+                                      value=""
+                                      class="main-option-permission"
+                                    >
+                                      {{
+                                        +store.user?.permissions[0]
+                                          .access_permission_1 === 1
+                                          ? "Văn phòng hạng A"
+                                          : ""
+                                      }}
+                                    </option>
+
+                                    <option
+                                      value=""
+                                      class="main-option-permission"
+                                    >
+                                      {{
+                                        +store.user?.permissions[0]
+                                          .access_permission_2 === 2
+                                          ? "Văn phòng hạng B"
+                                          : ""
+                                      }}
+                                    </option>
+
+                                    <option
+                                      value=""
+                                      class="main-option-permission"
+                                    >
+                                      {{
+                                        +store.user?.permissions[0]
+                                          .access_permission_3 === 3
+                                          ? "Văn phòng hạng C"
+                                          : ""
+                                      }}
+                                    </option>
+
+                                    <option
+                                      value=""
+                                      class="main-option-permission"
+                                    >
+                                      {{
+                                        +store.user?.permissions[0]
+                                          .access_permission_4 === 4
+                                          ? "Văn phòng Coworking"
+                                          : ""
+                                      }}
+                                    </option>
+
+                                    <option
+                                      value=""
+                                      class="main-option-permission"
+                                    >
+                                      {{
+                                        +store.user?.permissions[0]
+                                          .access_permission_5 === 5
+                                          ? "Mặt bằng kinh doanh"
+                                          : ""
+                                      }}
+                                    </option>
+                                  </select>
+                                </a-descriptions-item>
+                                
                               </a-descriptions>
                             </a-col>
                           </a-row>
@@ -389,8 +640,11 @@
                       </a-drawer>
                     </div>
 
-                    <a-button style="margin-top: 0px" class="h-[36px] w-100 flex align-items-center border-none"
-                      @click="onLogout">
+                    <a-button
+                      style="margin-top: 0px"
+                      class="h-[36px] w-100 flex align-items-center border-none"
+                      @click="onLogout"
+                    >
                       <LogoutOutlined />
                       Đăng xuất
                     </a-button>
@@ -761,7 +1015,7 @@ export default {};
 .report a:first-child {
   margin-bottom: 13px;
 }
-.main-option-permission:empty{
+.main-option-permission:empty {
   display: none;
 }
 </style>

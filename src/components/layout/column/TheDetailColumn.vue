@@ -905,8 +905,8 @@ const disabledSubmit = computed(() => {
     data.directionBalcony &&
     data.wayin &&
     data.font &&
-    data.pccc &&
-    data.elevator &&
+   (data.pccc !== null && data.pccc !== undefined) &&
+   (data.elevator !== null && data.elevator !== undefined) &&
     // data.address &&
     data.address_detail &&
     data.unit &&

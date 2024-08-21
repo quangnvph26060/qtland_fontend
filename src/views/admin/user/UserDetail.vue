@@ -103,7 +103,7 @@
       <div class="pressmison_mobi">
         <a-form-item v-if="user.role_id != ''">
           <div class="d-flex flex-column main-pressmison">
-            <span class="d-flex gap-5">
+            <span class="d-flex gap-3">
               <input
                 type="checkbox"
                 value="1"
@@ -111,7 +111,7 @@
               />
               <span>Văn phòng hạng A</span>
             </span>
-            <span class="d-flex gap-5">
+            <span class="d-flex gap-3">
               <input
                 type="checkbox"
                 value="2"
@@ -119,7 +119,7 @@
               />
               <span>Văn phòng hạng B</span>
             </span>
-            <span class="d-flex gap-5">
+            <span class="d-flex gap-3">
               <input
                 type="checkbox"
                 value="3"
@@ -127,7 +127,7 @@
               />
               <span>Văn phòng hạng C</span>
             </span>
-            <span class="d-flex gap-5">
+            <span class="d-flex gap-3">
               <input
                 type="checkbox"
                 value="4"
@@ -135,7 +135,7 @@
               />
               <span>Văn phòng hạng Coworking</span>
             </span>
-            <span class="d-flex gap-5">
+            <span class="d-flex gap-3">
               <input
                 type="checkbox"
                 value="5"
