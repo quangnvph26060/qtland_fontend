@@ -344,6 +344,12 @@ a:focus {
 .note_phone{
     display: none;
 }
+.permission_label{
+    margin: 0px;
+}
+.permission_label>div>div:last-child{
+    display: none ;
+}
 @media (min-width: 769px) {
     .gop{
         display: flex;
@@ -649,6 +655,10 @@ a:focus {
     }
     .client-list{
         margin-top: 50px ;
+    }
+    .pressmison_mobi {
+        display: flex;
+        justify-content: start;;
     }
   
 
