@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col col-12 col-xl-12 xl:pr-[30px]" id="report-client">
 
-    <div class="card-body">
+    <div class="card-body client-list">
       <!-- <button style="bacground: red !important" type="button" class="btn mb-4" @click="exportCLient">Xuất Excel</button> -->
       <div style="display: flex; justify-content: space-between">
         <a-button class="mb-4 px-4" @click="exportCLient"> Xuất Excel </a-button>

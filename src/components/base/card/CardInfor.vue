@@ -206,6 +206,9 @@
             {{ data?.sold_status === 1 ? "Đã thuê" : "Chưa thuê" }}
           </p>
         </div>
+        <div class="note_phone">
+          <p style="margin: 0px !important; color: red"><i class="fas fa-exclamation-triangle"></i> {{ data.note }}</p>
+        </div>
         <div class="flex checkbox_delet_edit">
           <div>
             <button @click="redirectPostDetail(data.id)">Sửa</button>
@@ -217,7 +220,7 @@
        
       </div>
        <div class="note">
-          <p style="margin: 0px; color: red"><i class="fas fa-exclamation-triangle"></i> {{ data.note }}</p>
+          <p style="margin: 0px !important; color: red"><i class="fas fa-exclamation-triangle"></i> {{ data.note }}</p>
         </div>
     </div>
 

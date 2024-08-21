@@ -105,8 +105,8 @@ const priorityList = reactive([
 		isChecked: false,
 	},
 	{
-		value: "không yêu cầu",
-		name: "Không yêu cầu",
+		value: "mới",
+		name: "Mới",
 		isChecked: false,
 	},
 ]);

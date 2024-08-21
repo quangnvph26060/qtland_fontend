@@ -67,10 +67,10 @@
                     alt="Post Image"
                   />
                   <div
-                    v-if="item.priority_status !== 'không yêu cầu'"
+                   
                     class="absolute top-2 left-2 px-2 py-1 text-white bg-red-500 rounded"
                   >
-                    {{ item.priority_status }}  <span> {{item.traphong ? formatDate(item.traphong) : ""  }}</span>
+                    {{ item.priority_status }}  <span> {{item.traphong && item.priority_status =='trả phòng'  ? formatDate(item.traphong) : ""  }}</span>
                   </div>
                 </div>
                 <div style="padding: 5px 11px 6px 12px">
@@ -277,8 +277,8 @@ const options1 = ref([
     label: "Khách nhượng",
   },
   {
-    value: "không yêu cầu",
-    label: "Không yêu cầu",
+    value: "mới",
+    label: "Mới",
   },
    {
     value: "trả phòng",
