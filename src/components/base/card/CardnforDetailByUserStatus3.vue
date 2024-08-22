@@ -43,7 +43,11 @@
                         v-else-if="record.status_id === 5"
                       />
                     </template>
-                    {{ statusLabel(record.status_id) }}
+                      {{
+                      record.sold_status === 1
+                        ? "Chờ hiển thị"
+                        : getStatusId(record.status_id)
+                    }}
                   </a-tag>
                 </div></a-descriptions-item
               >
