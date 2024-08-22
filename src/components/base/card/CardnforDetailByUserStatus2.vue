@@ -1,150 +1,8 @@
 <template>
   <div class="card border-x-0">
     <!-- begin::Card Header -->
-    <div
-      class="card-header flex flex-row-reverse justify-between mb-3 md:mb-0 mt-5"
-    >
-      <!-- begin::Card Toolbar -->
-      <div class="card-toolbar flex justify-start md:justify-end">
-        <a-modal
-          v-model:open="openModalExport"
-          title="Xuất file"
-          cancelText="Huỷ"
-          okText="Xuất file"
-          class="top-[20%]"
-          :onOk="
-            () => {
-              handleOkModalExport();
-              messageAnt.success();
-            }
-          "
-        >
-          <a-form layout="horizontal" style="max-width: 600px">
-            <a-form-item label="Loại file">
-              <a-select>
-                <a-select-option value="excel">Excel</a-select-option>
-                <a-select-option value="admin">PDF</a-select-option>
-                <a-select-option value="admin">Zip</a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="Khoảng thời gian">
-              <a-range-picker />
-            </a-form-item>
-          </a-form>
-        </a-modal>
-        <!-- end::Export -->
-      </div>
-      <!-- end::Card Toolbar -->
-    </div>
-    <div style="display: flex; align-items: center" id="user_info_by_id">
-      <div class="avatar-user">
-        <img
-          :src="
-            user.avatar ||
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5NFFUU-0Yz1JkeqbyFgqOHvoPeBMmsdD0ks05B9wMWGF9glDlkVVvd65bWmJ6fIweT2k&usqp=CAU'
-          "
-          alt="User Avatar"
-        />
-      </div>
-      <div class="user-info-container">
-        <div class="user-info-item">
-          <span class="label">Họ tên:</span>
-          <span class="value">{{ user.name }}</span>
-        </div>
-        <div class="user-info-item">
-          <span class="label">Email:</span>
-          <span class="value">{{ user.email }}</span>
-        </div>
-        <div class="user-info-item">
-          <span class="label">CCCD:</span>
-          <span class="value">{{ user.cccd }}</span>
-        </div>
-        <div class="user-info-item">
-          <span class="label">Ngày sinh:</span>
-          <span class="value">{{ user.birthday }}</span>
-        </div>
-        <div class="user-info-item">
-          <span class="label">Đơn vị công tác:</span>
-          <span class="value">{{ user.workunit }}</span>
-        </div>
-      </div>
-      <div class="user-info-container">
-        <div class="user-info-item">
-          <span class="label">Trạng thái:</span>
-          <span class="value">{{
-            user.is_active == 1 ? "Hoạt đông" : "Không hoạt động"
-          }}</span>
-        </div>
-        <div class="user-info-item">
-          <span class="label">Số điện thoại:</span>
-          <span class="value">{{ user.phone }}</span>
-        </div>
-        <div class="user-info-item">
-          <span class="label">Quyền:</span>
-          <span class="value">{{
-            user.role_id == 1
-              ? "supper admin"
-              : user.role_id == 2
-              ? "đầu chủ"
-              : user.role_id == 3
-              ? "sale"
-              : user.role_id == 4
-              ? "sale vip"
-              : user.role_id == 5
-              ? "đầu chủ vip"
-              : user.role_id == 6
-              ? "admin"
-              : ""
-          }}</span>
-        </div>
-        <div class="user-info-item">
-          <span class="label">Quyền truy cập :</span>
-          <span class="value">
-            <div>
-              <div>
-                {{
-                  user.permissions[0]?.access_permission_1 == 1
-                    ? "Văn phòng hàng A"
-                    : ""
-                }}
-              </div>
-              <div>
-                {{
-                  user.permissions[0]?.access_permission_2 == 2
-                    ? "Văn phòng hàng B"
-                    : ""
-                }}
-              </div>
-              <div>
-                {{
-                  user.permissions[0]?.access_permission_3 == 3
-                    ? "Văn phòng hàng C"
-                    : ""
-                }}
-              </div>
-              <div>
-                {{
-                  user.permissions[0]?.access_permission_4 == 4
-                    ? "Văn phòng hạng Coworking"
-                    : ""
-                }}
-              </div>
-              <div>
-                {{
-                  user.permissions[0]?.access_permission_5 == 5
-                    ? "Mặt bằng kinh doanh"
-                    : ""
-                }}
-              </div>
-            </div>
-          </span>
-        </div>
-      </div>
-    </div>
-    <!-- end::Card Header -->
-
-    <!-- begin::Card Body -->
-    <!-- <div class="card-body">
+    <div class="card-body">
+      <!-- begin::Table -->
       <a-table
         :data-source="data"
         :columns="columns"
@@ -278,7 +136,14 @@
           </template>
           <template v-if="column.key === 'detail'">
             <div style="display: flex; align-items: center">
-              
+              <!-- <router-link
+                :to="{
+                  name: 'admin-post-detail',
+                  params: { id: record.id },
+                }"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </router-link> -->
               <div
                 style="text-align: center; display: flex; margin-left: 15px"
                 @click="showConfirmDelete(record.id)"
@@ -326,53 +191,10 @@
           </template>
         </template>
       </a-table>
-    </div> -->
-
-    <div class="" style="padding: 20px">
-      <a-tabs v-model:activeKey="activeKey">
-        <a-tab-pane key="1" force-render class="space-y-5">
-          <template #tab> Tất cả </template>
-          <div>
-            <CardinforDetailByUser  />
-          </div>
-        </a-tab-pane>
-        <a-tab-pane key="2" class="space-y-5">
-          <template #tab> Đang hiển thị </template>
-          <!-- begin::Post Items -->
-          <div>
-            <CardinforDetailByUserStatus4 />
-          </div>
-          <!-- end::Post Items -->
-        </a-tab-pane>
-
-        <a-tab-pane key="3" class="space-y-5">
-          <template #tab> Chờ hiển thị </template>
-          <!-- begin::Post Items -->
-          <div>
-            <CardinforDetailByUserSold />
-          </div>
-          <!-- end::Post Items -->
-        </a-tab-pane>
-
-        <a-tab-pane key="4" class="space-y-5">
-          <template #tab> Chờ duyệt </template>
-          <!-- begin::Post Items -->
-          <div>
-            <CardinforDetailByUserStatus3 />
-          </div>
-          <!-- end::Post Items -->
-        </a-tab-pane>
-
-        <a-tab-pane key="5" class="space-y-5">
-          <template #tab> Không duyệt </template>
-          <!-- begin::Post Items -->
-          <div>
-            <CardinforDetailByUserStatus2 />
-          </div>
-          <!-- end::Post Items -->
-        </a-tab-pane>
-      </a-tabs>
+      <!-- end::Table -->
     </div>
+    <!-- end::Card Body -->
+
   </div>
 </template>
 
@@ -400,29 +222,24 @@ import deletePostAPI from "../../../api/posts/delete";
 import viewedPostsAPI from "../../../api/posts/viewed/index";
 import { Modal } from "ant-design-vue";
 import formatMoney from "../../../utils/formatMoney";
-import FilterAddress from "../../../components/base/filter/FilterAddress.vue";
-import FilterPriceRange from "../../../components/base/filter/FilterPriceRange.vue";
-import FilterAreaRange from "../../../components/base/filter/FilterAreaRange.vue";
-import FilterOptions from "../../../components/base/filter/FilterOptions.vue";
-import FilterStatus from "../../../components/base/filter/FilterStatus.vue";
+import FilterAddress from "../filter/FilterAddress.vue";
+import FilterPriceRange from "../filter/FilterPriceRange.vue";
+import FilterAreaRange from "../filter/FilterAreaRange.vue";
+import FilterOptions from "../filter/FilterOptions.vue";
+import FilterStatus from "../filter/FilterStatus.vue";
 import filterRange from "../../../stores/filterRange";
 import getTimeSincePostCreation from "../../../utils/getTimeSincePostCreation";
-import CardinforDetailByUser from "../../../components/base/card/CardnforDetailByUser.vue";
-import CardinforDetailByUserStatus4 from "../../../components/base/card/CardnforDetailByUserStatus4.vue";
-import CardinforDetailByUserStatus3 from "../../../components/base/card/CardnforDetailByUserStatus3.vue";
-import CardinforDetailByUserStatus2 from "../../../components/base/card/CardnforDetailByUserStatus2.vue";
-import CardinforDetailByUserSold from "../../../components/base/card/CardnforDetailByUserSold.vue";
-
+import CardinforDetailByUser from "./CardnforDetailByUser.vue";
 import { useRoute } from "vue-router";
 import getUserAPI from "../../../api/users/getUser";
 import router from "../../../router";
+import { defineProps } from 'vue';
 
 const route = useRoute();
 const searchInput = ref();
 const state = reactive({
   searchConditions: [],
 });
-
 const splitText = (text, searchText) => {
   return text.split(new RegExp(`(${searchText})`, "i"));
 };
@@ -523,6 +340,7 @@ const props = defineProps({
   address: String,
   sold_status: Array,
   priority_status: Array,
+  
 });
 
 const data = ref([]);
@@ -667,7 +485,7 @@ const fetchPostsListByID = async (filter, page = 1, pageSize = 10) => {
 
   let res;
 
-  res = await listPostsAPI.getPostByFilterByUserID(userid, {
+  res = await listPostsAPI.getPostByFilterstatus2ByUserID(userid, {
     ...filter,
     page: pageFilter.value,
     pageSize: pageSizeFilter.value,
@@ -841,7 +659,7 @@ fetchUserById(userid);
 </script>
 
 <script>
-import ThePageHeader from "../../../components/ThePageHeader.vue";
+import ThePageHeader from "../../ThePageHeader.vue";
 export default {
   components: {
     ThePageHeader,
