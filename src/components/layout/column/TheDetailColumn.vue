@@ -26,18 +26,22 @@
                   :options="status"
                   :title="'Trạng thái bài viết'"
                   @update:selected="handleInput('status_id', $event)"
+                  id="status_idInput"
                 />
               </div>
 
               <div>
+               
                 <InputSelect
+                  id="priority_statusInput"
                   :valueSelected="data.priority_status"
                   :options="priorityStatus"
                   :title="'Độ ưu tiên bài viết'"
                   @update:selected="handleInput('priority_status', $event)"
                   placeholder="Không yêu cầu"
+                 
                 />
-
+                <p id="priority_status" > </p>
                 <div
                   v-if="data.priority_status === 'trả phòng'"
                   class="date-picker"
@@ -45,7 +49,7 @@
                   <label>Ngày trả phòng </label>
                   <input
                     type="date"
-                    id="datetime-picker"
+                    id="traphongInput"
                     v-model="formattedDate"
                     @change="handleDateChange"
                     class="datetime-input"
@@ -67,13 +71,17 @@
                   @update:selectedDistrict="handleInput('district', $event)"
                   @update:selectedWard="handleInput('ward', $event)"
                   :address="data.address"
+                  id="addressInput"
                 />
+                <p id="address" > </p>
               </div>
+
               <!-- end::Input Group -->
 
               <!-- begin::Input Group -->
               <a-form>
                 <InputBasic
+                  id="address_detailInput"
                   title="Địa chỉ hiển thị trên tin đăng"
                   placeholder="Bạn có thể bổ sung hẻm, ngách, ngõ, ..."
                   :value="data.address_detail"
@@ -91,6 +99,7 @@
             <template #content>
               <!-- begin::Input Group -->
               <InputBasic
+                id="titleInput"
                 title="Tiêu đề"
                 placeholder="Nhập tiêu đề bài viết"
                 :value="data.title"
@@ -101,6 +110,7 @@
               <!-- begin::Input Group -->
               <InputArea
                 title="Mô tả"
+                 ref="descriptionInput"
                 placeholder="Nhập mô tả bài viết"
                 :value="data.description"
                 :rows="6"
@@ -115,6 +125,7 @@
           <Card title="Thông tin bất động sản" class="p-0 border-0">
             <template #content>
               <InputSelect
+                id="classrankInput"
                 title="Hạng văn phòng"
                 :options="classrank"
                 :valueSelected="
@@ -132,6 +143,7 @@
                 :value="data.area?.toString()"
                 @input="handleInput('area', $event)"
                 inputType="number"
+                id="areaInput"
               />
               <!-- end::Input Group -->
               <!-- begin::Input Group -->
@@ -141,6 +153,7 @@
                 :value="data.areausable?.toString()"
                 @input="handleInput('areausable', $event)"
                 inputType="number"
+                id="areausableInput"
               />
               <!-- end::Input Group -->
 
@@ -154,6 +167,7 @@
                     :value="data.price?.toString()"
                     @input="handleInput('price', $event)"
                     inputType="number"
+                    id="priceInput"
                   />
                   <!-- end::Input -->
                 </div>
@@ -164,8 +178,9 @@
                     :valueSelected="data.unit?.toString()"
                     @update:selected="handleInput('unit', $event)"
                     placeholder="VND"
+                  
                   />
-
+                  <p id="unitInput"></p>
                   <!-- end::Select -->
                 </div>
               </div>
@@ -180,6 +195,7 @@
                     :value="data.priceservice?.toString()"
                     @input="handleInput('priceservice', $event)"
                     inputType="number"
+                    id="priceserviceInput"
                   />
                   <!-- end::Input -->
                 </div>
@@ -190,6 +206,7 @@
                     :valueSelected="data.unit1?.toString()"
                     @update:selected="handleInput('unit1', $event)"
                     placeholder="VND"
+                    id="unit1Input"
                   />
 
                   <!-- end::Select -->
@@ -204,6 +221,7 @@
                     :value="data.priceElectricity?.toString()"
                     @input="handleInput('priceElectricity', $event)"
                     inputType="number"
+                    id="priceElectricityInput"
                   />
                   <!-- end::Input -->
                 </div>
@@ -214,6 +232,7 @@
                     :valueSelected="data.unit2?.toString()"
                     @update:selected="handleInput('unit2', $event)"
                     placeholder="VND"
+                    id="unit2Input"
                   />
 
                   <!-- end::Select -->
@@ -228,6 +247,7 @@
                     :value="data.pricewater?.toString()"
                     @input="handleInput('pricewater', $event)"
                     inputType="number"
+                     id="pricewaterInput"
                   />
                   <!-- end::Input -->
                 </div>
@@ -238,6 +258,7 @@
                     :valueSelected="data.unit3?.toString()"
                     @update:selected="handleInput('unit3', $event)"
                     placeholder="VND"
+                    id="unit3Input"
                   />
 
                   <!-- end::Select -->
@@ -254,7 +275,9 @@
                       :value="data.floors?.toString()"
                       @input="handleInput('floors', $event)"
                       inputType="number"
+                      
                     />
+                    <p id="floorsInput"></p>
                   </div>
                   <div class="flex-fill me-2">
                     <InputBasic
@@ -263,7 +286,9 @@
                       :value="data.rooms?.toString()"
                       @input="handleInput('rooms', $event)"
                       inputType="number"
+                     
                     />
+                    <p id="roomsInput"></p>
                   </div>
                   <div class="flex-fill">
                     <InputBasic
@@ -272,7 +297,10 @@
                       :value="data.bathrooms?.toString()"
                       @input="handleInput('bathrooms', $event)"
                       inputType="number"
+                     
                     />
+                    <p  id="bathroomsInput"></p>
+
                   </div>
                 </div>
                 <!-- end::Input -->
@@ -304,10 +332,12 @@
                         :value="data.bonus ? data.bonus : ''"
                         @input="handleInput('bonus', $event)"
                         inputType="number"
+                        
                       />
                       <span class="ms-2" style="font-weight: 700 !important"
                         >%</span
                       >
+                      <p id="bonusInput"></p>
                     </div>
                     <!-- Từ "hoặc" -->
                     <span class="mx-3 align-self-center">hoặc</span>
@@ -320,11 +350,13 @@
                           data.bonusmonthly ? data.bonusmonthly.toString() : ''
                         "
                         @input="handleInput('bonusmonthly', $event)"
-                        inputType="number"
+                        inputType="bonusmonthlyInput"
+                        
                       />
                       <span class="ms-2" style="font-weight: 500 !important"
                         >VND</span
                       >
+                      <p id="bonusmonthlyInputInput"></p>
                     </div>
                   </div>
                 </div>
@@ -368,6 +400,8 @@
                         <span class="ms-2" style="font-weight: 500 !important"
                           >Tháng</span
                         >
+                        <p id="gopInput"></p>
+
                       </div>
                     </div>
 
@@ -398,6 +432,7 @@
                         <span class="ms-2" style="font-weight: 500 !important"
                           >Tháng</span
                         >
+                        <p id="payInput"></p>
                       </div>
                     </div>
                   </div>
@@ -416,7 +451,7 @@
                 @update:selected="handleInput('direction', $event)"
                 placeholder="Chọn hướng nhà"
               />
-
+              <p id="directionInput"></p>
               <InputSelect
                 title="Hướng ban công"
                 :options="direction"
@@ -428,6 +463,8 @@
                 @update:selected="handleInput('directionBalcony', $event)"
                 placeholder="Chọn hướng ban công"
               />
+              <p id="directionBalconyInput"></p>
+
               <div class="col-12 col-xl-12">
                 <!-- begin::Input -->
                 <div class="d-flex flex-wrap justify-content-between">
@@ -439,7 +476,9 @@
                       @input="handleInput('wayin', $event)"
                       inputType="number"
                     />
+                    <p id="wayinInput"></p>
                   </div>
+
                   <div class="flex-fill me-2">
                     <InputBasic
                       title="Mặt tiền"
@@ -448,6 +487,7 @@
                       @input="handleInput('font', $event)"
                       inputType="number"
                     />
+                    <p id="fontInput"></p>
                   </div>
                 </div>
                 <!-- end::Input -->
@@ -468,6 +508,7 @@
                         @change="checkRadio('pccc', 1)"
                       />
                       <label class="form-check-label" for="pcccYes"> Có </label>
+                     
                     </div>
                     <div class="form-check">
                       <input
@@ -482,6 +523,7 @@
                       <label class="form-check-label" for="pcccNo">
                         Không
                       </label>
+                      <p id="pcccInput"></p>
                     </div>
                   </div>
 
@@ -515,6 +557,8 @@
                       <label class="form-check-label" for="elevatorNo">
                         Không
                       </label>
+                      <p id="elevatorInput"></p>
+
                     </div>
                   </div>
 
@@ -644,9 +688,7 @@
       type="primary"
       class="mx-4"
       @click="onSubmit"
-      :disabled="
-        postId ? disabledSubmit : fileList.length < 1 || disabledSubmit
-      "
+    
       :loading="uploading"
       >Lưu</a-button
     >
@@ -759,14 +801,6 @@ const priorityStatus = [
     label: "Trả phòng",
   },
 ];
-
-const priorityStatusSelected = ref("");
-const returnDate = ref("");
-
-const handleInput1 = (value) => {
-  priorityStatusSelected.value = value;
-};
-
 const direction = [
   {
     value: "1",
@@ -824,8 +858,18 @@ const classrank = [
     label: "Mặt bằng kinh doanh",
   },
 ];
+const priorityStatusSelected = ref("");
+const returnDate = ref("");
 
+const handleInput1 = (value) => {
+  priorityStatusSelected.value = value;
+};
+
+
+// 123
 const data = reactive({
+  priority_status: "",
+  address_detail: "",
   id: "",
   title: "",
   description: "",
@@ -849,7 +893,7 @@ const data = reactive({
   elevator: "",
   stairs: "",
   address: "",
-  address_detail: "",
+
   created_at: "",
   updated_at: "",
   unit: "",
@@ -858,7 +902,7 @@ const data = reactive({
   unit3: "",
   sold_status: "",
   status_id: "",
-  priority_status: "",
+
   user: "",
   comment: [],
   post_image: [],
@@ -1046,7 +1090,7 @@ function handleDrop(e) {
   console.log(e);
 }
 const role = localStorage.getItem("role_id");
-
+const units = ['unit', 'unit1', 'unit2', 'unit3'];
 // Xử lý submit form
 const onSubmit = async () => {
   try {
@@ -1064,6 +1108,31 @@ const onSubmit = async () => {
              data.status_id = 3;
           }
       }
+       // validate đơn vị
+       for (const unit of units) {
+          if (!data[unit]) {
+            const inputElement = document.getElementById(`${unit}Input`);
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            return;
+          }
+        }
+       
+       for (let key in data) {
+          if (data[key] === "" || (Array.isArray(data[key]) && data[key].length === 0)) {
+              const getKey = document.getElementById(`${key}`);
+              const inputElement = document.getElementById(`${key}Input`);
+            if (inputElement) {
+              inputElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+              return;
+            }
+            if (getKey) {
+              getKey.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+              return;
+            }
+            
+          
+          }
+        }
       const response = await updatePostAPI.update(postId, data);
 
       console.log(response);
@@ -1102,7 +1171,40 @@ const onSubmit = async () => {
       data.sold_status = 0;
       data.status_id = 3;
       data.user_id = store.user.id;
-
+        // thêm mới post
+       
+       // validate đơn vị
+       for (const unit of units) {
+          if (!data[unit]) {
+            const inputElement = document.getElementById(`${unit}Input`);
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            return;
+          }
+        }
+       
+       for (let key in data) {
+          if (data[key] === "" || (Array.isArray(data[key]) && data[key].length === 0)) {
+              const getKey = document.getElementById(`${key}`);
+              const inputElement = document.getElementById(`${key}Input`);
+            if (inputElement) {
+              inputElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+              return;
+            }
+            if (getKey) {
+              getKey.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+              return;
+            }
+            
+          
+          }
+        }
+        
+        // validate image
+        // if(!data.post_image){
+        //   const inputElement = document.getElementById(`${unit}Input`);
+        //   inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        //   return;
+        // }
       const response = await createPostAPI(data);
       if (response && response.status === 201) {
         message.success("Tạo bài viết thành công");
