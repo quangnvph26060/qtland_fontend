@@ -318,7 +318,7 @@ const fetchPostsFilter = async (
   let listPosts;
   let res;
 
-if(role == 2 || role == 5 ){
+if(role == 2 ){
    res = await listPostsAPI.getPostBySoldFilterByUser(useid,{
     ...filter,
     page: pageFilter.value,

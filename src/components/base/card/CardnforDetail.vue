@@ -1,14 +1,6 @@
 <template>
   <div class="card border-x-0">
     <!-- begin::Card Header -->
-    <div class="card-header flex flex-row-reverse justify-between">
-      <!-- begin::Card Toolbar -->
-
-      <!-- end::Card Toolbar -->
-    </div>
-    <!-- end::Card Header -->
-
-    <!-- begin::Card Body -->
     <div class="card-body">
       <!-- begin::Table -->
       <a-table
@@ -183,11 +175,24 @@
                     : ""
                 }}
               </a-tag>
-              <a-tag style="height: 22px">
-                <span>
-                  {{ record.sold_status == 1 ? 'chờ hiển thị' :  getStatusLabel(record.status_id) }}
-                  <!-- {{ record.status_id == 2 ?? 'chờ duyệt' }} -->
-                </span>
+              <a-tag style="height: 22px"
+                :color="
+                  record.sold_status === 1
+                    ? '#0033FF'
+                    : record.status_id === 2
+                    ? '#FF0000'
+                    : record.status_id === 3
+                    ? '#FF9900'
+                    : record.status_id === 4
+                    ? '#87d068'
+                    : ''
+                "
+              >
+                <span>{{
+                  record.sold_status === 1
+                    ? "Chờ hiển thị"
+                    : getStatusId(record.status_id)
+                }}</span>
               </a-tag>
             </div>
           </template>
@@ -245,22 +250,37 @@ const getStatusLabel = (statusId) => {
   }
 };
 
+const getStatusId = (status_id) => {
+  switch (status_id) {
+    case 1:
+      return "Chờ hiển thị";
+    case 2:
+      return "Không duyệt";
+    case 3:
+      return "Chờ duyệt";
+    case 4:
+      return "Đã duyệt";
+    default:
+      return "";
+  }
+};
+
 const user_id = localStorage.getItem("user_id");
 
 const handleCheckboxChange = async (id, sold_status) => {
-   let status;
-    if(sold_status == 0){
-      status  = 3;
-    }else{
-      status = 1
-    }
+  let status;
+  if (sold_status == 0) {
+    status = 3;
+  } else {
+    status = 1;
+  }
   const response = await updatePostAPI.updateSoldStatus(
     id,
     sold_status,
     user_id,
     status
   );
-    fetchPostsList();
+  fetchPostsList();
   if (response && response.status == 200) {
     message.success("Cập nhật trạng thái cho thuê thành công");
     // record.status_id = status;

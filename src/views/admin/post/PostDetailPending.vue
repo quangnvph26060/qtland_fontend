@@ -359,7 +359,7 @@
           <!-- end::Feature -->
 
           <!-- begin::Date -->
-          <div class="date" id="comments-section">
+          <div class="date mb-3" id="comments-section">
             <div class="post_infor-list">
               <div class="post_infor">
                 <span class="title">Ngày đăng</span>
@@ -377,32 +377,11 @@
               </div>
             </div>
           </div>
-          <!-- end::Date -->
-
-          <div :class="props.type === 'admin' ? '' : 'block xl:hidden'">
-            <a-divider />
-            <a-descriptions title="Thông tin người đăng"> </a-descriptions>
-
-            <div class="author flex align-items-center">
-              <a-avatar
-                :size="64"
-                :style="{ backgroundColor: '#ADC178', verticalAlign: 'middle' }"
-              >
-                {{ data.user.name?.[0] }}
-              </a-avatar>
-              <div class="author ml-5">
-                <h2>{{ data.user.name }}</h2>
-              </div>
-            </div>
-          </div>
-
-          <!-- begin::Comments -->
-
           <!-- end::Comments -->
         </div>
         <!-- end::Detail Info -->
       </div>
-      <div style="margin: 20p 0px" id="pendingw760">
+      <div style="margin: 20p 0px" id="pendingw760" v-if="data.status_id == 3">
         <div class="flex checkbox_delet_edit">
           <div>
             <button @click="redirectPostPending(data.id)">Duyệt</button>

@@ -276,11 +276,11 @@ const columns = [
     key: "created_at",
     width: 120,
   },
-  {
-    title: "Chi tiết",
-    key: "detail",
-    width: 20,
-  },
+  // {
+  //   title: "Chi tiết",
+  //   key: "detail",
+  //   width: 20,
+  // },
 ];
 
 
