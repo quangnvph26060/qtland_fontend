@@ -26,8 +26,9 @@
                   :options="status"
                   :title="'Trạng thái bài viết'"
                   @update:selected="handleInput('status_id', $event)"
-                  id="status_idInput"
+                  
                 />
+                <p id="status_idInput"></p>
               </div>
 
               <div>
@@ -350,9 +351,10 @@
                           data.bonusmonthly ? data.bonusmonthly.toString() : ''
                         "
                         @input="handleInput('bonusmonthly', $event)"
-                        inputType="bonusmonthlyInput"
+                       
                         
                       />
+                      <p  inputType="bonusmonthlyInput"></p>
                       <span class="ms-2" style="font-weight: 500 !important"
                         >VND</span
                       >
@@ -1108,6 +1110,14 @@ const onSubmit = async () => {
              data.status_id = 3;
           }
       }
+
+          if(data.status_id === "" || data.status_id === undefined){
+            const inputElement = document.getElementById(`status_idInput`);
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            return;
+          }
+           
+          
        // validate đơn vị
        for (const unit of units) {
           if (!data[unit]) {
@@ -1117,22 +1127,24 @@ const onSubmit = async () => {
           }
         }
        
-       for (let key in data) {
-          if (data[key] === "" || (Array.isArray(data[key]) && data[key].length === 0)) {
-              const getKey = document.getElementById(`${key}`);
-              const inputElement = document.getElementById(`${key}Input`);
-            if (inputElement) {
-              inputElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-              return;
-            }
-            if (getKey) {
-              getKey.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-              return;
-            }
-            
+      for (let key in data) {
+       
+        if (data[key] === null || data[key] === undefined) {
+         
           
+          
+          const inputElement = document.getElementById(`${key}Input`);
+          if (inputElement) {
+            inputElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            return;
+          }
+          const getKey = document.getElementById(`${key}`);
+          if (getKey) {
+            getKey.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            return;
           }
         }
+      }
       const response = await updatePostAPI.update(postId, data);
 
       console.log(response);
