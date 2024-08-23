@@ -126,31 +126,14 @@
                   </div>
                 </div>
               </template>
-              <!-- <template v-else-if="column.dataIndex === 'sold_status'">
-            <div class="flex">
-              <a-tag
-                style="width: 70px"
-                :color="
-                  record.sold_status === 1
-                    ? '#87d068'
-                    : record.sold_status === 0
-                    ? '#f50'
-                    : ''
-                "
-              >
-                {{ record.sold_status == 1 ? "đã bán" : "chưa bán" }}
-              </a-tag>
-              <a-tag>
-                {{ record.priority_status }}
-              </a-tag>
-            </div>
-          </template> -->
+              <template v-if="column.dataIndex === 'created_at'">
+                {{ new Date(text).toLocaleDateString("en-GB") }}
+              </template>
             </template>
           </a-table>
         </a-tab-pane>
       </a-tabs>
     </div>
-   
   </div>
 </template>
 
@@ -164,7 +147,7 @@ import {
   ExclamationCircleOutlined,
   SearchOutlined,
 } from "@ant-design/icons-vue";
-import { ref, reactive, onMounted ,computed, watch } from "vue";
+import { ref, reactive, onMounted, computed, watch } from "vue";
 import router from "../../../router";
 import { Modal } from "ant-design-vue";
 import messageAnt from "../../../scripts/message";
@@ -277,7 +260,6 @@ const columns = [
     dataIndex: "created_at",
     key: "created_at",
     width: 120,
-    
   },
   {
     title: "Người tạo",
@@ -377,9 +359,9 @@ const pagination = reactive({
     pageFilter.value = page;
     pageSizeFilter.value = pageSize;
     fetchPostByUser({
-       page: page,
+      page: page,
       pageSize: pageSize,
-    }); 
+    });
     scrollToTop();
   },
 });
@@ -437,11 +419,9 @@ const fetchPostByUser = async (page = 1, pageSize = 10) => {
   }
 };
 
-
 onMounted(() => {
-  fetchPostByUser();;
+  fetchPostByUser();
 });
-
 </script>
 
 <script>

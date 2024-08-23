@@ -522,7 +522,7 @@ const getColorTagByPriorityStatus = (priority_status) => {
   switch (priority_status) {
     case "khách nhượng":
       return "hot-priority";
-    case "quy hoạch":
+    case "mới":
       return "medium-priority";
     case "trả phòng":
       return "medium-priority";

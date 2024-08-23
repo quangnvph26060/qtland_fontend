@@ -3,151 +3,117 @@
     <!-- <div class="w-full">
 			<ThePageHeader />
 		</div> -->
-    
+
     <!-- begin::Main Content -->
-    <!-- {{ data }} -->
     <div class="reportlisst">
-      <a-tabs >
-        <a-tab-pane   class="space-y-5">
-          <div style="display: flex;align-items: center;justify-content: space-between">
-            <div><h2 style="margin:0; padding-left:10px">Danh sách báo cáo </h2></div>
-           <router-link :to="{ name: 'client-report-post-create' }">
-                  <a-button class=""> Thêm báo cáo</a-button>
-                </router-link>
+      <a-tabs>
+        <a-tab-pane class="space-y-5">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div>
+              <h2 style="margin: 0; padding-left: 10px">Danh sách báo cáo</h2>
+            </div>
           </div>
-          
-           <a-table
-        :data-source="data"
-        :columns="columns"
-        :scroll="{ x: 1000 }"
-        :dataSource="data"
-        :rowKey="(record) => record.id"
-        :pagination="pagination"
-        :expand-column-width="20"
-        id="main-table"
-      >      
-        <template
-          #customFilterDropdown="{
-            setSelectedKeys,
-            selectedKeys,
-            confirm,
-            clearFilters,
-            column,
-          }"
-        >
-          <div style="padding: 8px">
-            <a-input
-              ref="searchInput"
-              :placeholder="`Search ${column.dataIndex}`"
-              :value="selectedKeys[0]"
-              style="width: 188px; margin-bottom: 8px; display: block"
-              @change="
-                (e) => setSelectedKeys(e.target.value ? [e.target.value] : [])
-              "
-              @pressEnter="
-                handleSearch(selectedKeys, confirm, column.dataIndex)
-              "
-            />
-            <a-button
-              type="primary"
-              size="small"
-              style="width: 90px; margin-right: 8px"
-              @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
-            >
-              <template #icon><SearchOutlined /></template>
-              Tìm
-            </a-button>
-            <a-button
-              size="small"
-              style="width: 90px"
-              @click="handleReset(clearFilters, column.dataIndex)"
-            >
-              Đặt lại
-            </a-button>
-          </div>
-        </template>
-        <template #customFilterIcon="{ filtered }">
-          <search-outlined
-            :style="{
-              color: filtered ? '#108ee9' : undefined,
-            }"
-          />
-        </template>
-        <template #bodyCell="{ text, column, record }">
-          <span
-            v-if="state.searchText && state.searchedColumn === column.dataIndex"
+
+          <a-table
+            :data-source="data"
+            :columns="columns"
+            :scroll="{ x: 1000 }"
+            :dataSource="data"
+            :rowKey="(record) => record.id"
+            :pagination="pagination"
+            :expand-column-width="20"
+            id="main-table"
           >
             <template
-              v-for="(fragment, i) in text
-                .toString()
-                .split(
-                  new RegExp(
-                    `(?<=${state.searchText})|(?=${state.searchText})`,
-                    'i'
-                  )
-                )"
+              #customFilterDropdown="{
+                setSelectedKeys,
+                selectedKeys,
+                confirm,
+                clearFilters,
+                column,
+              }"
             >
-              <mark
-                v-if="fragment.toLowerCase() === state.searchText.toLowerCase()"
-                :key="i"
-                class="highlight"
-              >
-                {{ fragment }}
-              </mark>
-              <template v-else>{{ fragment }}</template>
-            </template>
-          </span>
-          <!-- authStore.user.role_id === 1 -->
-          <template v-if="column.key === 'detail'">
-            <div style="display: flex; align-items: center">
-              <router-link
-                :to="{
-                  name: 'client-report-detail',
-                  params: { id: record.id },
-                }"
-              >
-                <i class="fa-solid fa-pen-to-square"></i>
-              </router-link>
-              <div v-if="authStore.user.role_id === 1"
-                style="display: flex; margin-left: 15px"
-                @click="showConfirmDelete(record.id)"
-              >
-                <i class="fa-solid fa-trash"></i>
+              <div style="padding: 8px">
+                <a-input
+                  ref="searchInput"
+                  :placeholder="`Search ${column.dataIndex}`"
+                  :value="selectedKeys[0]"
+                  style="width: 188px; margin-bottom: 8px; display: block"
+                  @change="
+                    (e) =>
+                      setSelectedKeys(e.target.value ? [e.target.value] : [])
+                  "
+                  @pressEnter="
+                    handleSearch(selectedKeys, confirm, column.dataIndex)
+                  "
+                />
+                <a-button
+                  type="primary"
+                  size="small"
+                  style="width: 90px; margin-right: 8px"
+                  @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
+                >
+                  <template #icon><SearchOutlined /></template>
+                  Tìm
+                </a-button>
+                <a-button
+                  size="small"
+                  style="width: 90px"
+                  @click="handleReset(clearFilters, column.dataIndex)"
+                >
+                  Đặt lại
+                </a-button>
               </div>
-            </div>
-            
-          </template>
-          <!-- <template v-else-if="column.dataIndex === 'sold_status'">
-            <div class="flex">
-              <a-tag
-                style="width: 70px"
-                :color="
-                  record.sold_status === 1
-                    ? '#87d068'
-                    : record.sold_status === 0
-                    ? '#f50'
-                    : ''
+            </template>
+            <template #customFilterIcon="{ filtered }">
+              <search-outlined
+                :style="{
+                  color: filtered ? '#108ee9' : undefined,
+                }"
+              />
+            </template>
+            <template #bodyCell="{ text, column, record }">
+              <span
+                v-if="
+                  state.searchText && state.searchedColumn === column.dataIndex
                 "
               >
-                {{ record.sold_status == 1 ? "đã bán" : "chưa bán" }}
-              </a-tag>
-              <a-tag>
-                {{ record.priority_status }}
-              </a-tag>
-            </div>
-          </template> -->
-        </template>
-      </a-table>
-        
+                <template
+                  v-for="(fragment, i) in text
+                    .toString()
+                    .split(
+                      new RegExp(
+                        `(?<=${state.searchText})|(?=${state.searchText})`,
+                        'i'
+                      )
+                    )"
+                >
+                  <mark
+                    v-if="
+                      fragment.toLowerCase() === state.searchText.toLowerCase()
+                    "
+                    :key="i"
+                    class="highlight"
+                  >
+                    {{ fragment }}
+                  </mark>
+                  <template v-else>{{ fragment }}</template>
+                </template>
+              </span>
+              <template v-if="column.dataIndex === 'created_at'">
+                {{ new Date(text).toLocaleDateString("en-GB") }}
+              </template>
+            </template>
+          </a-table>
         </a-tab-pane>
-       
       </a-tabs>
-      
     </div>
-     <!-- <div class="my-5 ml-auto mr-auto">
-            <a-pagination :total="10" show-less-items> </a-pagination>
-          </div> -->
-    
   </div>
 </template>
 
@@ -161,7 +127,7 @@ import {
   ExclamationCircleOutlined,
   SearchOutlined,
 } from "@ant-design/icons-vue";
-import { ref, reactive, watch, createVNode } from "vue";
+import { ref, reactive, onMounted, computed, watch } from "vue";
 import router from "../../../router";
 import { Modal } from "ant-design-vue";
 import messageAnt from "../../../scripts/message";
@@ -197,7 +163,7 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
     column: dataIndex,
     text: searchText,
   });
-}
+};
 const columns = [
   {
     title: "Họ tên",
@@ -237,8 +203,7 @@ const columns = [
     key: "post_id",
     width: 80,
     customFilterDropdown: true,
-    onFilter: (value, record) =>
-       record.post_id.toString().includes(value),
+    onFilter: (value, record) => record.post_id.toString().includes(value),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => {
@@ -246,7 +211,7 @@ const columns = [
         }, 100);
       }
     },
-  }
+  },
   ,
   {
     title: "Tiêu dề tin",
@@ -263,26 +228,27 @@ const columns = [
       }
     },
   },
-  
+
   {
     title: "Thời gian dẫn khách",
     dataIndex: "time",
     key: "time",
     width: 120,
   },
-   {
+  {
     title: "Ngày tạo",
     dataIndex: "created_at",
     key: "created_at",
     width: 120,
   },
-  // {
-  //   title: "Chi tiết",
-  //   key: "detail",
-  //   width: 20,
-  // },
 ];
-
+if (authStore.user.role_id === 1 || authStore.user.role_id === 6) {
+  columns.push({
+    title: "Chi tiết",
+    key: "detail",
+    width: 20,
+  });
+}
 
 const handleReset = (clearFilters, dataIndex) => {
   clearFilters({
@@ -293,7 +259,7 @@ const handleReset = (clearFilters, dataIndex) => {
     (condition) => condition.column !== dataIndex
   );
 
- fetchPostByUser(authStore.getUser.id);
+  fetchPostByUser(authStore.getUser.id);
 
   // router.push({ name: "admin-post-list" });
 };
@@ -331,7 +297,7 @@ const showConfirmDelete = async (id) => {
     onOk() {
       const deleteReport = async () => {
         await deleteReportAPI(id);
-        fetchPostByUser(authStore.getUser.id);
+        fetchPostByUser();
         messageAnt.success("Xóa thành công");
       };
       deleteReport();
@@ -341,46 +307,94 @@ const showConfirmDelete = async (id) => {
   });
 };
 
-const data = ref([]);
-const fetchPostByUser = async (userId) => {
-  // isLoading.value = true;
-  data.value = [];
-
-  const listPosts = await listReportAPI.getReportByUser(userId);
-  console.log(listPosts);
-  const ans = reactive({
-    id: "",
-    name: "",
-    phone: "",
-    cccd: "",
-    address: "",
-    birthday: "",
-    time: "",
-    description: "",
-    created_at: "",
-    post_id: "",
-    user_id: "",
-    user:'',
-    post:'',
-  });
-  const posts = [];
-
-  for (let i = 0; i < listPosts.length; i++) {
-    const post = listPosts[i];
-    Object.keys(ans).forEach((key) => {
-      ans[key] = post[key];
-    });
-    posts.push({ ...ans });
-  }
-
-  data.value = posts;
-  totalLand.value = posts.length;
-  console.log(data.value);
+const formatISODate = (isoDateString) => {
+  const date = new Date(isoDateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
 };
 
+const data = ref([]);
+const pageFilter = ref(1);
+const pageSizeFilter = ref(10);
+const currentPage = ref(1);
+const total = ref(0);
 
-if (userId.value) fetchPostByUser(userId.value);
+const pagination = reactive({
+  showSizeChanger: true,
+  responsive: true,
+  current: currentPage.value,
+  showLessItems: true,
+  total: total.value,
+  onChange: (page, pageSize) => {
+    pageFilter.value = page;
+    pageSizeFilter.value = pageSize;
+    fetchPostByUser({
+      page: page,
+      pageSize: pageSize,
+    });
+    scrollToTop();
+  },
+});
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
 
+watch(total, (newVal) => {
+  pagination.total = newVal;
+  total.value = newVal;
+});
+
+watch(pageFilter, (newVal) => {
+  pagination.current = newVal;
+});
+const userid = localStorage.getItem("user_id");
+
+const fetchPostByUser = async (page = 1, pageSize = 10) => {
+  try {
+    data.value = [];
+    const posts = [];
+    const params = {
+      page: pageFilter.value,
+      pageSize: pageSizeFilter.value,
+    };
+
+    // Gọi API và lấy danh sách báo cáo
+    const response = await listReportAPI.getReportByUser(userid, params);
+    const listPosts = response.data || [];
+    total.value = response.total;
+
+    for (const post of listPosts) {
+      posts.push({
+        id: post.id,
+        name: post.name,
+        phone: post.phone,
+        cccd: post.cccd,
+        address: post.address,
+        birthday: post.birthday,
+        time: post.time,
+        description: post.description,
+        created_at: post.created_at,
+        post_id: post.post_id,
+        user_id: post.user_id,
+        user: post.user,
+        post: post.post,
+      });
+    }
+
+    data.value = posts;
+  } catch (error) {
+    console.error("Error fetching posts by user:", error);
+  }
+};
+
+onMounted(() => {
+  fetchPostByUser();
+});
 </script>
 
 <script>
