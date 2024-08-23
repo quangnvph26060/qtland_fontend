@@ -523,6 +523,7 @@ a:focus {
 
     .product_user {
         display: flex;
+        width: 100%;
 
     }
 
@@ -672,6 +673,7 @@ a:focus {
     .user-info-container{
         width: 100%;
     }
+    
   
 
 
