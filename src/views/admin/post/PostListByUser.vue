@@ -331,7 +331,7 @@
     <div class="" style="padding: 20px">
       <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" force-render class="space-y-5">
-          <template #tab> Tất cả </template>
+          <template #tab> Tất cả ({{ totalpost }})</template>
           <div>
             <CardinforDetailByUser  />
           </div>
@@ -346,7 +346,7 @@
         </a-tab-pane>
 
         <a-tab-pane key="3" class="space-y-5">
-          <template #tab> Chờ hiển thị </template>
+          <template #tab> Chờ hiển thị ({{ totalpostht }}) </template>
           <!-- begin::Post Items -->
           <div>
             <CardinforDetailByUserSold />
@@ -355,7 +355,7 @@
         </a-tab-pane>
 
         <a-tab-pane key="4" class="space-y-5">
-          <template #tab> Chờ duyệt </template>
+          <template #tab> Chờ duyệt ({{ totalpostcd }}) </template>
           <!-- begin::Post Items -->
           <div>
             <CardinforDetailByUserStatus3 />
@@ -364,7 +364,7 @@
         </a-tab-pane>
 
         <a-tab-pane key="5" class="space-y-5">
-          <template #tab> Không duyệt </template>
+          <template #tab> Không duyệt ({{ totalpostkd }}) </template>
           <!-- begin::Post Items -->
           <div>
             <CardinforDetailByUserStatus2 />
@@ -598,23 +598,6 @@ const getDirectionLabel = (value) => {
 
 // table
 const columns = [
-  // {
-  //   title: "Người đăng",
-  //   dataIndex: "name",
-  //   key: "name",
-  //   width: 120,
-  //   customFilterDropdown: true,
-  //   onFilter: (value, record) =>
-  //     record.name.toString().toLowerCase().includes(value.toLowerCase()),
-  //   onFilterDropdownOpenChange: (visible) => {
-  //     if (visible) {
-  //       setTimeout(() => {
-  //         searchInput.value.focus();
-  //       }, 100);
-  //     }
-  //   },
-  //    className: 'hide-on-mobile',
-  // },
   {
     title: "Tiêu đề",
     dataIndex: "title",
@@ -827,9 +810,26 @@ const user = reactive({
 });
 const comments = ref([]);
 
+const totalpost = ref(0);
+const totalpostht = ref(0);
+const totalpostcht = ref(0);
+const totalpostcd = ref(0);
+const totalpostkd = ref(0);
+
 const fetchUserById = async (id) => {
   const users = await getUserAPI.getById(id);
-  console.log(user);
+  const listpost = await listPostsAPI.getPostByUser(id); //all
+  totalpost.value = listpost.length;
+  const listpostht = await listPostsAPI.getPostByUserHT(id); // HT
+  totalpostht.value = listpostht.length;
+  const listpostcht = await listPostsAPI.getPostSoldByUser(id); // CHT
+  totalpostcht.value = listpostcht.length;
+  const listpostcd = await listPostsAPI.getPostStatus3ByUser(id); // CD
+  totalpostcd.value = listpostcd.length;
+  const listpostkd = await listPostsAPI.getPostStatus2ByUser(id); // KD
+  totalpostkd.value = listpostkd.length;
+  
+
   Object.keys(user).forEach((key) => {
     user[key] = users[key];
   });
@@ -838,10 +838,14 @@ const fetchUserById = async (id) => {
 };
 
 fetchUserById(userid);
+
+
+
 </script>
 
 <script>
 import ThePageHeader from "../../../components/ThePageHeader.vue";
+import listReportAPI from '../../../api/report';
 export default {
   components: {
     ThePageHeader,
