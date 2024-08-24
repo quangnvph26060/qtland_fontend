@@ -287,6 +287,16 @@ const listPostsAPI = {
 			console.log(error);
 		}
 	},
+	getPostByUserHT: async (id) => {
+		try {
+			const response = await axios.get(
+				`${apiURL.baseURL}/posts/userht/${id}`
+			);
+			return response.data;
+		} catch (error) {
+			console.log(error);
+		}
+	},
 	getPostStatusByUser: async (id) => {
 		try {
 			const response = await axios.get(
