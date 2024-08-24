@@ -1007,7 +1007,7 @@ const lengthpost = ref(0);
 const fetchPostsList = async (id) => {
   isLoading.value = true;
   const post = await getPostAPI.getById(id);
-  const listpost = await listPostsAPI.getPostByUser(post.user.id);
+  const listpost = await listPostsAPI.getPostByUserHT(post.user.id);
   lengthpost.value = listpost.length;
   if (post && post.user) {
     datacall.value.user.phone = post.user.phone;

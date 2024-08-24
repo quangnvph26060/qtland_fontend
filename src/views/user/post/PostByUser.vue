@@ -148,7 +148,7 @@ const fetchPostByUser = async (userId) => {
     data.value = [];
     const userTin = await getUserAPI.getById(userId);
     avatar.value = userTin.avatar;
-    const listPosts = await listPostsAPI.getPostByUser(userId);
+    const listPosts = await listPostsAPI.getPostByUserHT(userId);
     const ans = reactive({
         id: "",
         title: "",
@@ -189,7 +189,6 @@ fetchPostByUser(userId);
 
 // Pagination
 const pagination = reactive({
-    pageSize: 10,
     showSizeChanger: true,
     responsive: true,
     showLessItems: true,
