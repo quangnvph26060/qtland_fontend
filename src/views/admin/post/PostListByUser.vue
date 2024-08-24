@@ -337,7 +337,7 @@
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" class="space-y-5">
-          <template #tab> Đang hiển thị </template>
+          <template #tab> Đang hiển thị ({{ totalpostht }}) </template>
           <!-- begin::Post Items -->
           <div>
             <CardinforDetailByUserStatus4 />
@@ -346,7 +346,7 @@
         </a-tab-pane>
 
         <a-tab-pane key="3" class="space-y-5">
-          <template #tab> Chờ hiển thị ({{ totalpostht }}) </template>
+          <template #tab> Chờ hiển thị ({{ totalpostcht }})  </template>
           <!-- begin::Post Items -->
           <div>
             <CardinforDetailByUserSold />
