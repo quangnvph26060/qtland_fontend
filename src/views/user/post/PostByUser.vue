@@ -18,11 +18,11 @@
                                     class=""
                                 >
                                     <template v-if="!avatar">
-    {{ store.user.name?.[0] }}
+    {{ name_dc?.[0] }}
   </template>
                                 </a-avatar>
                                 <div class="author ml-5">
-                                    <h2>{{ store.user?.name }}</h2>
+                                    <h2>{{ name_dc }}</h2>
                                 </div>
                             </div>
     
@@ -143,11 +143,13 @@ const userId = route.params.id;
  * CreatedBy: youngbachhh (26/04/2024)
  */
 const avatar = ref('');
+const name_dc = ref('');
 const fetchPostByUser = async (userId) => {
     isLoading.value = true;
     data.value = [];
     const userTin = await getUserAPI.getById(userId);
     avatar.value = userTin.avatar;
+    name_dc.value = userTin.name;
     const listPosts = await listPostsAPI.getPostByUserHT(userId);
     const ans = reactive({
         id: "",
@@ -165,6 +167,7 @@ const fetchPostByUser = async (userId) => {
         user: "",
         comment: [],
         post_image: [],
+        user_info: ''
     });
     const posts = [];
 
