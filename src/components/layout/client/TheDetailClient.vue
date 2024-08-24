@@ -72,7 +72,7 @@
                       :value="data.cccd?.toString()"
                       @input="handleInput('cccd', $event)"
                       inputType="text"
-                    />
+                    /> 
                   </div>
                 </div>
                 <!-- end::Input -->
@@ -360,7 +360,6 @@ const onSubmit = async () => {
       }
     } else {
       data.user_id = user;
-      alert(data.user_id);
       const response = await createClientAPI(data);
        console.log(response);
        if (response && response.status == 200) {
