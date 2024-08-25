@@ -391,12 +391,14 @@
             :to="{ name: 'user-post', params: { id: data.user.id } }"
           >
             <div class="author flex align-items-center">
-              <a-avatar
-                :size="64"
-                :style="{ backgroundColor: '#ADC178', verticalAlign: 'middle' }"
-              >
+             <a-avatar
+              :size="64"
+              :src="data.user.avatar || ''"
+              :style="{ backgroundColor: '#ADC178', verticalAlign: 'middle' }" >
+              <template v-if="!data.user.avatar">
                 {{ data.user.name?.[0] }}
-              </a-avatar>
+              </template>
+            </a-avatar>
               <div class="author ml-5">
                 <h2>{{ data.user.name }}</h2>
               </div>

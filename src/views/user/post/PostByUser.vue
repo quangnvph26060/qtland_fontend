@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100">
+    <div class="w-100 tindang" >
         <!-- begin::Form -->
         <div class="flex flex-col xl:flex-row w-100">
             <!-- begin::Main Column -->
