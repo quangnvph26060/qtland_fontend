@@ -18,6 +18,16 @@
             <div>
               <h2 style="margin: 0; padding-left: 10px">Danh sách báo cáo</h2>
             </div>
+
+            <div>
+              <router-link
+                :to="{
+                  name: 'client-report-post-create',
+                }"
+              >
+                <a-button class=""> Thêm báo cáo</a-button>
+              </router-link>
+            </div>
           </div>
 
           <a-table
