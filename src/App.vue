@@ -28,10 +28,29 @@
 <script setup>
 import { ArrowUpOutlined } from "@ant-design/icons-vue";
 import getUserAPI from "./api/users/getUser";
-import { ref } from "vue";
+import { ref, onMounted  } from "vue";
 import { theme } from "ant-design-vue";
 import auth from "./stores/auth";
 import router from "./router";
+import apiURL from "../src/api/constants.js";
+onMounted(async () => {
+        const user_id = localStorage.getItem("user_id");
+        const is_login = localStorage.getItem("is_login");
+        console.log(is_login);
+    
+        // if(!user_id && !is_login){
+        //     window.location.href = '/login';
+        // }
+        const userId = user_id;
+   
+        window.Echo.channel(`user.${userId}`)
+            .listen('UserLoggedOut',async  () => {
+                //window.location.href = '/login';
+               const response =  await axios.post(`${apiURL.baseURL}/update-login-status`, {userId, is_login });
+              if(response.data.status)  window.location.href = '/login'
+            });
+    
+});
 
 // color theme
 const defaultData = {
