@@ -36,8 +36,6 @@ import apiURL from "../src/api/constants.js";
 onMounted(async () => {
         const user_id = localStorage.getItem("user_id");
         const is_login = localStorage.getItem("is_login");
-        console.log(is_login);
-    
         // if(!user_id && !is_login){
         //     window.location.href = '/login';
         // }
@@ -47,7 +45,10 @@ onMounted(async () => {
             .listen('UserLoggedOut',async  () => {
                 //window.location.href = '/login';
                const response =  await axios.post(`${apiURL.baseURL}/update-login-status`, {userId, is_login });
-              if(response.data.status)  window.location.href = '/login'
+              if(response.data.status)  {
+                    alert('Tài khoản của bạn đang đăng nhập ở nơi khác!');
+                    window.location.href = '/login'
+              }
             });
     
 });
