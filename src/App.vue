@@ -36,9 +36,6 @@ import apiURL from "../src/api/constants.js";
 onMounted(async () => {
         const user_id = localStorage.getItem("user_id");
         const is_login = localStorage.getItem("is_login");
-        // if(!user_id && !is_login){
-        //     window.location.href = '/login';
-        // }
         const userId = user_id;
    
         window.Echo.channel(`user.${userId}`)

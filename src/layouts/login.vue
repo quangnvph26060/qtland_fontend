@@ -163,7 +163,7 @@
       class="flex justify-center align-items-center grow n:h-[140px] lg:h-screen"
     >
       <img
-        src="../assets/background/login_background.jpg"
+        src=""
         alt="Logo"
         class="app-header-logo-image lg:w-100 lg:h-[100vh] xs:w-[100px] xs:h-120"
         width="100%"
@@ -193,7 +193,7 @@ async function updateTitle() {
     bannerImage.src =
       configData && configData.logo
         ? configData.logo
-        : "../assets/background/login_background.jpg";
+        : "";
   }
 
   const banner = document.querySelector("#banner-1 img");
@@ -201,7 +201,7 @@ async function updateTitle() {
     banner.src =
       configData && configData.banner
         ? configData.banner
-        : "../assets/background/login_background.jpg";
+        : "";
   }
 }
 
