@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('meta[property="og:site_name"]').setAttribute('content', apiURL.URL);
             document.querySelector('meta[property="og:type"]').setAttribute('content', data.data['title']);
             document.querySelector('link[rel="icon"]').setAttribute('href', data.data['icon']);
+            let titleTag = document.querySelector('title');
+            if (titleTag) {
+                titleTag.textContent = data.data['title'];
+            }
             // Cập nhật tiêu đề trang
             document.title = data.title;
         })
