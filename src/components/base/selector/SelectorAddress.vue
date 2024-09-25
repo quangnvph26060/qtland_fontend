@@ -73,9 +73,10 @@ onMounted(async () => {
     }
     if (provinces.value.length === 0) {
         const response = await addressAPI.getProvinces();
+        console.log(response);
         provinces.value = response.map((province) => ({
-            value: province.province_id,
-            label: province.province_name,
+            value: province.id,
+            label: province.name,
         }));
     }
 });
@@ -86,8 +87,8 @@ const setDistrict = async () => {
             selectedProvince.value
         );
         districts.value = response.map((district) => ({
-            value: district.district_id,
-            label: district.district_name,
+            value: district.id,
+            label: district.name,
         }));
     }
 };
@@ -98,8 +99,8 @@ const setWard = async () => {
             selectedDistrict.value
         );
         wards.value = response.map((ward) => ({
-            value: ward.ward_id,
-            label: ward.ward_name,
+            value: ward.id,
+            label: ward.name,
         }));
     }
 };
