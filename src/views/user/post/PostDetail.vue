@@ -349,6 +349,16 @@
               >
               {{ data.pay }} Tháng
             </a-descriptions-item>
+             <a-descriptions-item
+              v-if="data.setup !== null && data.setup !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label
+                ><i class="fas fa-credit-card"></i>Setup</template
+              >
+              {{ data.setup }} ngày
+            </a-descriptions-item>
           </a-descriptions>
         </div>
         <!-- end::Feature -->
@@ -693,7 +703,8 @@ const data = reactive({
   pricewater: "",
   gop: "",
   pay: "",
-  updated_at: ""
+  updated_at: "",
+  setup: ""
 });
 
 const authStore = auth();
@@ -959,12 +970,16 @@ const unit2 = [
 ];
 
 const unit3 = [
-  {
+   {
     value: "1",
     label: "Vnd/m3",
   },
   {
     value: "2",
+    label: "Vnd/tháng",
+  },
+  {
+    value: "3",
     label: "Miễn phí",
   },
 ];

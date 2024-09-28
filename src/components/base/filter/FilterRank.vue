@@ -69,6 +69,7 @@ const priorityrank = [
   { value: 2, name: "Văn phòng hạng B" },
   { value: 3, name: "Văn phòng hạng C" },
   { value: 4, name: "Văn phòng hạng Coworking" },
+  { value: 5, name: "Mặt bằng kinh doanh" },
 ];
 
 // Biến lưu trữ hạng văn phòng đã chọn

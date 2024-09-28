@@ -3,14 +3,16 @@
 		<a-layout-header style="background: #fff; padding: 0">
 			<TheHeader />
 		</a-layout-header>
-		
-		<template v-if="!postId">
-			<TheSearchBar />
+		<template  v-if="showContent">
+  			<div>
+				<template v-if="!postId">
+					<TheSearchBar />
+				</template>
+				<template v-if="postId">
+					<TheSearchDetail />
+				</template>
+			</div>
 		</template>
-		<template v-if="postId">
-			<TheSearchDetail />
-		</template>
-
 		<a-layout>
 			<a-layout-content>
 				<TheContent />
@@ -31,12 +33,18 @@ import Config from "../api/config/config.js";
 import { useRoute } from "vue-router";
 const route = useRoute();
 const postId = ref(null);
+const showContent = ref(true);
 
 const updatePostId = () => {
-  if (route.path.startsWith('/post-detail')) {
+ if (route.path.startsWith('/post-detail')) {
     postId.value = route.params.id || null;
+    showContent.value = true; // Show content if in post-detail
+  } else if (route.path.startsWith('/post-create') || route.path.startsWith('/client-report-create')) {
+    postId.value = null;
+    showContent.value = false; // Hide content if in post-create
   } else {
     postId.value = null;
+    showContent.value = true; // Default to show content if other paths
   }
 };
 

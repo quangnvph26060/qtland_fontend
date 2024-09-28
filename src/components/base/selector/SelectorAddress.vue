@@ -5,7 +5,7 @@
             placeholder="Tỉnh/Thành"
             v-model:value="selectedProvince"
             show-search
-            allowClear
+           
             :options="provinces"
             :filter-option="filterOption"
             @change="handleChange(selectedProvince, 10)"
@@ -16,7 +16,7 @@
             placeholder="Quận/Huyện"
             v-model:value="selectedDistrict"
             show-search
-            allowClear
+            
             :options="districts"
             :filter-option="filterOption"
             @change="handleChange(selectedDistrict, 100)"
@@ -27,7 +27,7 @@
             placeholder="Phường/Xã"
             v-model:value="selectedWard"
             show-search
-            allowClear
+            
             :options="wards"
             :filter-option="filterOption"
         >

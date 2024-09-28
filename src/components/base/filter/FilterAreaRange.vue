@@ -63,7 +63,7 @@
                 class="list-search-selected w-100 text-black flex mt-2"
                 v-if="props.type === 'user'"
             >
-                
+                 <div v-text="computedRangeArea"></div>
             </div>
         </div>
     </a-popover>
@@ -143,12 +143,15 @@ const computedRangeArea = computed(() => {
         return "";
     }
 
+    
     const formatArea = (area) => `${area} m²`;
 
+    
     if (isMinAreaZero) {
         return `Dưới ${formatArea(area.value[1])}`;
     }
 
+    
     return `${area.value[0]} - ${formatArea(area.value[1])}`;
 });
 </script>

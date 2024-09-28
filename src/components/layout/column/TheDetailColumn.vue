@@ -99,13 +99,13 @@
           <Card title="Thông tin bài viết" class="p-0 border-0">
             <template #content>
               <!-- begin::Input Group -->
-              <InputBasic
+              <!-- <InputBasic
                 id="titleInput"
                 title="Tiêu đề"
                 placeholder="Nhập tiêu đề bài viết"
                 :value="data.title"
                 @input="handleInput('title', $event)"
-              />
+              /> -->
               <!-- end::Input Group -->
 
               <!-- begin::Input Group -->
@@ -137,7 +137,7 @@
                 @update:selected="handleInput('classrank', $event)"
                 placeholder="Chọn hạng văn phòng"
               />
-              <!-- begin::Input Group -->
+             
               <InputBasic
                 title="Diện tích xây dựng"
                 placeholder="Nhập diện tích, VD: 80"
@@ -494,6 +494,23 @@
                 </div>
                 <!-- end::Input -->
               </div>
+
+  <div class="flex justify-between flex-wrap price_unit">
+                <div class="col-12 col-xl-12">
+                  <!-- begin::Input -->
+                  <InputBasic
+                    title="Setup(ngày)"
+                    placeholder="Nhập giá, VD: 1"
+                    :value="data.setup?.toString()"
+                    @input="handleInput('setup', $event)"
+                    inputType="number"
+                    id="priceElectricityInput"
+                  />
+                  <!-- end::Input -->
+                </div>
+                
+              </div>
+
               <div class="col-12 col-xl-12" id="radio-buttons">
                 <div class="d-flex flex-wrap justify-content-between">
                   <!-- Phòng cháy chữa cháy -->
@@ -759,6 +776,10 @@ const unit3 = [
   },
   {
     value: "2",
+    label: "Vnd/tháng",
+  },
+  {
+    value: "3",
     label: "Miễn phí",
   },
 ];
@@ -873,7 +894,7 @@ const data = reactive({
   priority_status: "",
   address_detail: "",
   id: "",
-  title: "",
+  // title: "",
   description: "",
   classrank: "",
   area: "",
@@ -911,6 +932,7 @@ const data = reactive({
   gop: "",
   pay: "",
   traphong: "",
+  setup: '',
 });
 
 const formattedDate = ref("");
@@ -934,7 +956,7 @@ watch(
 
 const disabledSubmit = computed(() => {
   return !(
-    data.title &&
+    // data.title &&
     data.description &&
     data.classrank &&
     data.area &&
@@ -960,7 +982,8 @@ const disabledSubmit = computed(() => {
     data.unit2 &&
     data.unit3 &&
     data.gop &&
-    data.pay
+    data.pay  
+    
   );
 });
 
