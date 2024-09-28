@@ -75,7 +75,7 @@
                 </div>
                 <div style="padding: 5px 11px 6px 12px">
                   <h2 class="text-lg font-semibold line-clamp-2" style="height: 56px">
-                    {{ item.title }}
+                    T-{{ item.floors }} {{ item.address_detail  }} {{ item.areausable }}/{{ item.area }} {{ item.wayin }} {{ item.price/1000000 }}tr
                   </h2>
                   <div class="flex align-items-center">
                     <div class="text-red-500 text-base mr-1">
@@ -357,7 +357,12 @@ if(role == 2 ){
     post_image: [],
     user_info: "",
     user_id: "",
-    traphong: ""
+    traphong: "",
+    address_detail: "",
+    floors : "",
+    wayin: "",
+    area: ""
+
   });
 
   const posts = [];

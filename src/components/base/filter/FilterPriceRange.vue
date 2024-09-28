@@ -48,7 +48,7 @@
                 : item.max !== null
                 ? item.max < 1000
                   ? `${item.min / 1000} triệu`
-                  : `${item.min / 1000} tỷ`
+                  : `${item.min / 1000} triệu`
                 : ` Trên ${item.min / 1000} triệu`
             }}
             {{
@@ -56,7 +56,7 @@
                 ? ` - ${
                     item.max < 1000
                       ? `${item.max} triệu`
-                      : `${item.max / 1000} tỷ`
+                      : `${item.max / 1000} triệu`
                   }`
                 : ""
             }}
@@ -83,7 +83,7 @@
         class="list-search-selected w-100 flex mt-2"
         v-if="props.type === 'user'"
       >
-        <!-- <div v-text="computedRangePrice"></div> -->
+        <div v-text="computedRangePrice"></div>
       </div>
     </div>
   </a-popover>
@@ -178,7 +178,7 @@ const computedRangePrice = computed(() => {
   }
 
   const formatPrice = (price) => {
-    return price < 1000 ? `${price} triệu` : `${price / 1000} tỷ`;
+    return price < 1000 ? `${price} triệu` : `${price / 1000} triệu`;
   };
 
   if (price.value[0] < 1000 && price.value[1] < 1000) {
@@ -186,7 +186,7 @@ const computedRangePrice = computed(() => {
   }
 
   if (isMinPriceZero) {
-    return `Dưới ${formatPrice(price.value[1])}`;
+    return ``;
   }
 
   return `${formatPrice(price.value[0])} - ${formatPrice(price.value[1])}`;
