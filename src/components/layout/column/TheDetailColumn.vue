@@ -275,7 +275,7 @@
                       placeholder="Nhập số tầng"
                       :value="data.floors?.toString()"
                       @input="handleInput('floors', $event)"
-                      inputType="number"
+                     
                       
                     />
                     <p id="floorsInput"></p>
