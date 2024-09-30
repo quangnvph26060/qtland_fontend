@@ -443,7 +443,7 @@ const fetchPostByUserKD = async (userId) => {
   // isLoading.value = true;
   dataKD.value = [];
   const listPosts = await listPostsAPI.getPostStatus2ByUser(userId);
-  console.log(listPosts);
+  // console.log(listPosts);
   const ans = reactive({
     id: "",
     title: "",

@@ -73,7 +73,7 @@ onMounted(async () => {
     }
     if (provinces.value.length === 0) {
         const response = await addressAPI.getProvinces();
-        console.log(response);
+        // console.log(response);
         provinces.value = response.map((province) => ({
             value: province.id,
             label: province.name,
