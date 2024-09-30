@@ -372,7 +372,7 @@
               <template #label
                 ><i class="fas fa-credit-card"></i>Mặt tiền</template
               >
-              {{ data.pay }} Tháng
+              {{ data.pay }} m
             </a-descriptions-item>
             <a-descriptions-item
               v-if="data.setup !== null && data.setup !== undefined"
