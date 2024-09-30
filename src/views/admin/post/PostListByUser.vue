@@ -125,7 +125,7 @@
               <div>
                 {{
                   user.permissions[0]?.access_permission_4 == 4
-                    ? "Văn phòng hạng Coworking"
+                    ? "Văn phòng hạng D"
                     : ""
                 }}
               </div>

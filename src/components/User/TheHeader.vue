@@ -870,7 +870,7 @@ const rankroom = [
   { value: 1, label: "Văn phòng hạng A" },
   { value: 2, label: "Văn phòng hạng B" },
   { value: 3, label: "Văn phòng hạng C" },
-  { value: 4, label: "Văn phòng hạng Coworking" },
+  { value: 4, label: "Văn phòng hạng D" },
 ];
 
 const selectClassRank = async (classrank) => {

@@ -74,14 +74,14 @@
                   Gọi
                 </a>
               </div>
-              Mr.{{ data.user.name }}
+              {{ data.user.name }}
             </div>
             <div v-else style="display: flex; align-items: center">
               <div style="display: flex">
                 {{ data.user.phone }}
                 <span @click="copyPhoneNumber" class="copy-link">Copy</span>
               </div>
-              Mr.{{ data.user.name }}
+              {{ data.user.name }}
             </div>
           </div>
         </div>
@@ -102,8 +102,13 @@
               <div class="area mx-12 main_infor">
                 <span class="title">Diện tích</span>
                 <br />
-                <span class="content"> {{ data.areausable }} m2 </span>
+                <span class="content"> {{ data.areausable   }} m2 </span>
               </div>
+              <div class="area mx-12 main_infor">
+                <span class="title">Diện tích</span>
+                <br />
+                <span class="content"> {{ data.area  }} m2 </span>
+              </div> 
               <div
                 class="direction main_infor ml-10"
                 v-if="data.direction !== 0"
@@ -350,6 +355,26 @@
               {{ data.pay }} Tháng
             </a-descriptions-item>
              <a-descriptions-item
+              v-if="data.wayin !== null && data.wayin !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label
+                ><i class="fas fa-route"></i>Đường vào</template
+              >
+              {{ data.pay }} m
+            </a-descriptions-item>
+             <a-descriptions-item
+              v-if="data.font !== null && data.font !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label
+                ><i class="fas fa-credit-card"></i>Mặt tiền</template
+              >
+              {{ data.pay }} Tháng
+            </a-descriptions-item>
+            <a-descriptions-item
               v-if="data.setup !== null && data.setup !== undefined"
               :span="1"
               class="description-item-infor"
@@ -704,7 +729,9 @@ const data = reactive({
   gop: "",
   pay: "",
   updated_at: "",
-  setup: ""
+  setup: "",
+  wayin: "",
+  font: ''
 });
 
 const authStore = auth();

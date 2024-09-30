@@ -133,7 +133,7 @@
                 value="4"
                 v-model="user.access_permission_4"
               />
-              <span>Văn phòng hạng Coworking</span>
+              <span>Văn phòng hạng D</span>
             </span>
             <span class="d-flex gap-3">
               <input
