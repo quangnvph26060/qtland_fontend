@@ -428,9 +428,9 @@ watch(pageFilter, (newVal) => {
  */
 const store = auth();
 const value = computed(() => store.user);
-console.log(value);
+// console.log(value);
 onMounted(() => {
-  console.log(store.user);
+  // console.log(store.user);
 });
 const id = ref("");
 const fetchUsersList = async (page = 1, pageSize = 10) => {

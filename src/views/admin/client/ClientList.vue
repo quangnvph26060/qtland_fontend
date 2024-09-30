@@ -570,7 +570,7 @@ const getPostsList = async (page = 1, pageSize = 10) => {
     });
   }
   data.value = listclient;
-  console.log(data.value);
+  // console.log(data.value);
 };
 
 onMounted(() => {

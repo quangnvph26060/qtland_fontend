@@ -212,7 +212,7 @@ function onChangePassword(modalClose = false) {
 watch(
   () => props.userSelected,
   (newValue, oldValue) => {
-    console.log(newValue);
+    // console.log(newValue);
 
     if (newValue) {
       user.id = newValue.id;

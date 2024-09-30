@@ -117,8 +117,10 @@
                 placeholder="Nhập mô tả bài viết"
                 :value="data.description"
                 :rows="6"
+                v-model="description"
                 @input="handleInput('description', $event)"
               />
+              <p v-if="descriptionError" class="error-message">{{ descriptionError }}</p>
               <!-- end::Input Group -->
             </template>
           </Card>
@@ -738,6 +740,21 @@ const visible = ref(false);
 const route = useRoute();
 const disabledCommentTab = ref(false);
 
+const description = ref('');
+const descriptionError = ref('');
+
+// Theo dõi sự thay đổi của description để kiểm tra số ký tự
+watch(description, (newVal) => {
+  // alert(description)
+  const length = newVal.length;
+  console.log(length); // Bạn có thể thay alert bằng console.log để kiểm tra
+  if (length < 30 || length > 3000) {
+    descriptionError.value = 'Tối thiếu 30 ký tự tối đa 3000 ký tự.';
+  }else{
+    descriptionError.value = ''; // Không có lỗi
+  }
+});
+
 const unit = [
   {
     value: "1",
@@ -1042,6 +1059,22 @@ const handleInput = (key, value) => {
   if (key === "priority_status") {
     priorityStatusSelected.value = value;
   }
+
+  if(key === "description"){
+    description.value = value; // Cập nhật giá trị mô tả
+
+    const length = value.length; // Lấy số ký tự
+    console.log('Số ký tự:', length); // Kiểm tra giá trị của length
+
+    // Kiểm tra điều kiện số ký tự
+    if (length < 30 && length > 3000) {
+      descriptionError.value = 'Tối thiếu 30 ký tự tối đa 3000 ký tự.';
+    } else {
+      descriptionError.value = ''; // Không có lỗi
+    }
+  }
+
+
   data[key] = value;
 };
 
@@ -1116,7 +1149,7 @@ const handleChange = (info) => {
   // }
 };
 function handleDrop(e) {
-  console.log(e);
+  // console.log(e);
 }
 const role = localStorage.getItem("role_id");
 const units = ['unit', 'unit1', 'unit2', 'unit3'];
@@ -1172,7 +1205,7 @@ const onSubmit = async () => {
     
       const response = await updatePostAPI.update(postId, data);
 
-      console.log(response);
+      // console.log(response);
       if (response && response.status == 200) {
         message.success("Cập nhật bài viết thành công");
 
@@ -1199,7 +1232,7 @@ const onSubmit = async () => {
           // router.go(0);
         } catch (error) {
           uploading.value = false;
-          console.log(error);
+          // console.log(error);
         }
       } else {
         message.error("Cập nhật bài viết thất bại");
@@ -1270,7 +1303,7 @@ const onSubmit = async () => {
           uploading.value = false;
         } catch (error) {
           uploading.value = false;
-          console.log(error);
+          // console.log(error);
         }
       } else {
         message.error("Tạo bài viết thất bại");
@@ -1328,6 +1361,12 @@ export default {
 
 .error-border {
     border: 2px solid red;
+}
+
+.error-message {
+  color: red; /* Hiển thị lỗi bằng màu đỏ */
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 </style>
