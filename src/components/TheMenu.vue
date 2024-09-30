@@ -178,7 +178,7 @@
                   <option value="" class="main-option-permission">
                     {{
                       +store.user?.permissions[0].access_permission_4 === 4
-                        ? "Văn phòng Coworking"
+                        ? "Văn phòng hạng D"
                         : ""
                     }}
                   </option>

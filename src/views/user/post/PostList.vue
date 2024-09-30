@@ -75,11 +75,11 @@
                 </div>
                 <div style="padding: 5px 11px 6px 12px">
                   <h2 class="text-lg font-semibold line-clamp-2" style="height: 56px">
-                    T-{{ item.floors }} {{ item.address_detail  }} {{ item.areausable }}/{{ item.area }} {{ item.wayin }} {{ item.price/1000000 }}tr
+                    {{ item.floors }} - {{ item.address_detail  }} {{ item.areausable }}/{{ item.area }} {{ item.wayin }} {{ item.price/1000000 }}tr
                   </h2>
                   <div class="flex align-items-center">
                     <div class="text-red-500 text-base mr-1">
-                      {{ formatMoney(item.price) }} -
+                      {{ formatMoney(item.price) }} 
                     </div>
 
                     <div class="text-red-500 text-base">

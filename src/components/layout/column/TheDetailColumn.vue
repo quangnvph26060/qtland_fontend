@@ -16,7 +16,7 @@
                 />
               </div> -->
 
-              <div
+              <div class="status_error"
                 v-if="
                   postId && store.user.role_id != 2 && store.user.role_id != 5
                 "
@@ -31,10 +31,11 @@
                 <p id="status_idInput"></p>
               </div>
 
-              <div>
+              <div >
                
                 <InputSelect
                   id="priority_statusInput"
+                  class="priority_error"
                   :valueSelected="data.priority_status"
                   :options="priorityStatus"
                   :title="'Độ ưu tiên bài viết'"
@@ -55,6 +56,7 @@
                     @change="handleDateChange"
                     class="datetime-input"
                   />
+                  <p id="priority_status" > </p>
                 </div>
               </div>
             </template>
@@ -271,19 +273,17 @@
                 <div class="d-flex flex-wrap justify-content-between">
                   <div class="flex-fill me-2">
                     <InputBasic
-                      title="Số tầng"
-                      placeholder="Nhập số tầng"
+                      title="Số tầng ( số phòng )"
+                      placeholder="VD : Số tầng ( T2 ), Số phòng ( P201 ), Mặt bằng kd ( MBKD )"
                       :value="data.floors?.toString()"
-                      @input="handleInput('floors', $event)"
-                     
-                      
+                      @input="handleInput('floors', $event)"                   
                     />
                     <p id="floorsInput"></p>
                   </div>
                   <div class="flex-fill me-2">
                     <InputBasic
                       title="Chia phòng"
-                      placeholder="Nhập chia phòng"
+                      placeholder=" Nhập số phòng được chia  VD : 2"
                       :value="data.rooms?.toString()"
                       @input="handleInput('rooms', $event)"
                       inputType="number"
@@ -472,7 +472,7 @@
                 <div class="d-flex flex-wrap justify-content-between">
                   <div class="flex-fill me-2">
                     <InputBasic
-                      title="Đường vào"
+                      title="Đường vào (m)"
                       placeholder="Diện tích đường vào"
                       :value="data.wayin?.toString()"
                       @input="handleInput('wayin', $event)"
@@ -483,7 +483,7 @@
 
                   <div class="flex-fill me-2">
                     <InputBasic
-                      title="Mặt tiền"
+                      title="Mặt tiền (m)"
                       placeholder="Diện tích mặt tiền"
                       :value="data.font?.toString()"
                       @input="handleInput('font', $event)"
@@ -677,6 +677,10 @@
                 >
                   <img alt="example" style="width: 100%" :src="previewImage" />
                 </a-modal>
+              </div>
+
+              <div>
+                <p style="color: red;font-size: 15px"> <strong> <i class="fas fa-exclamation-triangle"></i></strong> Thứ tự hiển thị ảnh : cả toà, đường đi, phòng, tiện ích wc, thang máy, hầm để xe....</p>
               </div>
             </template>
           </Card>
@@ -874,7 +878,7 @@ const classrank = [
   },
   {
     value: "4",
-    label: "Hạng Cowking",
+    label: "Hạng D",
   },
   {
     value: "5",
@@ -1140,21 +1144,9 @@ const onSubmit = async () => {
             return;
           }
            
-          
-       // validate đơn vị
-       for (const unit of units) {
-          if (!data[unit]) {
-            const inputElement = document.getElementById(`${unit}Input`);
-            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-            return;
-          }
-        }
-       
-      for (let key in data) {
+          for (let key in data) {
        
         if (data[key] === null || data[key] === undefined) {
-         
-          
           
           const inputElement = document.getElementById(`${key}Input`);
           if (inputElement) {
@@ -1167,7 +1159,17 @@ const onSubmit = async () => {
             return;
           }
         }
-      }
+      } 
+       // validate đơn vị
+       for (const unit of units) {
+          if (!data[unit]) {
+            const inputElement = document.getElementById(`${unit}Input`);
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            return;
+          }
+        }
+       
+    
       const response = await updatePostAPI.update(postId, data);
 
       console.log(response);
@@ -1207,16 +1209,6 @@ const onSubmit = async () => {
       data.status_id = 3;
       data.user_id = store.user.id;
         // thêm mới post
-       
-       // validate đơn vị
-       for (const unit of units) {
-          if (!data[unit]) {
-            const inputElement = document.getElementById(`${unit}Input`);
-            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-            return;
-          }
-        }
-       
        for (let key in data) {
           if (data[key] === "" || (Array.isArray(data[key]) && data[key].length === 0)) {
               const getKey = document.getElementById(`${key}`);
@@ -1233,6 +1225,16 @@ const onSubmit = async () => {
           
           }
         }
+       // validate đơn vị
+       for (const unit of units) {
+          if (!data[unit]) {
+            const inputElement = document.getElementById(`${unit}Input`);
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            return;
+          }
+        }
+       
+       
         
         // validate image
         // if(!data.post_image){
@@ -1323,5 +1325,10 @@ export default {
   border-radius: 5px;
   padding: 3px 6px;
 }
+
+.error-border {
+    border: 2px solid red;
+}
+
 </style>
   
