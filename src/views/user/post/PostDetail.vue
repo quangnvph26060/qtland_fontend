@@ -362,7 +362,7 @@
               <template #label
                 ><i class="fas fa-route"></i>Đường vào</template
               >
-              {{ data.pay }} m
+              {{ data.wayin }} m
             </a-descriptions-item>
              <a-descriptions-item
               v-if="data.font !== null && data.font !== undefined"
@@ -372,7 +372,7 @@
               <template #label
                 ><i class="fas fa-credit-card"></i>Mặt tiền</template
               >
-              {{ data.pay }} m
+              {{ data.font }} m
             </a-descriptions-item>
             <a-descriptions-item
               v-if="data.setup !== null && data.setup !== undefined"
