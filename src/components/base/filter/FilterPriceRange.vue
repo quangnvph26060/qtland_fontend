@@ -171,26 +171,36 @@ const computedRangePrice = computed(() => {
   const minPrice = getMinPrice;
   const maxPrice = getMaxPrice;
   const isMinPriceZero = minPrice === 0;
-  const isMaxPriceMax = maxPrice === 60000;
+  const isMaxPriceMax = maxPrice === 1000;  // Sử dụng giá trị tối đa nếu có
 
   if (isMinPriceZero && isMaxPriceMax) {
     return "";
   }
 
   const formatPrice = (price) => {
-    return price < 1000 ? `${price} triệu` : `${price / 1000} triệu`;
+    return price < 1000 ? `${price} triệu` : `${price / 1000} tỷ`;
   };
 
-  if (price.value[0] < 1000 && price.value[1] < 1000) {
-    return `${price.value[0]}-${price.value[1]} triệu`;
+  // Trường hợp min = 100 và max = null
+  if (isMinPriceZero && maxPrice !== null) {
+    return `Dưới ${formatPrice(maxPrice)}`;
   }
 
-  if (isMinPriceZero) {
-    return ``;
+  if (maxPrice === null) {
+    return `Trên ${formatPrice(minPrice)}`;
   }
 
-  return `${formatPrice(price.value[0])} - ${formatPrice(price.value[1])}`;
+  if (minPrice < 1000 && maxPrice < 1000) {
+    return `${minPrice}-${maxPrice} triệu`;
+  }
+
+  // if (isMinPriceZero) {
+  //   return "";
+  // }
+
+  return `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
 });
+
 </script>
 
 <script>

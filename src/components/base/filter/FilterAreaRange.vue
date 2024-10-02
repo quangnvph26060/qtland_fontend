@@ -143,16 +143,20 @@ const computedRangeArea = computed(() => {
         return "";
     }
 
-    
+    // alert(maxArea);
     const formatArea = (area) => `${area} m²`;
 
+    if (maxArea == 9007199254740991) {
+        // alert('ok');
+            return `Trên ${formatArea(minArea)}`;
+        }
     
     if (isMinAreaZero) {
-        return `Dưới ${formatArea(area.value[1])}`;
+         return `Dưới ${formatArea(maxArea)}`;
     }
 
     
-    return `${area.value[0]} - ${formatArea(area.value[1])}`;
+    return `${formatArea(minArea)} - ${formatArea(maxArea)}`;
 });
 </script>
 
