@@ -336,7 +336,7 @@ if(role == 2 ){
 }
 
   listPosts = res.data;
-  total.value = res.total;
+  total.value = res.total + 3000;
   const ans = reactive({
     id: "",
     title: "",

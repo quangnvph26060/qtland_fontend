@@ -120,7 +120,7 @@ const { getMinArea, getMaxArea } = filterRangeStore;
 const area = ref([getMinArea, getMaxArea]);
 
 const rangeArea = (min, max) => {
-  if (max === null) {
+  if (max === 9007199254740991) {
     return "dien-tich-tren-" + min + "m2";
   } else {
     return "dien-tich-tu-" + min + "m2-den-" + max + "m2";
