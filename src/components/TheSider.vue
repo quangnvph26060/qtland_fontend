@@ -87,6 +87,13 @@
             <span>Cấu hình</span>
           </div>
         </a-menu-item>
+        <a-menu-item v-if="store.user.role_id == 5" key="10">
+          <div class="flex align-items-center">
+            <router-link :to="{ name: 'collaborator' }"> </router-link>
+            <SettingOutlined />
+            <span>Quản lý cộng tác viên</span>
+          </div>
+        </a-menu-item>
         <a-menu-item key="5">
           <div class="flex align-items-center" @click="showChildrenDrawer">
             <AccountBookOutlined />
@@ -163,6 +170,8 @@
                     ? "Sale VIP"
                     : store.user.role_id === 5
                     ? "Đầu chủ VIP"
+                    : store.user.role_id === 7
+                    ? "Cộng tác viên"
                     : "Quản trị viên thường"
                 }}
               </a-descriptions-item>

@@ -204,7 +204,7 @@ import { message } from "ant-design-vue";
 import formatDate from "../../../scripts/formatDate";
 
 const text5 = ref(null);
-
+const user_create_id = localStorage.getItem("user_create_id");
 onMounted(() => {
   const text5Element = text5.value;
 
@@ -320,6 +320,14 @@ const fetchPostsFilter = async (
 
 if(role == 2 ){
    res = await listPostsAPI.getPostBySoldFilterByUser(useid,{
+    ...filter,
+    page: pageFilter.value,
+    pageSize: pageSizeFilter.value,
+    priority_status: value1.value,
+  });
+
+}else if(role == 7 ){
+   res = await listPostsAPI.getPostBySoldFilterByUser(user_create_id,{
     ...filter,
     page: pageFilter.value,
     pageSize: pageSizeFilter.value,

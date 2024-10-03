@@ -77,7 +77,12 @@ const user = [
 				path: "edit/client=:id(\\d+)?",
 				name: "client-detail",
 				component: () => import("../views/user/client/ClientDetail.vue"),
-			}
+			},
+			{
+				path: "collaborator",
+				name: "collaborator",
+				component: () => import("../views/user/collaborator/Collaborator.vue"),
+			},
 		],
 		beforeEnter(to, from, next) {
 			// ...

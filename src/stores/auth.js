@@ -19,6 +19,7 @@ const auth = defineStore({
 			this.user = user;
 			localStorage.setItem("is_login", user.is_login);
 			localStorage.setItem("role_id", user.role_id);
+			localStorage.setItem("user_create_id", user.user_id);
 			localStorage.setItem("user_id", user.id);
 			localStorage.setItem("token", token);
 		},
@@ -30,6 +31,7 @@ const auth = defineStore({
 			localStorage.removeItem("user_id");
 			localStorage.removeItem("role");
 			localStorage.removeItem("is_login");
+			localStorage.removeItem("user_create_id");
 		},
 	},
 });
