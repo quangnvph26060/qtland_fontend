@@ -100,12 +100,12 @@
                 </div>
               </div>
               <div class="area mx-12 main_infor">
-                <span class="title">Diện tích</span>
+                <span class="title">Diện tích sử dụng</span>
                 <br />
                 <span class="content"> {{ data.areausable   }} m2 </span>
               </div>
               <div class="area mx-12 main_infor">
-                <span class="title">Diện tích</span>
+                <span class="title">Diện tích xây dựng</span>
                 <br />
                 <span class="content"> {{ data.area  }} m2 </span>
               </div> 
