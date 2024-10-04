@@ -176,7 +176,7 @@
               </router-link>
             </template> -->
             <!-- tag for role user -->
-            <template v-if="column.dataIndex === 'role_id'">
+            <!-- <template v-if="column.dataIndex === 'role_id'">
               <a-tag
                 :color="
                   record.role_id == 1 || record.role_id == 6
@@ -204,7 +204,7 @@
                     : ""
                 }}
               </a-tag>
-            </template>
+            </template> -->
             <template v-else-if="column.dataIndex === 'is_active'">
               <a-tag
                 :bordered="false"
