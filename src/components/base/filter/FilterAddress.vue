@@ -138,6 +138,19 @@ watch(
 );
 
 // Watch for reset action
+// watch(
+//   () => resetFilter.value,
+//   (newVal) => {
+//     if (newVal) {
+//       selectedProvince.value = null;
+//       selectedDistrict.value = null;
+//       selectedWard.value = null;s
+//       filterRangeStore.setAddress("");
+//       onSubmit();
+//     }
+//   }
+// );
+
 watch(
   () => resetFilter.value,
   (newVal) => {
@@ -147,6 +160,11 @@ watch(
       selectedWard.value = null;
       filterRangeStore.setAddress("");
       onSubmit();
+      
+      // Đặt lại resetFilter về false sau khi reset xong
+      setTimeout(() => {
+        resetFilter.value = false;
+      }, 0);
     }
   }
 );
