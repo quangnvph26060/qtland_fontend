@@ -25,7 +25,7 @@
         <!-- end::Search Bar Item Wrapper -->
 
         <!-- begin::Filter Item Wrapper -->
-        <div class="flex align-items-center col-12 h-14 col-xl-9 overflow-auto">
+        <div class="flex align-items-center col-12 h-14 col-xl-9 overflow-auto" style=" overflow-y: hidden !important;">
           <!-- begin::Filter Item -->
           <div class="filter-item col-4 col-xl-2">
             <FilterAddress />
