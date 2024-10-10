@@ -91,6 +91,11 @@ const props = defineProps({
 const modalAddressVisible = ref(false);
 const setModalAddressVisible = (open) => {
   modalAddressVisible.value = open;
+  if (open) {
+    document.body.classList.add('no-scroll');
+  } else {
+    document.body.classList.remove('no-scroll');
+  }
 };
 
 // Address selection states
@@ -200,6 +205,9 @@ const onSubmit = () => {
       },
     });
   }
+
+    modalAddressVisible.value = false;
+    document.body.classList.remove('no-scroll');
 };
 </script>
 
@@ -235,4 +243,9 @@ export default {};
  
   margin-top: 15px;
 }
+
+.no-scroll {
+  overflow: hidden;
+}
+
 </style>
