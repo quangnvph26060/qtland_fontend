@@ -1,92 +1,85 @@
 <template>
-  <a-popover placement="bottomLeft" trigger="click" class="flex">
-    <template #title>
-      <div>Chọn mức giá</div>
-    </template>
-    <template #content>
-      <div class="flex mt-3 w-[300px]">
-        <a-input-number
-          :formatter="
-            (value) =>
-              value ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0
-          "
-          v-model:value="price[0]"
-          :min="min"
-          :max="max"
-          :step="100"
-          class="w-80 col-5"
-        />
-        <div class="col-2 flex align-items-center justify-center">
-          <ArrowRightOutlined />
-        </div>
-        <a-input-number
-          :formatter="
-            (value) =>
-              value ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0
-          "
-          v-model:value="price[1]"
-          :min="0"
-          :max="1000"
-          :step="100"
-          class="w-80 col-5"
-        />
+  <a-modal
+    v-model:visible="modalPriceRangeVisible" 
+    title="Chọn mức giá"
+    :footer="null"
+  >
+    <div class="flex mt-3 w-[300px]">
+      <a-input-number
+        :formatter="(value) => value ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0"
+        v-model:value="price[0]"
+        :min="min"
+        :max="max"
+        :step="100"
+        class="w-80 col-5"
+      />
+      <div class="col-2 flex align-items-center justify-center">
+        <ArrowRightOutlined />
       </div>
-      <div>
-        <a-slider v-model:value="price" range :min="0" :max="1000" :step="100">
-        </a-slider>
-      </div>
-      <div class="filter-list">
-        <a-button class="filter-list-item" v-for="item in filterList">
-          <div class="w-100" @click="setPrice(item.min, item.max)">
-            {{
-              item.min < 1000
-                ? item.max !== null
-                  ? item.max < 1000
-                    ? `${item.min}`
-                    : `${item.min} triệu`
-                  : ` Trên ${item.min} triệu `
-                : item.max !== null
-                ? item.max < 1000
-                  ? `${item.min / 1000} triệu`
-                  : `${item.min / 1000} triệu`
-                : ` Trên ${item.min / 1000} triệu`
-            }}
-            {{
-              item.max !== null
-                ? ` - ${
-                    item.max < 1000
-                      ? `${item.max} triệu`
-                      : `${item.max / 1000} triệu`
-                  }`
-                : ""
-            }}
-          </div>
-        </a-button>
-      </div>
-      <a-divider />
-      <div class="flex justify-between">
-        <a-button @click="setPrice(0, 1000)">Đặt lại</a-button>
-        <a-button type="primary"
-          ><div @click="setPrice(price[0], price[1])">Tìm kiếm</div></a-button
-        >
-      </div>
-    </template>
-    <div class="filter-item-content" @click="setModalPriceRangeVisible(true)">
-      <div class="flex justify-between">
-        <div>Mức giá</div>
-        <div class="mr-2 flex align-items-center" v-if="props.type === 'user'">
-          <DownOutlined />
-        </div>
-      </div>
+      <a-input-number
+        :formatter="(value) => value ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0"
+        v-model:value="price[1]"
+        :min="0"
+        :max="1000"
+        :step="100"
+        class="w-80 col-5"
+      />
+    </div>
+    <div>
+      <a-slider v-model:value="price" range :min="0" :max="1000" :step="100" />
+    </div>
+    <div class="filter-list">
+     <a-button class="filter-list-item" v-for="item in filterList" :key="item.min">
+  <div class="w-100" @click="() => { setPrice(item.min, item.max); setModalPriceRangeVisible(false); }">
+    {{
+      item.min < 1000
+        ? item.max !== null
+          ? item.max < 1000
+            ? `${item.min}`
+            : `${item.min} triệu`
+          : ` Trên ${item.min} triệu `
+        : item.max !== null
+        ? item.max < 1000
+          ? `${item.min / 1000} triệu`
+          : `${item.min / 1000} triệu`
+        : ` Trên ${item.min / 1000} triệu`
+    }}
+    {{
+      item.max !== null
+        ? ` - ${
+            item.max < 1000
+              ? `${item.max} triệu`
+              : `${item.max / 1000} triệu`
+          }`
+        : ""
+    }}
+  </div>
+</a-button>
 
-      <div
-        class="list-search-selected w-100 flex mt-2"
-        v-if="props.type === 'user'"
-      >
-        <div v-text="computedRangePrice"></div>
+    </div>
+    <a-divider />
+    <div class="flex justify-between">
+      <a-button @click="() => { setPrice(0, 1000); setModalPriceRangeVisible(false); }">
+        Đặt lại
+      </a-button>
+      <a-button type="primary" @click="() => { setPrice(price[0], price[1]); setModalPriceRangeVisible(false); }">
+        Tìm kiếm
+      </a-button>
+    </div>
+  </a-modal>
+
+  <div class="filter-item-content" @click="modalPriceRangeVisible = true">
+    <div class="flex justify-between">
+      <div>Mức giá</div>
+      <div class="mr-2 flex align-items-center" v-if="props.type === 'user'">
+        <DownOutlined />
       </div>
     </div>
-  </a-popover>
+
+    <div class="list-search-selected w-100 flex mt-2" v-if="props.type === 'user'">
+      <div v-text="computedRangePrice"></div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -206,4 +199,8 @@ const computedRangePrice = computed(() => {
 <script>
 export default {};
 </script>
-<style></style>
+<style>
+.ant-modal-content{
+    max-width: 400px !important;
+}
+</style>
