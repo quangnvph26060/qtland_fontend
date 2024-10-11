@@ -26,6 +26,7 @@
                   :options="status"
                   :title="'Trạng thái bài viết'"
                   @update:selected="handleInput('status_id', $event)"
+                  class="status_idInput"
                   
                 />
                 <p id="status_idInput"></p>
@@ -680,7 +681,7 @@
                   <img alt="example" style="width: 100%" :src="previewImage" />
                 </a-modal>
               </div>
-
+              <p id="imagesInput"></p>
               <div>
                 <p style="color: red;font-size: 15px"> <strong> <i class="fas fa-exclamation-triangle"></i></strong> Thứ tự hiển thị ảnh : cả toà, đường đi, phòng, tiện ích wc, thang máy, hầm để xe....</p>
               </div>
@@ -733,6 +734,7 @@ import getCommentDetailsAPI from "../../../api/comment/getDetails";
 import apiURL from "../../../api/constants";
 import router from "../../../router";
 import auth from "../../../stores/auth";
+import messageAnt from "../../../scripts/message";
 
 const store = auth();
 const visible = ref(false);
@@ -1154,6 +1156,7 @@ function handleDrop(e) {
 const role = localStorage.getItem("role_id");
 const units = ['unit', 'unit1', 'unit2', 'unit3'];
 // Xử lý submit form
+const loading = ref(false);
 const onSubmit = async () => {
   try {
     const { province, district, ward } = selectorAddress;
@@ -1241,17 +1244,24 @@ const onSubmit = async () => {
       data.sold_status = 0;
       data.status_id = 3;
       data.user_id = store.user.id;
+
+       console.log(fileList.value.length);
         // thêm mới post
        for (let key in data) {
           if (data[key] === "" || (Array.isArray(data[key]) && data[key].length === 0)) {
               const getKey = document.getElementById(`${key}`);
               const inputElement = document.getElementById(`${key}Input`);
             if (inputElement) {
+              
               inputElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+               messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+              loading.value = false;
               return;
             }
             if (getKey) {
               getKey.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+              messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+              loading.value = false;
               return;
             }
             
@@ -1259,22 +1269,58 @@ const onSubmit = async () => {
           }
         }
        // validate đơn vị
+      
+      
        for (const unit of units) {
           if (!data[unit]) {
-            const inputElement = document.getElementById(`${unit}Input`);
+            const inputElement = document.getElementById('unitInput');
             inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+            return;
+          }
+        }
+
+        for (const unit1 of units) {
+          if (!data[unit1]) {
+            const inputElement = document.getElementById('unit1Input');
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+            return;
+          }
+        }
+        for (const unit2 of units) {
+          if (!data[unit2]) {
+            const inputElement = document.getElementById('unit2Input');
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+            return;
+          }
+        }
+        for (const unit3 of units) {
+          if (!data[unit3]) {
+            const inputElement = document.getElementById('unit3Input');
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
             return;
           }
         }
        
        
         
-        // validate image
-        // if(!data.post_image){
-        //   const inputElement = document.getElementById(`${unit}Input`);
-        //   inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-        //   return;
-        // }
+        //validate image
+       
+        if(fileList.value.length == 0){
+          const inputElement = document.getElementById('imagesInput');
+          inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+           messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+          return;
+        }
+
       const response = await createPostAPI(data);
       if (response && response.status === 201) {
         message.success("Tạo bài viết thành công");
