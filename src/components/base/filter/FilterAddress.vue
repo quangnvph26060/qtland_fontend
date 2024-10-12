@@ -1,11 +1,11 @@
 <template>
-  <div id="mobi">
+  <!-- <div id="mobi">
     <a-modal
       v-model:visible="modalAddressVisible"
       title="Chọn khu vực"
       width="100%"
       :footer="null"
-      style="margin-top:50%"
+      style="margin-top: 50%"
     >
       <SelectorAddress
         class="mt-3"
@@ -22,7 +22,9 @@
     </a-modal>
 
     <div class="filter-item-content" @click="setModalAddressVisible(true)">
-      <div :class="['flex text-black justify-between', { 'highlighted': computedAddress === '' }]" >
+      <div
+        :class="[ 'flex text-black justify-between', { highlighted: computedAddress === '' } ]"
+      >
         <div>Khu vực</div>
         <div class="mr-2 flex align-items-center" v-if="props.type === 'user'">
           <DownOutlined />
@@ -33,14 +35,19 @@
         <div v-text="computedAddress"></div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div id="lap">
-    <a-popover placement="bottomLeft" trigger="click" class="flex" @click="setModalAddressVisible(false)">
-      <template #title>
-        <div>Chọn khu vực</div>
-      </template>
-      <template #content>
+  <div >
+    <a-modal
+      v-model:open="modalAddressVisible"
+      okText="Tìm kiếm"
+      cancelText="Đặt lại"
+      class="top-1/5"
+      title="Chọn khu vực"
+      @ok="onSubmit"
+      @cancel="resetFilter = true"
+    >
+      <div class="mt-3">
         <SelectorAddress
           class="mt-3"
           @update:selectedProvince="updateSelected('province', $event)"
@@ -49,26 +56,24 @@
           :onResetFilter="resetFilter"
         />
         <a-divider />
-        <div class="w-[250px] flex justify-between">
-          <a-button type="default" @click="resetFilter = true">Đặt lại</a-button>
-          <a-button type="primary" @click="onSubmit">Tìm kiếm</a-button>
-        </div>
-      </template>
-      <div class="filter-item-content" @click="setModalAddressVisible(false)">
-        <div :class="['flex text-black justify-between', { 'highlighted': computedAddress === '' }]" >
-          <div>Khu vực</div>
-          <div class="mr-2 flex align-items-center" v-if="props.type === 'user'">
-            <DownOutlined />
-          </div>
-        </div>
-        <div class="list-search-selected w-100 text-black flex mt-2" v-if="props.type === 'user'">
-          <div v-text="computedAddress"></div>
+      </div>
+    </a-modal>
+
+    <div class="filter-item-content" @click="setModalAddressVisible(true)">
+      <div
+        :class="[ 'flex text-black justify-between', { highlighted: computedAddress === '' } ]"
+      >
+        <div>Khu vực</div>
+        <div class="mr-2 flex align-items-center" v-if="props.type === 'user'">
+          <DownOutlined />
         </div>
       </div>
-    </a-popover>
+      <div class="list-search-selected w-100 text-black flex mt-2" v-if="props.type === 'user'">
+        <div v-text="computedAddress"></div>
+      </div>
+    </div>
   </div>
 </template>
-
 
 
 <script setup>
@@ -92,9 +97,9 @@ const modalAddressVisible = ref(false);
 const setModalAddressVisible = (open) => {
   modalAddressVisible.value = open;
   if (open) {
-    document.body.classList.add('no-scroll');
+    document.body.classList.add("no-scroll");
   } else {
-    document.body.classList.remove('no-scroll');
+    document.body.classList.remove("no-scroll");
   }
 };
 
@@ -165,7 +170,7 @@ watch(
       selectedWard.value = null;
       filterRangeStore.setAddress("");
       onSubmit();
-      
+
       // Đặt lại resetFilter về false sau khi reset xong
       setTimeout(() => {
         resetFilter.value = false;
@@ -206,8 +211,8 @@ const onSubmit = () => {
     });
   }
 
-    modalAddressVisible.value = false;
-    document.body.classList.remove('no-scroll');
+  modalAddressVisible.value = false;
+  document.body.classList.remove("no-scroll");
 };
 </script>
 
@@ -240,12 +245,10 @@ export default {};
   }
 }
 .highlighted {
- 
   margin-top: 15px;
 }
 
 .no-scroll {
   overflow: hidden;
 }
-
 </style>
