@@ -13,21 +13,11 @@
       <!-- begin::Total land -->
 
       <a-skeleton-input v-if="isLoading" />
-      <div
-        v-else
-        class="flex w-full justify-between align-items-center"
-        style="padding: 0px 20px 0px 0px"
-      >
-        <span>Hiện có {{ data? total: 0 }} bất động sản </span>
+      <div v-else class="flex w-full justify-between align-items-center" style="padding: 0px 20px 0px 0px">
+        <span>Hiện có {{ data ? total : 0 }} bất động sản </span>
         <div>
-          <a-select
-            ref="select"
-            v-model:value="value1"
-            style="width: 120px"
-            :options="options1"
-            @focus="focus"
-            @change="handleChange"
-          >
+          <a-select ref="select" v-model:value="value1" style="width: 120px" :options="options1" @focus="focus"
+            @change="handleChange">
           </a-select>
         </div>
       </div>
@@ -39,38 +29,20 @@
     <div class="space-y-10 mb-5 main-flex">
       <!-- begin::Content Item -->
       <!-- <a-skeleton v-if="isLoading" :active="true" /> -->
-      <a-list
-        item-layout="vertical"
-        size="large"
-        class="demo"
-        :data-source="data"
-        :pagination="pagination"
-       
-      >
+      <a-list item-layout="vertical" size="large" class="demo" :data-source="data" :pagination="pagination">
         <template #header>
           <div class="text-xl font-semibold">Danh sách bài viết</div>
         </template>
 
         <template #renderItem="{ item, index }">
           <div :key="item.id" class="w-full md:w-1/4 p-2 post-container">
-            <div
-              class="border rounded-lg overflow-hidden flex flex-column h-full post-item"
-            >
-              <router-link
-                :to="{ name: 'post-detail', params: { id: item.id } }"
-                class="block"
-              >
+            <div class="border rounded-lg overflow-hidden flex flex-column h-full post-item">
+              <router-link :to="{ name: 'post-detail', params: { id: item.id } }" class="block">
                 <div class="relative h-48">
-                  <img
-                    :src="item.post_image?.[0]?.image_path"
-                    class="w-full h-full object-cover"
-                    alt="Post Image"
-                  />
-                  <div
-                   
-                    class="absolute top-2 left-2 px-2 py-1 text-white bg-red-500 rounded"
-                  >
-                    {{ item.priority_status }}  <span> {{item.traphong && item.priority_status =='trả phòng'  ? formatDate(item.traphong) : ""  }}</span>
+                  <img :src="item.post_image?.[0]?.image_path" class="w-full h-full object-cover" alt="Post Image" />
+                  <div class="absolute top-2 left-2 px-2 py-1 text-white bg-red-500 rounded">
+                    {{ item.priority_status }} <span> {{ item.traphong && item.priority_status == 'trả phòng' ?
+                      formatDate(item.traphong) : "" }}</span>
                   </div>
                 </div>
                 <div style="padding: 5px 11px 6px 12px">
@@ -93,19 +65,12 @@
                 </div>
               </router-link>
               <div class="demo" style="padding: 5px 15px">
-                <div
-                  class="flex items-baseline justify-content-between"
-                  style="flex-wrap: wrap"
-                >
+                <div class="flex items-baseline justify-content-between" style="flex-wrap: wrap">
                   <div style="display: flex">
-                    <a-avatar
-                      class="me-2"
-                      :src="item.user_info.avatar || ''"
-                      :style="{
-                        backgroundColor: '#ADC178',
-                        verticalAlign: 'middle',
-                      }"
-                    >
+                    <a-avatar class="me-2" :src="item.user_info.avatar || ''" :style="{
+                      backgroundColor: '#ADC178',
+                      verticalAlign: 'middle',
+                    }">
                       <template v-if="!item.user_info.avatar">
                         {{ item.user_info.name[0] }}
                       </template>
@@ -118,49 +83,31 @@
                     </div>
                   </div>
                   <div id="lienhe_phone" style="color: #ffff; font-weight: 600">
-                    <div
-                      v-if="!isPhoneVisible[item.id]"
-                      style="display: flex; align-items: center; margin: 0px"
-                    >
-                      <div                    
-                        style="
+                    <div v-if="!isPhoneVisible[item.id]" style="display: flex; align-items: center; margin: 0px">
+                      <div style="
                           display: flex;
                           background: #009ba1;
                           align-items: center;
                           padding: 5px 10px;
                           border-radius: 5px;
-                        "
-                      >
-                        <a  :href="'tel:' + item.user_info.phone"
-                        style=" color: inherit;"
-                        >
-                          <i
-                          style="padding: 0px 10px 0px 0px"
-                          class="fa-solid fa-phone"
-                        ></i
-                        >{{ item.user_info.phone }}
+                        ">
+                        <a :href="'tel:' + item.user_info.phone" style=" color: inherit;">
+                          <i style="padding: 0px 10px 0px 0px" class="fa-solid fa-phone"></i>{{ item.user_info.phone }}
                         </a>
-                        
+
                       </div>
                     </div>
-                    <div
-                      v-else
-                      style="
+                    <div v-else style="
                         display: flex;
                         align-items: center;
                         margin: 0px;
                         background: #009ba1;
                         padding: 0px 5px;
                         border-radius: 5px;
-                      "
-                    >
+                      ">
                       <div style="display: flex; align-items: center">
                         {{ item.user_info.phone }}
-                        <span
-                          @click="copyPhoneNumber(item.user_info.phone)"
-                          class="copy-link"
-                          >.Copy</span
-                        >
+                        <span @click="copyPhoneNumber(item.user_info.phone)" class="copy-link">.Copy</span>
                       </div>
                     </div>
                   </div>
@@ -193,6 +140,7 @@ import {
   onMounted,
   nextTick,
   computed,
+  onBeforeMount
 } from "vue";
 import formatMoney from "../../../utils/formatMoney";
 import auth from "../../../stores/auth";
@@ -239,10 +187,11 @@ const filterStore = filterRange();
 const openBanner = ref(true);
 
 let filter = filterStore.getAll;
-
-onBeforeUnmount(() => {
-  filterStore.resetFilters();
-});
+console.log(filter);
+ 
+// onBeforeUnmount(() => {
+//   filterStore.resetFilters();
+// });
 
 const props = defineProps({
   rangeArea: String,
@@ -280,7 +229,7 @@ const options1 = ref([
     value: "mới",
     label: "Mới",
   },
-   {
+  {
     value: "trả phòng",
     label: "Trả phòng",
   },
@@ -317,24 +266,26 @@ const fetchPostsFilter = async (
 
   let listPosts;
   let res;
+  // console.log(role);
 
-if(role == 2 ){
-   res = await listPostsAPI.getPostBySoldFilterByUser(useid,{
-    ...filter,
-    page: pageFilter.value,
-    pageSize: pageSizeFilter.value,
-    priority_status: value1.value,
-  });
+  if (role == 2) {
+    res = await listPostsAPI.getPostBySoldFilterByUser(useid, {
+      ...filter,
+      page: pageFilter.value,
+      pageSize: pageSizeFilter.value,
+      priority_status: value1.value,
+    });
 
-}else{
-   res = await listPostsAPI.getPostBySoldFilter({
-    ...filter,
-    page: pageFilter.value,
-    pageSize: pageSizeFilter.value,
-    priority_status: value1.value,
-  });
-}
+  } else {
 
+    res = await listPostsAPI.getPostBySoldFilter({
+      ...filter,
+      page: pageFilter.value,
+      pageSize: pageSizeFilter.value,
+      priority_status: value1.value,
+    });
+  }
+ 
   listPosts = res.data;
   total.value = res.total;
   const ans = reactive({
@@ -380,12 +331,16 @@ if(role == 2 ){
     });
     ans.created_at = getTimeSincePostCreation(post.created_at);
     ans.updated_at = getTimeSincePostCreation(post.updated_at);
-      posts.push({ ...ans });
+    posts.push({ ...ans });
   }
 
   data.value = posts;
   isLoading.value = false;
 };
+onBeforeMount(() => {
+  fetchPostsFilter(filter);
+    console.log('Component được mount');
+  });
 
 fetchPostsFilter(filter);
 const pagination = reactive({
@@ -515,19 +470,22 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .ant-list-items {
   display: flex !important;
   flex-wrap: wrap !important;
 }
+
 .main_text_address {
   line-height: 1.5em;
   height: 3em;
 }
+
 .sidebar-filter {
   width: 262px;
   max-width: 254px;
 }
+
 .ant-list-pagination {
   width: 75vw;
   display: flex;
