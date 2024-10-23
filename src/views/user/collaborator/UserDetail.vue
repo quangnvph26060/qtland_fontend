@@ -79,73 +79,7 @@
         </div>
       </a-form-item>
 
-      <a-form-item
-        label="Vai trò"
-        :rules="[{ required: true, message: 'Hãy nhập vai trò !' }]"
-      >
-        <a-select v-model:value="user.role_id">
-          <a-select-option :value="1" v-if="store.user.role_id === 1"
-            >Supper Admin</a-select-option
-          >
-          <a-select-option :value="6" v-if="store.user.role_id === 1"
-            >Admin</a-select-option
-          >
-          <a-select-option :value="5">Đầu chủ VIP</a-select-option>
-          <a-select-option :value="2">Đầu chủ</a-select-option>
-          <a-select-option :value="4">Sale VIP</a-select-option>
-          <a-select-option :value="3">Sale</a-select-option>
-        </a-select>
-      </a-form-item>
-      <a-form-item class="permission_label"
-        v-if="user.role_id != ''"
-        label="Quyền truy cập"
-      ></a-form-item>
-      <div class="pressmison_mobi">
-        <a-form-item v-if="user.role_id != ''">
-          <div class="d-flex flex-column main-pressmison">
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="1"
-                v-model="user.access_permission_1"
-              />
-              <span>Văn phòng hạng A</span>
-            </span>
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="2"
-                v-model="user.access_permission_2"
-              />
-              <span>Văn phòng hạng B</span>
-            </span>
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="3"
-                v-model="user.access_permission_3"
-              />
-              <span>Văn phòng hạng C</span>
-            </span>
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="4"
-                v-model="user.access_permission_4"
-              />
-              <span>Văn phòng hạng D</span>
-            </span>
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="5"
-                v-model="user.access_permission_5"
-              />
-              <span>Mặt bằng kinh doanh</span>
-            </span>
-          </div>
-        </a-form-item>
-      </div>
+      
       <a-form-item label="Trạng thái">
         <a-select v-model:value="user.is_active">
           <a-select-option :value="1">Hoạt động</a-select-option>
@@ -164,6 +98,7 @@ import messageAnt from "../../../scripts/message";
 import { message } from "ant-design-vue";
 import auth from "../../../stores/auth";
 const store = auth();
+
 const props = defineProps({
   title: String,
   userSelected: Object,
@@ -184,18 +119,14 @@ const user = reactive({
   name: "",
   email: "",
   password: "",
-  role_id: "",
+  role_id: '',
   is_active: "",
   cccd: "",
   phone: "",
   address: "",
   workunit: "",
   birthday: "",
-  access_permission_1: "",
-  access_permission_2: "",
-  access_permission_3: "",
-  access_permission_4: "",
-  access_permission_5: "",
+  user_id: "",
 });
 const errors = ref({});
 
@@ -207,6 +138,7 @@ function onChangePassword(modalClose = false) {
     changePassword.value = false;
   }
 }
+const useid = localStorage.getItem('user_id');
 
 // Theo dõi sự thay đổi của userSelected
 watch(
@@ -219,23 +151,14 @@ watch(
       user.name = newValue.name;
       user.email = newValue.email;
       user.password = newValue.password;
-      user.role_id = newValue.role_id;
+      // user.role_id = newValue.role_id;
       user.birthday = newValue.birthday;
       user.phone = newValue.phone;
       user.cccd = newValue.cccd;
       user.address = newValue.address;
       user.workunit = newValue.workunit;
       user.is_active = newValue.is_active;
-      user.access_permission_1 =
-        +newValue.access_permission_1 === 1 ? true : false;
-      user.access_permission_2 =
-        +newValue.access_permission_2 === 2 ? true : false;
-      user.access_permission_3 =
-        +newValue.access_permission_3 === 3 ? true : false;
-      user.access_permission_4 =
-        +newValue.access_permission_4 === 4 ? true : false;
-      user.access_permission_5 =
-        +newValue.access_permission_5 === 5 ? true : false;
+      // user.user_id = ;
     }
   }
 );
@@ -257,18 +180,14 @@ const handleOkModal = async () => {
       name: capitalizeFirstLetter(user.name),
       email: user.email,
       password: user.password,
-      role_id: user.role_id,
+      role_id: 7,
       is_active: user.is_active,
       cccd: user.cccd,
       phone: user.phone,
       address: user.address,
       workunit: user.workunit,
       birthday: user.birthday,
-      access_permission_1: user.access_permission_1 === true ? 1 : 0,
-      access_permission_2: user.access_permission_2 === true ? 2 : 0,
-      access_permission_3: user.access_permission_3 === true ? 3 : 0,
-      access_permission_4: user.access_permission_4 === true ? 4 : 0,
-      access_permission_5: user.access_permission_5 === true ? 5 : 0,
+      user_id : useid
     };
     /**
      * Hàm thêm mới người dùng
@@ -277,6 +196,7 @@ const handleOkModal = async () => {
      */
     const fetchCreateUser = async (information) => {
       try {
+        console.log(information);
         await createUserAPI(information);
         const emailData = {
           email: information.email,
@@ -300,19 +220,14 @@ const handleOkModal = async () => {
     const information = {
       name: user.name,
       email: user.email,
-      password: user.password,
-      role_id: user.role_id,
+      password: user.password,    
       is_active: user.is_active,
       cccd: user.cccd,
       phone: user.phone,
       address: user.address,
       workunit: user.workunit,
-      birthday: user.birthday,
-      access_permission_1: user.access_permission_1 === true ? 1 : 0,
-      access_permission_2: user.access_permission_2 === true ? 2 : 0,
-      access_permission_3: user.access_permission_3 === true ? 3 : 0,
-      access_permission_4: user.access_permission_4 === true ? 4 : 0,
-      access_permission_5: user.access_permission_5 === true ? 5 : 0,
+      birthday: user.birthday,   
+      role_id: 7, 
     };
     /**
      * Hàm cập nhật dữ liệu người dùng

@@ -143,12 +143,14 @@
                     : store.user.role_id === 4
                     ? "Sale VIP"
                     : store.user.role_id === 5
-                    ? "Sale VIP"
-                    : "Quản trị viên thường"
+                    ? "Đầu chủ VIP"
+                    : store.user.role_id === 7
+                    ? "Cộng tác viên"
+                    :"Quản trị viên thường"
                 }}
               </a-descriptions-item>
               {{ store.user }}
-              <div v-if="store.user.permissions[0]">
+              <div v-if="store.user.permissions[0] && store.user.role_id !== 7">
                 <p>Quyền truy cập:</p>
                 <select name="" id="">
                   <option value="" class="main-option-permission">
@@ -178,7 +180,7 @@
                   <option value="" class="main-option-permission">
                     {{
                       +store.user?.permissions[0].access_permission_4 === 4
-                        ? "Văn phòng Coworking"
+                        ? "Văn phòng hạng D"
                         : ""
                     }}
                   </option>

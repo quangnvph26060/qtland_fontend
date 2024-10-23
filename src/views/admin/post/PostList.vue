@@ -574,7 +574,7 @@ const fetchPostsList = async (filter, page = 1, pageSize = 10) => {
     page: pageFilter.value,
     pageSize: pageSizeFilter.value,
   });
-  console.log(res);
+  // console.log(res);
   let listPosts = res.data;
   total.value = res.total;
   const posts = []

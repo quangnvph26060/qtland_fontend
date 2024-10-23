@@ -125,7 +125,7 @@
               <div>
                 {{
                   user.permissions[0]?.access_permission_4 == 4
-                    ? "Văn phòng hạng Coworking"
+                    ? "Văn phòng hạng D"
                     : ""
                 }}
               </div>
@@ -655,7 +655,7 @@ const fetchPostsListByID = async (filter, page = 1, pageSize = 10) => {
     page: pageFilter.value,
     pageSize: pageSizeFilter.value,
   });
-  console.log(res);
+  // console.log(res);
   let listPosts = res.data;
   total.value = res.total;
   const posts = [];

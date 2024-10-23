@@ -583,7 +583,7 @@ const fetchPostsPendingList = async () => {
   }));
 
   data.value = posts;
-  console.log(data.value);
+  // console.log(data.value);
 };
 
 fetchPostsPendingList();

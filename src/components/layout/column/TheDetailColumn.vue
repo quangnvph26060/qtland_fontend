@@ -16,7 +16,7 @@
                 />
               </div> -->
 
-              <div
+              <div class="status_error"
                 v-if="
                   postId && store.user.role_id != 2 && store.user.role_id != 5
                 "
@@ -26,15 +26,17 @@
                   :options="status"
                   :title="'Trạng thái bài viết'"
                   @update:selected="handleInput('status_id', $event)"
+                  class="status_idInput"
                   
                 />
                 <p id="status_idInput"></p>
               </div>
 
-              <div>
+              <div >
                
                 <InputSelect
                   id="priority_statusInput"
+                  class="priority_error"
                   :valueSelected="data.priority_status"
                   :options="priorityStatus"
                   :title="'Độ ưu tiên bài viết'"
@@ -55,6 +57,7 @@
                     @change="handleDateChange"
                     class="datetime-input"
                   />
+                  <p id="priority_status" > </p>
                 </div>
               </div>
             </template>
@@ -99,13 +102,13 @@
           <Card title="Thông tin bài viết" class="p-0 border-0">
             <template #content>
               <!-- begin::Input Group -->
-              <InputBasic
+              <!-- <InputBasic
                 id="titleInput"
                 title="Tiêu đề"
                 placeholder="Nhập tiêu đề bài viết"
                 :value="data.title"
                 @input="handleInput('title', $event)"
-              />
+              /> -->
               <!-- end::Input Group -->
 
               <!-- begin::Input Group -->
@@ -115,8 +118,10 @@
                 placeholder="Nhập mô tả bài viết"
                 :value="data.description"
                 :rows="6"
+                v-model="description"
                 @input="handleInput('description', $event)"
               />
+              <p v-if="descriptionError" class="error-message">{{ descriptionError }}</p>
               <!-- end::Input Group -->
             </template>
           </Card>
@@ -137,7 +142,7 @@
                 @update:selected="handleInput('classrank', $event)"
                 placeholder="Chọn hạng văn phòng"
               />
-              <!-- begin::Input Group -->
+             
               <InputBasic
                 title="Diện tích xây dựng"
                 placeholder="Nhập diện tích, VD: 80"
@@ -271,19 +276,17 @@
                 <div class="d-flex flex-wrap justify-content-between">
                   <div class="flex-fill me-2">
                     <InputBasic
-                      title="Số tầng"
-                      placeholder="Nhập số tầng"
+                      title="Số tầng ( số phòng )"
+                      placeholder="VD : Số tầng ( T2 ), Số phòng ( P201 ), Mặt bằng kd ( MBKD )"
                       :value="data.floors?.toString()"
-                      @input="handleInput('floors', $event)"
-                      inputType="number"
-                      
+                      @input="handleInput('floors', $event)"                   
                     />
                     <p id="floorsInput"></p>
                   </div>
                   <div class="flex-fill me-2">
                     <InputBasic
                       title="Chia phòng"
-                      placeholder="Nhập chia phòng"
+                      placeholder=" Nhập số phòng được chia  VD : 2"
                       :value="data.rooms?.toString()"
                       @input="handleInput('rooms', $event)"
                       inputType="number"
@@ -472,7 +475,7 @@
                 <div class="d-flex flex-wrap justify-content-between">
                   <div class="flex-fill me-2">
                     <InputBasic
-                      title="Đường vào"
+                      title="Đường vào (m)"
                       placeholder="Diện tích đường vào"
                       :value="data.wayin?.toString()"
                       @input="handleInput('wayin', $event)"
@@ -483,7 +486,7 @@
 
                   <div class="flex-fill me-2">
                     <InputBasic
-                      title="Mặt tiền"
+                      title="Mặt tiền (m)"
                       placeholder="Diện tích mặt tiền"
                       :value="data.font?.toString()"
                       @input="handleInput('font', $event)"
@@ -494,6 +497,23 @@
                 </div>
                 <!-- end::Input -->
               </div>
+
+  <div class="flex justify-between flex-wrap price_unit">
+                <div class="col-12 col-xl-12">
+                  <!-- begin::Input -->
+                  <InputBasic
+                    title="Setup(ngày)"
+                    placeholder="Nhập giá, VD: 1"
+                    :value="data.setup?.toString()"
+                    @input="handleInput('setup', $event)"
+                    inputType="number"
+                    id="priceElectricityInput"
+                  />
+                  <!-- end::Input -->
+                </div>
+                
+              </div>
+
               <div class="col-12 col-xl-12" id="radio-buttons">
                 <div class="d-flex flex-wrap justify-content-between">
                   <!-- Phòng cháy chữa cháy -->
@@ -661,6 +681,10 @@
                   <img alt="example" style="width: 100%" :src="previewImage" />
                 </a-modal>
               </div>
+              <p id="imagesInput"></p>
+              <div>
+                <p style="color: red;font-size: 15px"> <strong> <i class="fas fa-exclamation-triangle"></i></strong> Thứ tự hiển thị ảnh : cả toà, đường đi, phòng, tiện ích wc, thang máy, hầm để xe....</p>
+              </div>
             </template>
           </Card>
           <!-- end::Media Option -->
@@ -710,12 +734,28 @@ import getCommentDetailsAPI from "../../../api/comment/getDetails";
 import apiURL from "../../../api/constants";
 import router from "../../../router";
 import auth from "../../../stores/auth";
+import messageAnt from "../../../scripts/message";
 
 const store = auth();
 const visible = ref(false);
 
 const route = useRoute();
 const disabledCommentTab = ref(false);
+
+const description = ref('');
+const descriptionError = ref('');
+
+// Theo dõi sự thay đổi của description để kiểm tra số ký tự
+watch(description, (newVal) => {
+  // alert(description)
+  const length = newVal.length;
+  console.log(length); // Bạn có thể thay alert bằng console.log để kiểm tra
+  if (length < 30 || length > 3000) {
+    descriptionError.value = 'Tối thiếu 30 ký tự tối đa 3000 ký tự.';
+  }else{
+    descriptionError.value = ''; // Không có lỗi
+  }
+});
 
 const unit = [
   {
@@ -759,6 +799,10 @@ const unit3 = [
   },
   {
     value: "2",
+    label: "Vnd/tháng",
+  },
+  {
+    value: "3",
     label: "Miễn phí",
   },
 ];
@@ -853,7 +897,7 @@ const classrank = [
   },
   {
     value: "4",
-    label: "Hạng Cowking",
+    label: "Hạng D",
   },
   {
     value: "5",
@@ -873,7 +917,7 @@ const data = reactive({
   priority_status: "",
   address_detail: "",
   id: "",
-  title: "",
+  // title: "",
   description: "",
   classrank: "",
   area: "",
@@ -911,6 +955,7 @@ const data = reactive({
   gop: "",
   pay: "",
   traphong: "",
+  setup: '',
 });
 
 const formattedDate = ref("");
@@ -934,7 +979,7 @@ watch(
 
 const disabledSubmit = computed(() => {
   return !(
-    data.title &&
+    // data.title &&
     data.description &&
     data.classrank &&
     data.area &&
@@ -960,7 +1005,8 @@ const disabledSubmit = computed(() => {
     data.unit2 &&
     data.unit3 &&
     data.gop &&
-    data.pay
+    data.pay  
+    
   );
 });
 
@@ -1015,6 +1061,22 @@ const handleInput = (key, value) => {
   if (key === "priority_status") {
     priorityStatusSelected.value = value;
   }
+
+  if(key === "description"){
+    description.value = value; // Cập nhật giá trị mô tả
+
+    const length = value.length; // Lấy số ký tự
+    console.log('Số ký tự:', length); // Kiểm tra giá trị của length
+
+    // Kiểm tra điều kiện số ký tự
+    if (length < 30 && length > 3000) {
+      descriptionError.value = 'Tối thiếu 30 ký tự tối đa 3000 ký tự.';
+    } else {
+      descriptionError.value = ''; // Không có lỗi
+    }
+  }
+
+
   data[key] = value;
 };
 
@@ -1089,11 +1151,12 @@ const handleChange = (info) => {
   // }
 };
 function handleDrop(e) {
-  console.log(e);
+  // console.log(e);
 }
 const role = localStorage.getItem("role_id");
 const units = ['unit', 'unit1', 'unit2', 'unit3'];
 // Xử lý submit form
+const loading = ref(false);
 const onSubmit = async () => {
   try {
     const { province, district, ward } = selectorAddress;
@@ -1117,21 +1180,9 @@ const onSubmit = async () => {
             return;
           }
            
-          
-       // validate đơn vị
-       for (const unit of units) {
-          if (!data[unit]) {
-            const inputElement = document.getElementById(`${unit}Input`);
-            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-            return;
-          }
-        }
-       
-      for (let key in data) {
+          for (let key in data) {
        
         if (data[key] === null || data[key] === undefined) {
-         
-          
           
           const inputElement = document.getElementById(`${key}Input`);
           if (inputElement) {
@@ -1144,10 +1195,20 @@ const onSubmit = async () => {
             return;
           }
         }
-      }
+      } 
+       // validate đơn vị
+       for (const unit of units) {
+          if (!data[unit]) {
+            const inputElement = document.getElementById(`${unit}Input`);
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            return;
+          }
+        }
+       
+    
       const response = await updatePostAPI.update(postId, data);
 
-      console.log(response);
+      // console.log(response);
       if (response && response.status == 200) {
         message.success("Cập nhật bài viết thành công");
 
@@ -1174,7 +1235,7 @@ const onSubmit = async () => {
           // router.go(0);
         } catch (error) {
           uploading.value = false;
-          console.log(error);
+          // console.log(error);
         }
       } else {
         message.error("Cập nhật bài viết thất bại");
@@ -1183,40 +1244,83 @@ const onSubmit = async () => {
       data.sold_status = 0;
       data.status_id = 3;
       data.user_id = store.user.id;
+
+       console.log(fileList.value.length);
         // thêm mới post
-       
-       // validate đơn vị
-       for (const unit of units) {
-          if (!data[unit]) {
-            const inputElement = document.getElementById(`${unit}Input`);
-            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-            return;
-          }
-        }
-       
        for (let key in data) {
           if (data[key] === "" || (Array.isArray(data[key]) && data[key].length === 0)) {
               const getKey = document.getElementById(`${key}`);
               const inputElement = document.getElementById(`${key}Input`);
             if (inputElement) {
+              
               inputElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+               messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+              loading.value = false;
               return;
             }
             if (getKey) {
               getKey.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+              messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+              loading.value = false;
               return;
             }
             
           
           }
         }
+       // validate đơn vị
+      
+      
+       for (const unit of units) {
+          if (!data[unit]) {
+            const inputElement = document.getElementById('unitInput');
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+            return;
+          }
+        }
+
+        for (const unit1 of units) {
+          if (!data[unit1]) {
+            const inputElement = document.getElementById('unit1Input');
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+            return;
+          }
+        }
+        for (const unit2 of units) {
+          if (!data[unit2]) {
+            const inputElement = document.getElementById('unit2Input');
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+            return;
+          }
+        }
+        for (const unit3 of units) {
+          if (!data[unit3]) {
+            const inputElement = document.getElementById('unit3Input');
+            inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+            return;
+          }
+        }
+       
+       
         
-        // validate image
-        // if(!data.post_image){
-        //   const inputElement = document.getElementById(`${unit}Input`);
-        //   inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-        //   return;
-        // }
+        //validate image
+       
+        if(fileList.value.length == 0){
+          const inputElement = document.getElementById('imagesInput');
+          inputElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+           messageAnt.error("Vui lòng nhập đầy đủ thông tin");
+            loading.value = false;
+          return;
+        }
+
       const response = await createPostAPI(data);
       if (response && response.status === 201) {
         message.success("Tạo bài viết thành công");
@@ -1245,7 +1349,7 @@ const onSubmit = async () => {
           uploading.value = false;
         } catch (error) {
           uploading.value = false;
-          console.log(error);
+          // console.log(error);
         }
       } else {
         message.error("Tạo bài viết thất bại");
@@ -1300,5 +1404,16 @@ export default {
   border-radius: 5px;
   padding: 3px 6px;
 }
+
+.error-border {
+    border: 2px solid red;
+}
+
+.error-message {
+  color: red; /* Hiển thị lỗi bằng màu đỏ */
+  font-size: 14px;
+  margin-top: 5px;
+}
+
 </style>
   

@@ -76,13 +76,21 @@
                         ></router-link>
                       </a-menu-item>
 
-                      <!-- <a-button
-                          class="h-[36px] w-100 flex align-items-center border-none p-0"
-                          :icon="h(AccountBookOutlined)"
-                         
-                        >
-                          Thay đổi ảnh đại diện
-                        </a-button> -->
+                       <a-menu-item
+                        key="9"
+                        v-if="
+                           store.user.role_id == 5
+                        "
+                        class="py-2"
+                      >
+                        <div class="inline-flex items-center mr-3">
+                          <UserOutlined />
+                        </div>
+                        <div class="inline-flex">Quản lý cộng tác viên</div>
+                        <router-link
+                          :to="{ name: 'collaborator' }"
+                        ></router-link>
+                      </a-menu-item>
                       <a-modal
                         v-model:open="isAvatarModalVisible"
                         title="Ảnh đại diện"
@@ -189,10 +197,12 @@
                                   ? "Sale VIP"
                                   : store.user.role_id === 5
                                   ? "Đàu chỉ VIP"
+                                   : store.user.role_id === 7
+                                  ? "Cộng tác viên"
                                   : "Quản trị viên thường"
                               }}
                             </p>
-                            <div v-if="store.user.permissions[0]">
+                            <div v-if="store.user.permissions[0] && store.user.role_id !== 7">
                               <p>Quyền truy cập:</p>
                               <select name="" id="">
                                 <option value="" class="main-option-permission">
@@ -487,6 +497,25 @@
                           Danh sách tin
                         </a-button>
                       </router-link>
+                      <router-link
+                        :to="{
+                          name:
+                            store.user.role_id === 5
+                              ? 'collaborator'
+                              : 'collaborator',
+                        }"
+                      >
+                        <a-button
+                          v-if="
+                            store.user.role_id === 5
+                          "
+                          class="h-[36px] w-100 flex align-items-center border-none"
+                          :icon="h(UserOutlined )"
+                          @click="onClose"
+                        >
+                          Quản lý cộng tác viên
+                        </a-button>
+                      </router-link>
                       <a-button
                         class="h-[36px] w-100 flex align-items-center border-none"
                         :icon="h(AccountBookOutlined)"
@@ -566,7 +595,9 @@
                                       ? "Sale VIP"
                                       : store.user.role_id === 5
                                       ? "Đầu chủ VIP"
-                                      : "Quản trị viên thường"
+                                      : store.user.role_id === 7
+                                      ? "Cộng tác viên"
+                                      :"Quản trị viên thường"
                                   }}
                                 </a-descriptions-item>
                                  <a-descriptions-item label="Quyền truy cập">                             
@@ -870,7 +901,7 @@ const rankroom = [
   { value: 1, label: "Văn phòng hạng A" },
   { value: 2, label: "Văn phòng hạng B" },
   { value: 3, label: "Văn phòng hạng C" },
-  { value: 4, label: "Văn phòng hạng Coworking" },
+  { value: 4, label: "Văn phòng hạng D" },
 ];
 
 const selectClassRank = async (classrank) => {

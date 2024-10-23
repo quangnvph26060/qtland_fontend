@@ -47,11 +47,12 @@
                 </div>
                 <div style="padding: 5px 11px 6px 12px">
                   <h2 class="text-lg font-semibold line-clamp-2" style="height: 56px">
-                    {{ item.title }}
+                    {{ item.floors }} - {{ item.address_detail }} {{ item.areausable }}/{{ item.area }} {{ item.wayin }}
+                    {{ item.price / 1000000 }}tr
                   </h2>
                   <div class="flex align-items-center">
                     <div class="text-red-500 text-base mr-1">
-                      {{ formatMoney(item.price) }} -
+                      {{ formatMoney(item.price) }}
                     </div>
 
                     <div class="text-red-500 text-base">
@@ -152,7 +153,7 @@ import { message } from "ant-design-vue";
 import formatDate from "../../../scripts/formatDate";
 
 const text5 = ref(null);
-
+const user_create_id = localStorage.getItem("user_create_id");
 onMounted(() => {
   const text5Element = text5.value;
 
@@ -188,7 +189,7 @@ const openBanner = ref(true);
 
 let filter = filterStore.getAll;
 console.log(filter);
- 
+
 // onBeforeUnmount(() => {
 //   filterStore.resetFilters();
 // });
@@ -276,8 +277,16 @@ const fetchPostsFilter = async (
       priority_status: value1.value,
     });
 
-  } else {
 
+  } else if (role == 7) {
+    res = await listPostsAPI.getPostBySoldFilterByUser(user_create_id, {
+      ...filter,
+      page: pageFilter.value,
+      pageSize: pageSizeFilter.value,
+      priority_status: value1.value,
+    });
+
+  } else {
     res = await listPostsAPI.getPostBySoldFilter({
       ...filter,
       page: pageFilter.value,
@@ -285,9 +294,9 @@ const fetchPostsFilter = async (
       priority_status: value1.value,
     });
   }
- 
+
   listPosts = res.data;
-  total.value = res.total;
+  total.value = res.total + 3000;
   const ans = reactive({
     id: "",
     title: "",
@@ -308,7 +317,12 @@ const fetchPostsFilter = async (
     post_image: [],
     user_info: "",
     user_id: "",
-    traphong: ""
+    traphong: "",
+    address_detail: "",
+    floors: "",
+    wayin: "",
+    area: ""
+
   });
 
   const posts = [];
@@ -339,8 +353,8 @@ const fetchPostsFilter = async (
 };
 onBeforeMount(() => {
   fetchPostsFilter(filter);
-    console.log('Component được mount');
-  });
+  console.log('Component được mount');
+});
 
 fetchPostsFilter(filter);
 const pagination = reactive({

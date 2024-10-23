@@ -350,6 +350,14 @@ a:focus {
 .permission_label>div>div:last-child{
     display: none ;
 }
+
+
+
+ 
+
+  
+  
+
 @media (min-width: 769px) {
     .gop{
         display: flex;
@@ -677,7 +685,9 @@ a:focus {
         margin-top: 100px;
     }
     
-  
+    .collaborator{
+        margin-top: 50px;
+    }
 
 
 }

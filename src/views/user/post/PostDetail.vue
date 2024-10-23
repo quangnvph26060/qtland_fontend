@@ -74,14 +74,14 @@
                   Gọi
                 </a>
               </div>
-              Mr.{{ data.user.name }}
+              {{ data.user.name }}
             </div>
             <div v-else style="display: flex; align-items: center">
               <div style="display: flex">
                 {{ data.user.phone }}
                 <span @click="copyPhoneNumber" class="copy-link">Copy</span>
               </div>
-              Mr.{{ data.user.name }}
+              {{ data.user.name }}
             </div>
           </div>
         </div>
@@ -100,10 +100,15 @@
                 </div>
               </div>
               <div class="area mx-12 main_infor">
-                <span class="title">Diện tích</span>
+                <span class="title">Diện tích sử dụng</span>
                 <br />
-                <span class="content"> {{ data.areausable }} m2 </span>
+                <span class="content"> {{ data.areausable   }} m2 </span>
               </div>
+              <div class="area mx-12 main_infor">
+                <span class="title">Diện tích xây dựng</span>
+                <br />
+                <span class="content"> {{ data.area  }} m2 </span>
+              </div> 
               <div
                 class="direction main_infor ml-10"
                 v-if="data.direction !== 0"
@@ -348,6 +353,36 @@
                 ><i class="fas fa-credit-card"></i>Thanh toán</template
               >
               {{ data.pay }} Tháng
+            </a-descriptions-item>
+             <a-descriptions-item
+              v-if="data.wayin !== null && data.wayin !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label
+                ><i class="fas fa-route"></i>Đường vào</template
+              >
+              {{ data.wayin }} m
+            </a-descriptions-item>
+             <a-descriptions-item
+              v-if="data.font !== null && data.font !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label
+                ><i class="fas fa-credit-card"></i>Mặt tiền</template
+              >
+              {{ data.font }} m
+            </a-descriptions-item>
+            <a-descriptions-item
+              v-if="data.setup !== null && data.setup !== undefined"
+              :span="1"
+              class="description-item-infor"
+            >
+              <template #label
+                ><i class="fas fa-credit-card"></i>Setup</template
+              >
+              {{ data.setup }} ngày
             </a-descriptions-item>
           </a-descriptions>
         </div>
@@ -693,7 +728,10 @@ const data = reactive({
   pricewater: "",
   gop: "",
   pay: "",
-  updated_at: ""
+  updated_at: "",
+  setup: "",
+  wayin: "",
+  font: ''
 });
 
 const authStore = auth();
@@ -959,12 +997,16 @@ const unit2 = [
 ];
 
 const unit3 = [
-  {
+   {
     value: "1",
     label: "Vnd/m3",
   },
   {
     value: "2",
+    label: "Vnd/tháng",
+  },
+  {
+    value: "3",
     label: "Miễn phí",
   },
 ];
