@@ -47,7 +47,7 @@
                 </div>
                 <div style="padding: 5px 11px 6px 12px">
                   <h2 class="text-lg font-semibold line-clamp-2" style="height: 56px">
-                    {{ item.floors }} - {{ item.address_detail }} {{ item.areausable }}/{{ item.area }} {{ item.wayin }}
+                    {{ item.floors }} - {{ item.address_detail }} {{ item.areausable }}/{{ item.area }} {{ item.font }}
                     {{ item.price / 1000000 }}tr
                   </h2>
                   <div class="flex align-items-center">
@@ -321,7 +321,8 @@ const fetchPostsFilter = async (
     address_detail: "",
     floors: "",
     wayin: "",
-    area: ""
+    area: "",
+    font: ""
 
   });
 
