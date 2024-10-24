@@ -28,7 +28,8 @@
         <!-- begin::Meta Info -->
         <div class="meta-info" id="description-section">
           <div id="title-detail">
-            <h1 style="font-size: 26px">{{ data.title }}</h1>
+            <h1 style="font-size: 26px">{{ data.floors }} - {{ data.address_detail }} {{ data.areausable }}/{{ data.area }} {{ data.font }}
+                    {{ data.price / 1000000 }}tr</h1>
             <span>{{ data.address_detail + "," }} {{ data.address }}</span>
           </div>
           <!-- <a-descriptions :title="data.title">
