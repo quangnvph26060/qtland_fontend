@@ -53,7 +53,7 @@
 
     <div class="filter-item-content" @click="isModalVisible = true" style="margin-top: 18px">
       <div class="flex justify-between">
-        <div>Mức giá</div>
+        <div>Diện tích</div>
         <div class="mr-2 flex align-items-center" v-if="props.type === 'user'">
           <DownOutlined />
         </div>
