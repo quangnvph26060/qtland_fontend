@@ -35,7 +35,7 @@
                 
               <Card :title="item.title">
                 <template #content>
-                  <span class="text-sm" @click="redirectPostDetail(item.id)">
+                  <span class="text-sm line-clamp" @click="redirectPostDetail(item.id)">
                     {{ item.description }}
                   </span>
                   <CardInfor
@@ -188,5 +188,12 @@ a-modal .ant-modal-title {
 }
 .ant-modal-header div{
   font-size: 20px !important;
+}
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
