@@ -313,9 +313,7 @@ const handleOkModal = async () => {
   if (
     user.name === "" ||
     user.email === "" ||
-    user.cccd_trc === "" ||
-    user.cccd_sau === "" ||
-    user.cccd === "" || user.gender == null || user.cccd === '' ||
+    user.cccd === "" || user.gender == null  ||
     (user.password === "" && props.title === "Thêm mới")
   ) {
     messageAnt.error("Vui lòng nhập đầy đủ thông tin");
