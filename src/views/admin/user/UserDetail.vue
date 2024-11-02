@@ -20,18 +20,21 @@
       >
         <a-input v-model:value="user.name" />
       </a-form-item>
+      
       <a-form-item
         label="Email"
         :rules="[{ required: true, message: 'Hãy nhập email!' }]"
       >
         <a-input v-model:value="user.email" />
       </a-form-item>
+
       <a-form-item
         label="Căn cước công dân"
         :rules="[{ required: true, message: 'Hãy nhập căn cước công dân!' }]"
       >
         <a-input v-model:value="user.cccd" />
       </a-form-item>
+
       <a-form-item
         label="Ngày sinh"
         :rules="[{ required: false, message: 'Hãy chọn ngày sinh!' }]"
@@ -45,17 +48,38 @@
       </a-form-item>
 
       <a-form-item
+        class="col-md-12"
+        label="Giới tính"
+        :validateStatus="errors.gender ? 'error' : undefined"
+        :help="errors.gender"
+      >
+        <a-select v-model:value="user.gender">
+          <a-select-option :value="'Nam'">Nam</a-select-option>
+          <a-select-option :value="'Nữ'">Nữ</a-select-option>
+        </a-select>
+      </a-form-item>
+
+      <a-form-item
         label="Số điện thoại"
         :rules="[{ required: true, message: 'Hãy nhập số điện thoại!' }]"
       >
         <a-input v-model:value="user.phone" />
       </a-form-item>
+
+      <a-form-item
+        label="Địa chỉ"
+        :rules="[{ required: false, message: 'Hãy nhập địa chỉ!' }]"
+      >
+        <a-input v-model:value="user.address" />
+      </a-form-item>
+
       <a-form-item
         label="Đơn vị công tác"
         :rules="[{ required: false, message: 'Hãy nhập đơn vị công tác!' }]"
       >
         <a-input v-model:value="user.workunit" />
       </a-form-item>
+
       <a-form-item
         label="Mật khẩu"
         :rules="[{ required: true, message: 'Hãy nhập mật khẩu!' }]"
@@ -96,7 +120,8 @@
           <a-select-option :value="3">Sale</a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item class="permission_label"
+      <a-form-item
+        class="permission_label"
         v-if="user.role_id != ''"
         label="Quyền truy cập"
       ></a-form-item>
@@ -152,6 +177,33 @@
           <a-select-option :value="0">Không hoạt động</a-select-option>
         </a-select>
       </a-form-item>
+      <div class="row" style="margin: 0px auto">
+        <div class="col-md-12 form-group mb-4 align-items-center">
+          <label class="me-2" style="font-size: 15px">Mặt trước CCCD:</label>
+          <input
+            type="file"
+            class="form-control mt-2"
+            style="padding: 4px 10px; max-width: 420px"
+            @change="onFileChangeCCCDTRC"
+          />
+          <div v-if="errors.cccd_trc" class="error-message">
+            {{ errors.cccd_trc }}
+          </div>
+        </div>
+
+        <div class="col-md-12 form-group mb-4 align-items-center">
+          <label class="me-2" style="font-size: 15px">Mặt sau CCCD:</label>
+          <input
+            type="file"
+            class="form-control mt-2"
+            style="padding: 4px 10px; max-width: 420px"
+            @change="onFileChangeCCCDSAU"
+          />
+          <div v-if="errors.cccd_sau" class="error-message">
+            {{ errors.cccd_sau }}
+          </div>
+        </div>
+      </div>
     </a-form>
   </a-modal>
 </template>
@@ -196,7 +248,12 @@ const user = reactive({
   access_permission_3: "",
   access_permission_4: "",
   access_permission_5: "",
+  cccd_trc: "",
+  cccd_sau: "",
+  gender: "",
 });
+
+console.log(user);
 const errors = ref({});
 
 const changePassword = ref(false);
@@ -208,13 +265,21 @@ function onChangePassword(modalClose = false) {
   }
 }
 
+const onFileChangeCCCDTRC = (e) => {
+  user.cccd_trc = e.target.files[0];
+};
+
+const onFileChangeCCCDSAU = (e) => {
+  user.cccd_sau = e.target.files[0];
+};
+
 // Theo dõi sự thay đổi của userSelected
 watch(
   () => props.userSelected,
   (newValue, oldValue) => {
     // console.log(newValue);
-
     if (newValue) {
+      console.log("User gender:", user);
       user.id = newValue.id;
       user.name = newValue.name;
       user.email = newValue.email;
@@ -226,6 +291,9 @@ watch(
       user.address = newValue.address;
       user.workunit = newValue.workunit;
       user.is_active = newValue.is_active;
+      user.cccd_trc = newValue.cccd_trc;
+      user.cccd_sau = newValue.cccd_sau;
+      user.gender = newValue.gender;
       user.access_permission_1 =
         +newValue.access_permission_1 === 1 ? true : false;
       user.access_permission_2 =
@@ -245,6 +313,9 @@ const handleOkModal = async () => {
   if (
     user.name === "" ||
     user.email === "" ||
+    user.cccd_trc === "" ||
+    user.cccd_sau === "" ||
+    user.cccd === "" || user.gender == null || user.cccd === '' ||
     (user.password === "" && props.title === "Thêm mới")
   ) {
     messageAnt.error("Vui lòng nhập đầy đủ thông tin");
@@ -252,95 +323,98 @@ const handleOkModal = async () => {
     return;
   }
 
+  const formData = new FormData();
+  console.log(user.name);
+  const commonInformation = {
+    name: capitalizeFirstLetter(user.name),
+    email: user.email,
+    password: user.password,
+    role_id: user.role_id,
+    is_active: user.is_active,
+    cccd: user.cccd,
+    phone: user.phone,
+    address: user.address,
+    workunit: user.workunit,
+    birthday: user.birthday,
+    access_permission_1: user.access_permission_1 === true ? 1 : 0,
+    access_permission_2: user.access_permission_2 === true ? 2 : 0,
+    access_permission_3: user.access_permission_3 === true ? 3 : 0,
+    access_permission_4: user.access_permission_4 === true ? 4 : 0,
+    access_permission_5: user.access_permission_5 === true ? 5 : 0,
+    gender: user.gender,
+    cccd_trc: user.cccd_trc,
+    cccd_sau: user.cccd_sau,
+  };
+
+  // Thêm thông tin chung vào FormData
+  for (const key in commonInformation) {
+    formData.append(key, commonInformation[key]);
+  }
+
+  // Thêm file cccd_trc và cccd_sau vào FormData nếu có
+  if (user.cccd_trc) {
+    formData.append("cccd_trc", user.cccd_trc);
+  }
+  if (user.cccd_sau) {
+    formData.append("cccd_sau", user.cccd_sau);
+  }
+
   if (props.title === "Thêm mới") {
-    const information = {
-      name: capitalizeFirstLetter(user.name),
-      email: user.email,
-      password: user.password,
-      role_id: user.role_id,
-      is_active: user.is_active,
-      cccd: user.cccd,
-      phone: user.phone,
-      address: user.address,
-      workunit: user.workunit,
-      birthday: user.birthday,
-      access_permission_1: user.access_permission_1 === true ? 1 : 0,
-      access_permission_2: user.access_permission_2 === true ? 2 : 0,
-      access_permission_3: user.access_permission_3 === true ? 3 : 0,
-      access_permission_4: user.access_permission_4 === true ? 4 : 0,
-      access_permission_5: user.access_permission_5 === true ? 5 : 0,
-    };
     /**
      * Hàm thêm mới người dùng
-     * @param {Object} information
+     * @param {FormData} formData
      * CreatedBy: youngbachhh (28/03/2024)
      */
-    const fetchCreateUser = async (information) => {
+    const fetchCreateUser = async (formData) => {
       try {
-        await createUserAPI(information);
+        await createUserAPI(formData);
         const emailData = {
-          email: information.email,
-          password: information.password,
-          name: information.name,
+          email: commonInformation.email,
+          password: commonInformation.password,
+          name: commonInformation.name,
         };
         await sendEmailAPI(emailData);
         emits("updateUserList");
         messageAnt.success("Thêm mới người dùng thành công!");
       } catch (error) {
         message.error("Thêm mới người dùng thất bại!");
-        errors.value = error.responsive.data.errors;
-      } finally {
-        emits("isShowDetail", false);
-        loading.value = false;
-      }
-    };
-    fetchCreateUser(information);
-  } else if (props.title === "Sửa") {
-    const id = user.id;
-    const information = {
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      role_id: user.role_id,
-      is_active: user.is_active,
-      cccd: user.cccd,
-      phone: user.phone,
-      address: user.address,
-      workunit: user.workunit,
-      birthday: user.birthday,
-      access_permission_1: user.access_permission_1 === true ? 1 : 0,
-      access_permission_2: user.access_permission_2 === true ? 2 : 0,
-      access_permission_3: user.access_permission_3 === true ? 3 : 0,
-      access_permission_4: user.access_permission_4 === true ? 4 : 0,
-      access_permission_5: user.access_permission_5 === true ? 5 : 0,
-    };
-    /**
-     * Hàm cập nhật dữ liệu người dùng
-     * @param {String} id, {Object} information
-     * CreatedBy: youngbachhh (28/03/2024)
-     */
-    const fetchUpdateUser = async (id, information) => {
-      try {
-        await updateUserAPI(id, information);
-        emits("updateUserList");
-        messageAnt.success("Cập nhật thông tin thành công!");
-        if (information.password !== null) {
-          const emailData = {
-            email: information.email,
-            password: information.password,
-            name: information.name,
-          };
-          await sendEmailAPI(emailData);
-        }
-      } catch (error) {
-        errors.value = error.responsive.data.errors;
+        errors.value = error.response.data.errors; // Sửa typo từ 'responsive' thành 'response'
       } finally {
         emits("isShowDetail", false);
         loading.value = false;
       }
     };
 
-    fetchUpdateUser(id, information);
+    fetchCreateUser(formData);
+  } else if (props.title === "Sửa") {
+    const id = user.id;
+    /**
+     * Hàm cập nhật dữ liệu người dùng
+     * @param {String} id, {FormData} formData
+     * CreatedBy: youngbachhh (28/03/2024)
+     */
+    const fetchUpdateUser = async (id, formData) => {
+      try {
+        await updateUserAPI(id, formData);
+        emits("updateUserList");
+        messageAnt.success("Cập nhật thông tin thành công!");
+        if (commonInformation.password) {
+          const emailData = {
+            email: commonInformation.email,
+            password: commonInformation.password,
+            name: commonInformation.name,
+          };
+          await sendEmailAPI(emailData);
+        }
+      } catch (error) {
+        errors.value = error.response.data.errors; // Sửa typo từ 'responsive' thành 'response'
+      } finally {
+        emits("isShowDetail", false);
+        loading.value = false;
+      }
+    };
+
+    fetchUpdateUser(id, formData);
   }
 };
 </script>

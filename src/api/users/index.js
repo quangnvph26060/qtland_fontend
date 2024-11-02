@@ -32,6 +32,22 @@ const listUsersAPI = async (params = {}) => {
     }
 };
 
+const listUserApprovalsAPI = async (params = {}) => {
+    try {
+        const response = await axios.get(`${apiURL.baseURL}/users/approval`, {
+            params: {
+                page: params.page || 1,
+                pageSize: params.pageSize || 10,
+            }
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all users by approval:", error);
+        throw error; 
+    }
+};
+
 const listUsersCTVAPI = async (params = {}) => {
     try {
         const response = await axios.get(`${apiURL.baseURL}/users/cong-tac-vien`, {
@@ -49,4 +65,4 @@ const listUsersCTVAPI = async (params = {}) => {
     }
 };
 
-export { listUsersRoleAPI, listUsersAPI, listUsersCTVAPI };
+export { listUsersRoleAPI, listUsersAPI, listUsersCTVAPI , listUserApprovalsAPI};

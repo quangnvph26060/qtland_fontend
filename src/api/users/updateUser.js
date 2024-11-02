@@ -1,9 +1,10 @@
 import apiURL from "../constants";
 
-const updateUserAPI = async (id, data) => {
+const updateUserAPI = async (id, user) => {
 	try {
-		const response = await axios.put(`${apiURL.baseURL}/users/${id}`, data);
-		return response.data;
+		const response = await axios.post(`${apiURL.baseURL}/users/${id}`, user
+		);
+		return response;
 	} catch (error) {
 		console.log(error);
 	}

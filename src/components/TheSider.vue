@@ -27,13 +27,31 @@
             <span class="">Menu</span>
           </div>
         </a-menu-item>
-        <a-menu-item key="1">
+        <!-- <a-menu-item key="1">
           <div class="flex align-items-center">
             <router-link :to="{ name: 'manage-user' }"> </router-link>
             <PieChartOutlined />
             <span>Quản lý tài khoản</span>
           </div>
-        </a-menu-item>
+        </a-menu-item> -->
+        <a-sub-menu key="s1" @click="onCloseSidebar">
+          <template #title>
+            <div class="flex align-items-center">
+               <PieChartOutlined />
+              <span>Quản lý tài khoản</span>
+            </div>
+          </template>
+          <a-menu-item key="a2" @click="onCloseSidebar">
+            <router-link to="/admin/user">
+              <div>Danh sách tài khoản</div>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="a4" @click="onCloseSidebar">
+            <router-link :to="{ name: 'admin-post-user-approval-list' }">
+              <div>Chờ duyệt</div>
+            </router-link>
+          </a-menu-item>
+        </a-sub-menu>
         <a-sub-menu key="sub1">
           <template #title>
             <div class="flex align-items-center">

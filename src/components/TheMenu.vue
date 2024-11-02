@@ -15,14 +15,32 @@
         mode="inline"
         triggerSubMenuAction="click"
       >
-        <a-menu-item key="1" @click="onCloseSidebar">
+        <!-- <a-menu-item key="1" >
           <router-link to="/admin/user">
             <div class="flex align-items-center">
               <PieChartOutlined />
               <span>Quản lý tài khoản</span>
             </div>
           </router-link>
-        </a-menu-item>
+        </a-menu-item> -->
+        <a-sub-menu key="s1" >
+          <template #title>
+            <div class="flex align-items-center">
+               <PieChartOutlined />
+              <span>Quản lý tài khoản</span>
+            </div>
+          </template>
+          <a-menu-item key="a2" >
+            <router-link to="/admin/user">
+              <div>Danh sách tài khoản</div>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="a4" >
+            <router-link :to="{ name: 'admin-post-user-approval-list' }">
+              <div>Chờ duyệt</div>
+            </router-link>
+          </a-menu-item>
+        </a-sub-menu>
         <a-sub-menu key="sub1">
           <template #title>
             <div class="flex align-items-center">

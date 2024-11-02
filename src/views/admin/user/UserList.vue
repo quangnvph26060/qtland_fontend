@@ -355,23 +355,23 @@ const columns = [
     ],
     onFilter: (value, record) => record.role_id === value,
   },
-  // {
-  // 	title: "Trạng thái",
-  // 	dataIndex: "is_active",
-  // 	key: "is_active",
-  // 	width: 120,
-  // 	filters: [
-  // 		{
-  // 			text: "Hoạt động",
-  // 			value: 1,
-  // 		},
-  // 		{
-  // 			text: "Không hoạt động",
-  // 			value: 0,
-  // 		},
-  // 	],
-  // 	onFilter: (value, record) => record.is_active === value,
-  // },
+  {
+  	title: "Trạng thái",
+  	dataIndex: "is_active",
+  	key: "is_active",
+  	width: 120,
+  	filters: [
+  		{
+  			text: "Hoạt động",
+  			value: 1,
+  		},
+  		{
+  			text: "Không hoạt động",
+  			value: 0,
+  		},
+  	],
+  	onFilter: (value, record) => record.is_active === value,
+  },
   {
     title: "Số tin đăng",
     dataIndex: "post_count",
@@ -479,6 +479,9 @@ const fetchUsersList = async (page = 1, pageSize = 10) => {
         access_permission_3: user.permissions[0]?.access_permission_3,
         access_permission_4: user.permissions[0]?.access_permission_4,
         access_permission_5: user.permissions[0]?.access_permission_5,
+        cccd_trc: user.cccd_trc,
+        cccd_sau: user.cccd_sau,
+        gender: user.gender
       });
     }
     data.value = users;
@@ -510,6 +513,9 @@ const userSelected = ref({
   access_permission_3: "",
   access_permission_4: "",
   access_permission_5: "",
+  cccd_trc: "",
+  cccd_sau: "",
+  gender: "",
 });
 
 const showDetail = (value) => {
