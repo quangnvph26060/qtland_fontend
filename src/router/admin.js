@@ -92,6 +92,24 @@ const admin = [
 					priority_status: route.query.priority_status,
 				}),
 			},
+			{
+				path: "/approval",
+				name: "admin-post-user-approval-list",
+				component: () => import("../views/admin/user/UserApproval.vue"),				
+			},
+			{
+				path: "/approval/user_id=:id(\\d+)?",
+				name: "approval-detail",
+				component: () => import("../views/admin/user/detailApproval.vue"),	
+				props: (route) => ({
+					rangeArea: route.query.rangeArea,
+					rangePrice: route.query.rangePrice,
+					dirs: route.query.dirs,
+					address: route.query.address,
+					sold_status: route.query.sold_status,
+					priority_status: route.query.priority_status,
+				}),
+			}
 		],
 		beforeEnter(to, from, next) {
 			// ...

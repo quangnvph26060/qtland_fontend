@@ -27,7 +27,7 @@
         <a-input v-model:value="user.email" />
       </a-form-item>
       <a-form-item
-        label="Căn cước công dân"
+        label="CCCD"
         :rules="[{ required: true, message: 'Hãy nhập căn cước công dân!' }]"
       >
         <a-input v-model:value="user.cccd" />
@@ -78,8 +78,13 @@
           </a-button>
         </div>
       </a-form-item>
+      <a-form-item label="Quyền">
+        <a-select v-model:value="user.role_id">
+          <a-select-option :value="7">Cộng tác viên</a-select-option>
+          <a-select-option :value="8">Chủ nhà</a-select-option>
+        </a-select>
+      </a-form-item>
 
-      
       <a-form-item label="Trạng thái">
         <a-select v-model:value="user.is_active">
           <a-select-option :value="1">Hoạt động</a-select-option>
@@ -119,7 +124,7 @@ const user = reactive({
   name: "",
   email: "",
   password: "",
-  role_id: '',
+  role_id: "",
   is_active: "",
   cccd: "",
   phone: "",
@@ -127,6 +132,7 @@ const user = reactive({
   workunit: "",
   birthday: "",
   user_id: "",
+  
 });
 const errors = ref({});
 
@@ -138,7 +144,7 @@ function onChangePassword(modalClose = false) {
     changePassword.value = false;
   }
 }
-const useid = localStorage.getItem('user_id');
+const useid = localStorage.getItem("user_id");
 
 // Theo dõi sự thay đổi của userSelected
 watch(
@@ -151,7 +157,7 @@ watch(
       user.name = newValue.name;
       user.email = newValue.email;
       user.password = newValue.password;
-      // user.role_id = newValue.role_id;
+      user.role_id = newValue.role_id;
       user.birthday = newValue.birthday;
       user.phone = newValue.phone;
       user.cccd = newValue.cccd;
@@ -180,14 +186,14 @@ const handleOkModal = async () => {
       name: capitalizeFirstLetter(user.name),
       email: user.email,
       password: user.password,
-      role_id: 7,
+      role_id: user.role_id,
       is_active: user.is_active,
       cccd: user.cccd,
       phone: user.phone,
       address: user.address,
       workunit: user.workunit,
       birthday: user.birthday,
-      user_id : useid
+      user_id: useid,
     };
     /**
      * Hàm thêm mới người dùng
@@ -220,14 +226,14 @@ const handleOkModal = async () => {
     const information = {
       name: user.name,
       email: user.email,
-      password: user.password,    
+      password: user.password,
       is_active: user.is_active,
       cccd: user.cccd,
       phone: user.phone,
       address: user.address,
       workunit: user.workunit,
-      birthday: user.birthday,   
-      role_id: 7, 
+      birthday: user.birthday,
+      role_id: user.role_id,
     };
     /**
      * Hàm cập nhật dữ liệu người dùng

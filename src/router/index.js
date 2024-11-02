@@ -17,6 +17,18 @@ const routes = [
 			}
 		},
 	},
+	{
+		path: "/register",
+		name: "register",
+		component: () => import("../layouts/register.vue"),
+		beforeEnter: (to, from, next) => {
+			if (isAuthenticated()) {
+				next({ name: "post-list" });
+			} else {
+				next();
+			}
+		},
+	},
 ];
 
 function isAuthenticated() {

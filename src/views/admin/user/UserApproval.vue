@@ -1,7 +1,9 @@
 <template>
-  <div class="card border-x-0" style="width: 100%">
+  <div class="card border-x-0">
     <!-- begin::Card Header -->
-    <div class="flex flex-col col-12 col-xl-12 xl:pr-[30px]" id="report-client">
+    <div
+      class="card-header flex flex-col md:flex-row justify-between mb-3 md:mb-0 mt-5"
+    >
       <!-- begin::Card Toolbar -->
       <div class="card-toolbar">
         <div class="flex justify-start md:justify-end">
@@ -17,25 +19,13 @@
     <!-- end::Card Header -->
 
     <!-- begin::Card Body -->
-
-    <div class="collaborator">
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 15px;
-        "
-      >
-        <div>
-          <h2 style="margin: 0; padding-left: 10px">Danh sách cộng tác viên</h2>
-        </div>
-
-        <div>
-          <a-button type="primary" @click="showModalAdd" class="w-[120px]">
-            Thêm mới
-          </a-button>
-        </div>
+    <div class="card-body">
+      <div class="flex justify-start my-3">
+        <!-- begin::Add New -->
+        <a-button type="primary" @click="showModalAdd" class="w-[120px]">
+          Thêm mới
+        </a-button>
+        <!-- end::Add New -->
       </div>
       <!-- begin::Table -->
       <div>
@@ -43,7 +33,10 @@
           :data-source="data"
           :columns="columns"
           :dataSource="data"
+          :scroll="{ x: 600 }"
+          :expand-column-width="50"
           :pagination="pagination"
+          :expand-icon-column-props="{ class: 'hide-on-mobile' }"
         >
           <template #expandColumnTitle>
             <span class="hide-on-mobile" style="color: red">More</span>
@@ -152,11 +145,11 @@
             </span>
             <template v-if="column.key === 'operation'">
               <div style="display: flex; align-items: center">
-                <div style="text-align: center">
+                <!-- <div style="text-align: center">
                   <div @click="showModalUpdate(record)">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </div>
-                </div>
+                </div> -->
                 <div
                   style="text-align: center; margin-left: 15px"
                   @click="showConfirmDelete(record.id)"
@@ -167,13 +160,13 @@
             </template>
             <template v-if="column.dataIndex === 'name'">
               <router-link
-                :to="{
-                  name: 'admin-post-user-list',
-                  params: { id: record.id },
-                }"
-              >
-                {{ text }}
-              </router-link>
+                  :to="{
+                    name: 'approval-detail',
+                    params: { id: record.id },
+                  }"
+                >
+                  {{ text }}
+                </router-link>
             </template>
             <!-- tag for role user -->
             <template v-if="column.dataIndex === 'role_id'">
@@ -201,10 +194,6 @@
                     ? "đầu chủ vip"
                     : record.role_id == 6
                     ? "admin"
-                    : record.role_id == 7
-                    ? "Cộng tác viên"
-                    : record.role_id == 8
-                    ? "Chủ nhà"
                     : ""
                 }}
               </a-tag>
@@ -228,8 +217,11 @@
           </template>
         </a-table>
       </div>
+
+      <!-- end::Table -->
     </div>
   </div>
+
   <UserDetail
     v-model:open="isShowDetail"
     @isShowDetail="showDetail"
@@ -252,7 +244,7 @@ import { ref, reactive, onMounted, computed, watch } from "vue";
 import { Modal } from "ant-design-vue";
 
 import { createVNode } from "vue";
-import { listUsersRoleAPI, listUsersAPI, listUsersCTVAPI } from "../../../api/users/index";
+import { listUsersRoleAPI, listUsersAPI, listUserApprovalsAPI } from "../../../api/users/index";
 
 import listPostsAPI from "../../../api/posts/index";
 import deleteUserAPI from "../../../api/users/deleteUser";
@@ -326,40 +318,44 @@ const columns = [
   // 	key: "updated_at",
   // 	width: 150,
   // },
-   {
+  {
     title: "Chức vụ",
     dataIndex: "role_id",
     key: "role_id",
     width: 100,
     filters: [
       {
-        text: "Công tác viên",
-        value: 7,
+        text: "Admin",
+        value: 1,
       },
       {
-        text: "Chủ nhà",
-        value: 8,
+        text: "Đầu chủ",
+        value: 2,
+      },
+      {
+        text: "Sale",
+        value: 3,
+      },
+      {
+        text: "Sale VIP",
+        value: 4,
+      },
+      {
+        text: "Đầu chủ VIP",
+        value: 5,
+      },
+      {
+        text: "Quản trị viên thường",
+        value: 6,
+      },
+      {
+        text: "Cộng tác viên",
+        value: 7,
       },
     ],
     onFilter: (value, record) => record.role_id === value,
   },
-   {
-  	title: "Trạng thái",
-  	dataIndex: "is_active",
-  	key: "is_active",
-  	width: 120,
-  	filters: [
-  		{
-  			text: "Hoạt động",
-  			value: 1,
-  		},
-  		{
-  			text: "Không hoạt động",
-  			value: 0,
-  		},
-  	],
-  	onFilter: (value, record) => record.is_active === value,
-  },
+  
   {
     title: "Chi tiết",
     key: "operation",
@@ -367,7 +363,6 @@ const columns = [
     class: "user_detail",
   },
 ];
-
 
 const data = ref([]);
 const pageFilter = ref(1);
@@ -418,7 +413,6 @@ const value = computed(() => store.user);
 onMounted(() => {
   // console.log(store.user);
 });
-const useid = localStorage.getItem('user_id');
 const id = ref("");
 const fetchUsersList = async (page = 1, pageSize = 10) => {
   try {
@@ -427,19 +421,12 @@ const fetchUsersList = async (page = 1, pageSize = 10) => {
     const params = {
       page: pageFilter.value,
       pageSize: pageSizeFilter.value,
-      user_id : useid
     };
     // Gọi API và kiểm tra kết quả
     let response = [];
-    // const role = localStorage.getItem("role_id");
-    // if (role != 6) {
-    //   response = await listUsersAPI(params);
-    // } else {
-    //   response = await listUsersRoleAPI(params);
-    // }
-    response = await listUsersCTVAPI(params);
+   
+    response = await listUserApprovalsAPI(params);   
 
-    console.log(response);
     const listUsers = response.data || [];
 
     total.value = response.total;
@@ -460,6 +447,11 @@ const fetchUsersList = async (page = 1, pageSize = 10) => {
         address: user.address,
         workunit: user.workunit,
         birthday: user.birthday,
+        access_permission_1: user.permissions[0]?.access_permission_1,
+        access_permission_2: user.permissions[0]?.access_permission_2,
+        access_permission_3: user.permissions[0]?.access_permission_3,
+        access_permission_4: user.permissions[0]?.access_permission_4,
+        access_permission_5: user.permissions[0]?.access_permission_5,
       });
     }
     data.value = users;
@@ -486,6 +478,11 @@ const userSelected = ref({
   address: "",
   workunit: "",
   birthday: "",
+  access_permission_1: "",
+  access_permission_2: "",
+  access_permission_3: "",
+  access_permission_4: "",
+  access_permission_5: "",
 });
 
 const showDetail = (value) => {
@@ -539,20 +536,11 @@ const showConfirmDelete = async (id) => {
 
 <script>
 import ThePageHeader from "../../../components/ThePageHeader.vue";
-import Card from "../../../components/base/card/Card.vue";
-import CardInfor from "../../../components/base/card/CardInfor.vue";
-import SidebarFilter from "../../../components/base/sidebar/SidebarFilter.vue";
 
 export default {
   components: {
     ThePageHeader,
-    Card,
   },
 };
 </script>
-<style>
-.sidebar-box-item {
-  margin-bottom: 12px;
-  font-weight: normal;
-}
-</style>
+<style></style>

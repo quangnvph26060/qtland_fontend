@@ -64,6 +64,10 @@
           <span class="value">{{ user.birthday }}</span>
         </div>
         <div class="user-info-item">
+          <span class="label">Giới tính :</span>
+          <span class="value">{{ user.gender }}</span>
+        </div>
+        <div class="user-info-item">
           <span class="label">Đơn vị công tác:</span>
           <span class="value">{{ user.workunit }}</span>
         </div>
@@ -328,12 +332,12 @@
       </a-table>
     </div> -->
 
-    <div class="" style="padding: 20px">
+    <div v-if="user.is_active !== 2" class="" style="padding: 20px">
       <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" force-render class="space-y-5">
           <template #tab> Tất cả ({{ totalpost }})</template>
           <div>
-            <CardinforDetailByUser  />
+            <CardinforDetailByUser />
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" class="space-y-5">
@@ -346,7 +350,7 @@
         </a-tab-pane>
 
         <a-tab-pane key="3" class="space-y-5">
-          <template #tab> Chờ hiển thị ({{ totalpostcht }})  </template>
+          <template #tab> Chờ hiển thị ({{ totalpostcht }}) </template>
           <!-- begin::Post Items -->
           <div>
             <CardinforDetailByUserSold />
@@ -372,6 +376,43 @@
           <!-- end::Post Items -->
         </a-tab-pane>
       </a-tabs>
+    </div>
+    <div v-if="user.is_active == 2" style="padding: 20px">
+      <div class="row">
+        <!-- Tiêu đề CCCD Trước -->
+        <div class="col-md-6 col-12">
+          <div class="row">
+            <div class="col-12 mb-3">
+            <h5>Ảnh CCCD Trước</h5>
+          </div>
+          <!-- Ảnh CCCD Trước -->
+          <div class="col-12 mb-4">
+            <img
+              :src="user.cccd_trc"
+              alt="Ảnh CCCD Trước"
+              class=" rounded border cccd-image"
+            />
+          </div>
+          </div>
+        </div>
+
+        <!-- Tiêu đề CCCD Sau -->
+        <div  class="col-md-6 col-12">
+          <div class="row">
+            <div class="col-12 mb-3">
+            <h5>Ảnh CCCD Sau</h5>
+          </div>
+          <!-- Ảnh CCCD Sau -->
+          <div class="col-12 mb-4">
+            <img
+              :src="user.cccd_sau"
+              alt="Ảnh CCCD Sau"
+              class="img-fluid rounded border cccd-image"
+            />
+          </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -678,6 +719,9 @@ const fetchPostsListByID = async (filter, page = 1, pageSize = 10) => {
     comment: [],
     post_image: [],
     user_info: "",
+    cccd_trc: "",
+    cccd_sau: "",
+    gender: "",
   });
   if (listPosts.length === 0) return;
   for (let i = 0; i < listPosts.length; i++) {
@@ -807,6 +851,9 @@ const user = reactive({
   birthday: "",
   avatar: "",
   permissions: "",
+  gender: "",
+  cccd_trc: "",
+  cccd_sau: "",
 });
 const comments = ref([]);
 
@@ -828,7 +875,6 @@ const fetchUserById = async (id) => {
   totalpostcd.value = listpostcd.length;
   const listpostkd = await listPostsAPI.getPostStatus2ByUser(id); // KD
   totalpostkd.value = listpostkd.length;
-  
 
   Object.keys(user).forEach((key) => {
     user[key] = users[key];
@@ -838,14 +884,11 @@ const fetchUserById = async (id) => {
 };
 
 fetchUserById(userid);
-
-
-
 </script>
 
 <script>
 import ThePageHeader from "../../../components/ThePageHeader.vue";
-import listReportAPI from '../../../api/report';
+import listReportAPI from "../../../api/report";
 export default {
   components: {
     ThePageHeader,
@@ -912,6 +955,14 @@ export default {
   width: 150px;
   height: 150px;
   object-fit: cover;
+}
+.cccd-image {
+  width: 300px  !important; /* Giới hạn chiều rộng tối đa */
+  height: 170px !important; /* Giới hạn chiều cao tối đa */
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 </style>
 

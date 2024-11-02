@@ -84,6 +84,9 @@
               >
                 Đăng nhập
               </a-button>
+             <router-link class="login-form-register text-[#0891b2] hover:text-[#22d3ee]" style="text-align: center; display: block;" to="/register">
+                Đăng ký tài khoản
+              </router-link>
             </a-form-item>
           </a-form>
 
