@@ -48,19 +48,19 @@
           <div class="filter-item col-4 col-sm-3 col-xl-2">
             <FilterOptions />
           </div>
-          <div
+          <!-- <div
             class="filter-item col-4 col-sm-3 col-xl-2"
            
             v-if="store.user.role_id == 3 || store.user.role_id == 4"
           >
             <FilterRank />
-          </div>
-          <div
+          </div> -->
+          <!-- <div
             class="filter-item col-4 col-sm-3 col-xl-2" 
             v-if="store.user.role_id == 3 || store.user.role_id == 4"
           >
             <FilterFront />
-          </div>
+          </div> -->
           <!-- end::Filter Item -->
 
           <!-- begin::Filter Item -->

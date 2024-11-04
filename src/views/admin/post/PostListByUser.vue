@@ -331,7 +331,43 @@
         </template>
       </a-table>
     </div> -->
+ <div style="padding: 20px">
+      <div class="row">
+        <!-- Tiêu đề CCCD Trước -->
+        <div class="col-md-6 col-12">
+          <div class="row">
+            <div class="col-12 mb-3">
+              <h5>Ảnh CCCD Trước</h5>
+            </div>
+            <!-- Ảnh CCCD Trước -->
+            <div class="col-12 mb-4">
+              <img
+                :src="user.cccd_trc"
+                alt="Ảnh CCCD Trước"
+                class="rounded border cccd-image"
+              />
+            </div>
+          </div>
+        </div>
 
+        <!-- Tiêu đề CCCD Sau -->
+        <div class="col-md-6 col-12">
+          <div class="row">
+            <div class="col-12 mb-3">
+              <h5>Ảnh CCCD Sau</h5>
+            </div>
+            <!-- Ảnh CCCD Sau -->
+            <div class="col-12 mb-4">
+              <img
+                :src="user.cccd_sau"
+                alt="Ảnh CCCD Sau"
+                class="img-fluid rounded border cccd-image"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div v-if="user.is_active !== 2" class="" style="padding: 20px">
       <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" force-render class="space-y-5">
@@ -377,43 +413,7 @@
         </a-tab-pane>
       </a-tabs>
     </div>
-    <div v-if="user.is_active == 2" style="padding: 20px">
-      <div class="row">
-        <!-- Tiêu đề CCCD Trước -->
-        <div class="col-md-6 col-12">
-          <div class="row">
-            <div class="col-12 mb-3">
-            <h5>Ảnh CCCD Trước</h5>
-          </div>
-          <!-- Ảnh CCCD Trước -->
-          <div class="col-12 mb-4">
-            <img
-              :src="user.cccd_trc"
-              alt="Ảnh CCCD Trước"
-              class=" rounded border cccd-image"
-            />
-          </div>
-          </div>
-        </div>
-
-        <!-- Tiêu đề CCCD Sau -->
-        <div  class="col-md-6 col-12">
-          <div class="row">
-            <div class="col-12 mb-3">
-            <h5>Ảnh CCCD Sau</h5>
-          </div>
-          <!-- Ảnh CCCD Sau -->
-          <div class="col-12 mb-4">
-            <img
-              :src="user.cccd_sau"
-              alt="Ảnh CCCD Sau"
-              class="img-fluid rounded border cccd-image"
-            />
-          </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  
   </div>
 </template>
 

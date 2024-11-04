@@ -19,7 +19,7 @@
             />
             <!-- end::Logo Image -->
           </div>
-          <div
+          <!-- <div
             style="flex: 1"
             class="n:px-2 md:px-0 hidden sm:block"
             v-if="store.user.role_id == 3 || store.user.role_id == 4"
@@ -38,7 +38,7 @@
                 {{ item.label }}
               </a>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- end::Logo -->
         <!-- end:: Menu Wrapper -->
