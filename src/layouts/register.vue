@@ -377,10 +377,10 @@ const handleOkModal = async () => {
     new Date(user.birthday).toISOString().split("T")[0]
   );
   formData.append("access_permission_1", user.access_permission_1 ? 1 : 0);
-  formData.append("access_permission_2", user.access_permission_2 ? 1 : 0);
-  formData.append("access_permission_3", user.access_permission_3 ? 1 : 0);
-  formData.append("access_permission_4", user.access_permission_4 ? 1 : 0);
-  formData.append("access_permission_5", user.access_permission_5 ? 1 : 0);
+  formData.append("access_permission_2", user.access_permission_2 ? 2 : 0);
+  formData.append("access_permission_3", user.access_permission_3 ? 3 : 0);
+  formData.append("access_permission_4", user.access_permission_4 ? 4 : 0);
+  formData.append("access_permission_5", user.access_permission_5 ? 5 : 0);
 
   // Gắn ảnh vào FormData
   if (user.cccd_trc) formData.append("cccd_trc", user.cccd_trc);
