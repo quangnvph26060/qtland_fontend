@@ -351,9 +351,9 @@ const validateField = (field) => {
           errors.cccd_trc =
             "Định dạng tệp không hợp lệ! Chỉ chấp nhận jpg, png, gif.";
         } 
-        // else if (user.cccd_trc.size > 2 * 1024 * 1024) { // Kiểm tra kích thước tệp
-        //   errors.cccd_trc = "Kích thước tệp không được lớn hơn 2MB!";
-        // }
+        else if (user.cccd_trc.size > 2 * 1024 * 1024) { // Kiểm tra kích thước tệp
+          errors.cccd_trc = "Kích thước tệp không được lớn hơn 2MB!";
+        }
       }
       break;
 
@@ -366,7 +366,8 @@ const validateField = (field) => {
         if (!validImageTypes.includes(user.cccd_sau.type)) {
           errors.cccd_sau =
             "Định dạng tệp không hợp lệ! Chỉ chấp nhận jpg, png, gif.";
-        } else if (user.cccd_sau.size > 2 * 1024 * 1024) { // Kiểm tra kích thước tệp
+        } 
+        else if (user.cccd_sau.size > 2 * 1024 * 1024) { // Kiểm tra kích thước tệp
           errors.cccd_sau = "Kích thước tệp không được lớn hơn 2MB!";
         }
       }
