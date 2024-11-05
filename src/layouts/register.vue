@@ -1,6 +1,6 @@
 <template>
-  <div class="form-container" style="padding: 30px 10px; margin-top: 30px !important">
-    <div style="text-align: center; font-size:25px;" class="mb-4">
+  <div class="form-container" style="padding: 30px 20px">
+    <div style="text-align: center; font-size: 25px" class="mb-4">
       <h1>Đăng ký tài khoản</h1>
     </div>
     <a-form
@@ -10,85 +10,6 @@
     >
       <div class="form-grid">
         <div class="row">
-          <a-form-item
-            class="col-md-6"
-            label="Tên"
-            :validateStatus="errors.name ? 'error' : undefined"
-            :help="errors.name"
-          >
-            <a-input v-model:value="user.name" @blur="validateField('name')" />
-          </a-form-item>
-          <a-form-item
-            class="col-md-6"
-            label="Email"
-            :validateStatus="errors.email ? 'error' : undefined"
-            :help="errors.email"
-          >
-            <a-input
-              v-model:value="user.email"
-              @blur="validateField('email')"
-            />
-          </a-form-item>
-        </div>
-        <div class="row">
-          <a-form-item
-            class="col-md-6"
-            label="CCCD"
-            :validateStatus="errors.cccd ? 'error' : undefined"
-            :help="errors.cccd"
-          >
-            <a-input v-model:value="user.cccd" @blur="validateField('cccd')" />
-          </a-form-item>
-          <a-form-item
-            class="col-md-6"
-            label="Ngày sinh"
-            :validateStatus="errors.birthday ? 'error' : undefined"
-            :help="errors.birthday"
-          >
-            <a-date-picker
-              style="width: 100%"
-              v-model:value="user.birthday"
-              @blur="validateField('birthday')"
-            />
-          </a-form-item>
-        </div>
-        <div class="row">
-          <a-form-item
-            class="col-md-6"
-            label="Điện thoại"
-            :validateStatus="errors.phone ? 'error' : undefined"
-            :help="errors.phone"
-          >
-            <a-input
-              v-model:value="user.phone"
-              @blur="validateField('phone')"
-            />
-          </a-form-item>
-          <a-form-item
-            class="col-md-6"
-            label="Đơn vị "
-            :validateStatus="errors.workunit ? 'error' : undefined"
-            :help="errors.workunit"
-          >
-            <a-input
-              v-model:value="user.workunit"
-              @blur="validateField('workunit')"
-            />
-          </a-form-item>
-        </div>
-        <div class="row">
-          <a-form-item
-            class="col-md-6"
-            label="Mật khẩu"
-            :validateStatus="errors.password ? 'error' : undefined"
-            :help="errors.password"
-          >
-            <a-input
-              v-model:value="user.password"
-              type="password"
-              @blur="validateField('password')"
-            />
-          </a-form-item>
           <a-form-item
             class="col-md-6"
             label="Vai trò"
@@ -104,6 +25,85 @@
               <a-select-option :value="4">Sale VIP</a-select-option>
               <a-select-option :value="3">Sale</a-select-option>
             </a-select>
+          </a-form-item>
+
+          <a-form-item
+            class="col-md-6"
+            label="Số CCCD"
+            :validateStatus="errors.cccd ? 'error' : undefined"
+            :help="errors.cccd"
+          >
+            <a-input v-model:value="user.cccd" @blur="validateField('cccd')" />
+          </a-form-item>
+        </div>
+        <div class="row">
+          <a-form-item v-if="user.role_id" label="Quyền truy cập">
+            <div class="pressmison_mobi">
+              <div class="d-flex flex-column main-pressmison">
+                <span class="d-flex gap-3">
+                  <input
+                    type="checkbox"
+                    value="1"
+                    v-model="user.access_permission_1"
+                  />
+                  <span>Văn phòng hạng A</span>
+                </span>
+                <span class="d-flex gap-3">
+                  <input
+                    type="checkbox"
+                    value="2"
+                    v-model="user.access_permission_2"
+                  />
+                  <span>Văn phòng hạng B</span>
+                </span>
+                <span class="d-flex gap-3">
+                  <input
+                    type="checkbox"
+                    value="3"
+                    v-model="user.access_permission_3"
+                  />
+                  <span>Văn phòng hạng C</span>
+                </span>
+                <span class="d-flex gap-3">
+                  <input
+                    type="checkbox"
+                    value="4"
+                    v-model="user.access_permission_4"
+                  />
+                  <span>Văn phòng hạng D</span>
+                </span>
+                <span class="d-flex gap-3">
+                  <input
+                    type="checkbox"
+                    value="5"
+                    v-model="user.access_permission_5"
+                  />
+                  <span>Văn phòng hạng E</span>
+                </span>
+              </div>
+            </div>
+          </a-form-item>
+        </div>
+        <div class="row">
+          <a-form-item
+            class="col-md-6"
+            label="Họ và tên"
+            :validateStatus="errors.name ? 'error' : undefined"
+            :help="errors.name"
+          >
+            <a-input v-model:value="user.name" @blur="validateField('name')" />
+          </a-form-item>
+          <a-form-item
+            class="col-md-6"
+            label="Năm sinh"
+            :validateStatus="errors.birthday ? 'error' : undefined"
+            :help="errors.birthday"
+          >
+            <a-date-picker
+              style="width: 100%"
+              v-model:value="user.birthday"
+              @blur="validateField('birthday')"
+            />
           </a-form-item>
         </div>
         <div class="row">
@@ -121,64 +121,72 @@
               <a-select-option :value="'Nữ'">Nữ</a-select-option>
             </a-select>
           </a-form-item>
-
           <a-form-item
             class="col-md-6"
-            label="Trạng thái"
-            style="display: none"
+            label="Quê quán"
+            :validateStatus="errors.address ? 'error' : undefined"
+            :help="errors.address"
           >
-            <a-select v-model:value="user.is_active">
-              <a-select-option :value="2">Chờ duyệt</a-select-option>
-            </a-select>
+            <a-input
+              v-model:value="user.address"
+              @blur="validateField('address')"
+            />
+          </a-form-item>
+        </div>
+        <div class="row">
+          <a-form-item
+            class="col-md-6"
+            label="Nơi thường trú"
+            :validateStatus="errors.workunit ? 'error' : undefined"
+            :help="errors.workunit"
+          >
+            <a-input
+              v-model:value="user.workunit"
+              @blur="validateField('workunit')"
+            />
+          </a-form-item>
+          <a-form-item
+            class="col-md-6"
+            label="Số điện thoại"
+            :validateStatus="errors.phone ? 'error' : undefined"
+            :help="errors.phone"
+          >
+            <a-input
+              v-model:value="user.phone"
+              @blur="validateField('phone')"
+            />
+          </a-form-item>
+        </div>
+        <div class="row">
+          <a-form-item
+            class="col-md-6"
+            label="Email"
+            :validateStatus="errors.email ? 'error' : undefined"
+            :help="errors.email"
+          >
+            <a-input
+              v-model:value="user.email"
+              @blur="validateField('email')"
+            />
+          </a-form-item>
+          <a-form-item
+            class="col-md-6"
+            label="Mật khẩu"
+            :validateStatus="errors.password ? 'error' : undefined"
+            :help="errors.password"
+          >
+            <a-input
+              v-model:value="user.password"
+              type="password"
+              @blur="validateField('password')"
+            />
           </a-form-item>
         </div>
       </div>
-
-      <a-form-item v-if="user.role_id" label="Quyền truy cập">
-        <div class="pressmison_mobi">
-          <div class="d-flex flex-column main-pressmison">
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="1"
-                v-model="user.access_permission_1"
-              />
-              <span>Văn phòng hạng A</span>
-            </span>
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="2"
-                v-model="user.access_permission_2"
-              />
-              <span>Văn phòng hạng B</span>
-            </span>
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="3"
-                v-model="user.access_permission_3"
-              />
-              <span>Văn phòng hạng C</span>
-            </span>
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="4"
-                v-model="user.access_permission_4"
-              />
-              <span>Văn phòng hạng D</span>
-            </span>
-            <span class="d-flex gap-3">
-              <input
-                type="checkbox"
-                value="5"
-                v-model="user.access_permission_5"
-              />
-              <span>Văn phòng hạng E</span>
-            </span>
-          </div>
-        </div>
+      <a-form-item class="col-md-6" label="Trạng thái" style="display: none">
+        <a-select v-model:value="user.is_active">
+          <a-select-option :value="2">Chờ duyệt</a-select-option>
+        </a-select>
       </a-form-item>
 
       <div class="row mt-3" style="margin: 0px auto">
@@ -217,6 +225,7 @@
     </a-form>
   </div>
 </template>
+
 
 <script setup>
 import { reactive, ref, watch } from "vue";
@@ -269,6 +278,7 @@ const errors = reactive({
   cccd_trc: "",
   cccd_sau: "",
   gender: "",
+  address: "",
 });
 
 // File change handlers
@@ -332,15 +342,40 @@ const validateField = (field) => {
       if (!user.role_id) errors.role_id = "Hãy chọn vai trò!";
       break;
     case "cccd_trc":
-      if (!user.cccd_trc)
+      if (!user.cccd_trc) {
         errors.cccd_trc = "Hãy tải lên mặt trước căn cước công dân!";
+      } else {
+        // Kiểm tra định dạng tệp
+        const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+        if (!validImageTypes.includes(user.cccd_trc.type)) {
+          errors.cccd_trc =
+            "Định dạng tệp không hợp lệ! Chỉ chấp nhận jpg, png, gif.";
+        } else if (user.cccd_trc.size > 2 * 1024 * 1024) { // Kiểm tra kích thước tệp
+          errors.cccd_trc = "Kích thước tệp không được lớn hơn 2MB!";
+        }
+      }
       break;
+
     case "cccd_sau":
-      if (!user.cccd_sau)
+      if (!user.cccd_sau) {
         errors.cccd_sau = "Hãy tải lên mặt sau căn cước công dân!";
+      } else {
+        // Kiểm tra định dạng tệp
+        const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+        if (!validImageTypes.includes(user.cccd_sau.type)) {
+          errors.cccd_sau =
+            "Định dạng tệp không hợp lệ! Chỉ chấp nhận jpg, png, gif.";
+        } else if (user.cccd_sau.size > 2 * 1024 * 1024) { // Kiểm tra kích thước tệp
+          errors.cccd_sau = "Kích thước tệp không được lớn hơn 2MB!";
+        }
+      }
       break;
+
     case "gender":
       if (!user.gender) errors.gender = "Hãy chọn giới tính!";
+      break;
+    case "address":
+      if (!user.address) errors.address = "Hãy nhập thông tin địa chỉ!";
       break;
     default:
       break;
@@ -389,15 +424,15 @@ const handleOkModal = async () => {
   // Gửi request API
   try {
     const response = await createUserAPI(formData);
-   
+
     const emailData = {
-          email: user.email,
-          password: user.password,
-          name: user.name,
-        };
-     await sendEmailAPI(emailData);
-      messageAnt.success("Tạo người dùng thành công!");
-    window.location.href = '/login';
+      email: user.email,
+      password: user.password,
+      name: user.name,
+    };
+    await sendEmailAPI(emailData);
+    messageAnt.success("Tạo người dùng thành công!");
+    window.location.href = "/login";
     emits("updateUserList");
     emits("isShowDetail", false);
   } catch (error) {
@@ -442,7 +477,7 @@ a-form-item label {
 .row {
   display: flex;
   flex: 1 1 100%;
-  gap: 16px;
+  /* gap: 16px; */
 }
 
 .col-md-6 {
@@ -477,13 +512,17 @@ a-button[type="primary"] {
   margin: 20px auto 0;
   display: block;
 }
-.ant-form-item{
+.ant-form-item {
   margin: 0px !important;
 }
 
 @media (max-width: 768px) {
   .form-container {
     padding: 15px;
+  }
+
+  .form-grid {
+    gap: 0px !important;
   }
 
   /* .row {
