@@ -566,4 +566,16 @@ export default {
 .ant-image {
   width: 100% !important;
 }
+
+.text-sm {
+    font-size: 0.875rem; /* Kích thước văn bản nhỏ */
+    line-height: 1.25rem; /* Đặt chiều cao dòng để phù hợp */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn hiển thị 2 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
 </style>
