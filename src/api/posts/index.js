@@ -9,14 +9,27 @@ const listPostsAPI = {
 			console.log(error);
 		}
 	},
-	getPostsByUser: async (id, params = {}) => {
+	getPostsByUser: async (arr) => {
 		try {
-			const response = await axios.get(`${apiURL.baseURL}/posts/postsold/user/${id}`, {
+			const response = await axios.get(`${apiURL.baseURL}/posts/postsold/user`, {
 				params: {
-					page: params.page || 1,
-					pageSize: params.pageSize || 10,
-				}
+					min_price: arr.min_price,
+					max_price: arr.max_price,
+					min_area: arr.min_area,
+					max_area: arr.max_area,
+					dirs: arr.dirs,
+					address: arr.address === "" ? null : arr.address,
+					page: arr.page,
+					pageSize: arr.pageSize,
+					// priority: arr.priority,
+					searchConditions: arr.searchConditions,
+					sold_status: arr.sold_status,
+					priority_status: arr.priority_status,
+					classrank: arr.classrank,
+					user_id: arr.user_id
+				},
 			});
+	
 			return response.data;
 		} catch (error) {
 			console.log(error);

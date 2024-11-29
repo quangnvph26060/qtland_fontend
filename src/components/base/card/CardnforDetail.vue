@@ -522,15 +522,16 @@ const columns = [
  * CreatedBy: youngbachhh (29/03/2024)
  */
 const userid = localStorage.getItem("user_id");
-const fetchPostsList = async (page = 1, pageSize = 10) => {
+const fetchPostsList = async (filter, page = 1, pageSize = 10) => {
   data.value = [];
 
   let res;
-  const params = {
+  res = await listPostsAPI.getPostsByUser({
+    ...filter,
     page: pageFilter.value,
     pageSize: pageSizeFilter.value,
-  };
-  res = await listPostsAPI.getPostsByUser(userid, params);
+    user_id: userid,
+  });
 
   let listPosts = res.data;
   console.log(listPosts);
