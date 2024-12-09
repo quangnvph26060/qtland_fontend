@@ -67,7 +67,7 @@
                   </div>
                   <div class="flex-fill me-2">
                     <InputBasic
-                      title="Căn cước công dân"
+                      title="CCCD"
                       placeholder="Căn cước công dân"
                       :value="data.cccd?.toString()"
                       @input="handleInput('cccd', $event)"

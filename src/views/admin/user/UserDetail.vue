@@ -29,7 +29,7 @@
       </a-form-item>
 
       <a-form-item
-        label="Căn cước công dân"
+        label="CCCD"
         :rules="[{ required: true, message: 'Hãy nhập căn cước công dân!' }]"
       >
         <a-input v-model:value="user.cccd" />

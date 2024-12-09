@@ -44,7 +44,7 @@
                 :disabled="!canEdit"
               />
               <InputBasic
-                title="Căn cước công dân"
+                title="CCCD"
                 placeholder="Nhập căn cước công dân"
                 :value="data.cccd"
                 @input="handleInput('cccd', $event)"

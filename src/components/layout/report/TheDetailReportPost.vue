@@ -43,7 +43,7 @@
                 @input="handleInput('address', $event)"
               />
               <InputBasic
-                title="Căn cước công dân"
+                title="CCCD"
                 placeholder="Nhập căn cước công dân"
                 
                 @input="handleInput('cccd', $event)"
