@@ -160,13 +160,13 @@
             </template>
             <template v-if="column.dataIndex === 'name'">
               <router-link
-                  :to="{
-                    name: 'admin-post-user-list',
-                    params: { id: record.id },
-                  }"
-                >
-                  {{ text }}
-                </router-link>
+                :to="{
+                  name: 'admin-post-user-list',
+                  params: { id: record.id },
+                }"
+              >
+                {{ text }}
+              </router-link>
             </template>
             <!-- tag for role user -->
             <template v-if="column.dataIndex === 'role_id'">
@@ -253,22 +253,27 @@ import UserDetail from "./UserDetail.vue";
 import messageAnt from "../../../scripts/message";
 import auth from "../../../stores/auth";
 import { RouterLink } from "vue-router";
-const state = reactive({
+const state = ref({
   searchText: "",
   searchedColumn: "",
 });
-const searchInput = ref();
+const searchText = ref("");
+const searchedColumn = ref("");
+ const searchInput = ref();
 
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
-  confirm();
-  state.searchText = selectedKeys[0];
-  state.searchedColumn = dataIndex;
+  // confirm();
+  searchText.value = selectedKeys[0];
+  searchedColumn.value = dataIndex;
+  fetchUsersList();
 };
 const handleReset = (clearFilters) => {
   clearFilters({
     confirm: true,
   });
-  state.searchText = "";
+  searchText.value = ""; 
+  searchedColumn.value = ""; 
+  fetchUsersList(); 
 };
 
 // table
@@ -356,21 +361,21 @@ const columns = [
     onFilter: (value, record) => record.role_id === value,
   },
   {
-  	title: "Trạng thái",
-  	dataIndex: "is_active",
-  	key: "is_active",
-  	width: 120,
-  	filters: [
-  		{
-  			text: "Hoạt động",
-  			value: 1,
-  		},
-  		{
-  			text: "Không hoạt động",
-  			value: 0,
-  		},
-  	],
-  	onFilter: (value, record) => record.is_active === value,
+    title: "Trạng thái",
+    dataIndex: "is_active",
+    key: "is_active",
+    width: 120,
+    filters: [
+      {
+        text: "Hoạt động",
+        value: 1,
+      },
+      {
+        text: "Không hoạt động",
+        value: 0,
+      },
+    ],
+    onFilter: (value, record) => record.is_active === value,
   },
   {
     title: "Số tin đăng",
@@ -444,6 +449,8 @@ const fetchUsersList = async (page = 1, pageSize = 10) => {
     const params = {
       page: pageFilter.value,
       pageSize: pageSizeFilter.value,
+      searchConditions: searchText.value,
+      searchedColumn: searchedColumn.value
     };
     // Gọi API và kiểm tra kết quả
     let response = [];
@@ -481,7 +488,7 @@ const fetchUsersList = async (page = 1, pageSize = 10) => {
         access_permission_5: user.permissions[0]?.access_permission_5,
         cccd_trc: user.cccd_trc,
         cccd_sau: user.cccd_sau,
-        gender: user.gender
+        gender: user.gender,
       });
     }
     data.value = users;

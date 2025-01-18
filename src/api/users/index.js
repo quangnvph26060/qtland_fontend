@@ -19,10 +19,7 @@ const listUsersRoleAPI = async (params = {}) => {
 const listUsersAPI = async (params = {}) => {
     try {
         const response = await axios.get(`${apiURL.baseURL}/users`, {
-            params: {
-                page: params.page || 1,
-                pageSize: params.pageSize || 10,
-            }
+            params
         });
         console.log(response.data);
         return response.data;
